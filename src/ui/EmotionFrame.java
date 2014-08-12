@@ -5,21 +5,25 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
 public class EmotionFrame extends MainFrame {
+	private OutcomePanel outcome;
+	private LoadingPanel loading;
 	private JLabel background, forWhoToPlay;
 	private JButton leaveBtn;
 	private ImageIcon backgroundPhoto;
 	private String userToken;
 	private Thread playTooLong;
-	private Thread updateScore;
+	private Thread updateOutcome;
 	private boolean isRemind = false;
 	
 	public EmotionFrame() {
@@ -32,7 +36,6 @@ public class EmotionFrame extends MainFrame {
 		revalidate();
 		repaint();
 	}
-
 
 	// init Component //
 
@@ -67,29 +70,23 @@ public class EmotionFrame extends MainFrame {
 	}
 
 	private void initBackground() { // 加入背景圖片
-		backgroundPhoto = new ImageIcon(getClass().getResource("/image/background.png"));
 		background = new JLabel();
-		backgroundPhoto.setImage(backgroundPhoto.getImage().getScaledInstance(
-				getWidth(), getHeight(), Image.SCALE_DEFAULT));// 設定圖片的顯示
-		background.setIcon(backgroundPhoto);
+		background.setBackground(Color.darkGray);
+		background.setOpaque(true);
 		add(background);
 	}
-
-	// 設定Panel
+	
 	private void initJPanel() {
-//		playerInfo = new PlayerInfoPanel(getWidth() / 30,
-//				getHeight() / 90 * 62, (getWidth() - getWidth() / 10) * 2 / 3,
-//				getHeight() / 9 * 2);
-//		add(playerInfo);
-//		chatArea = new ChatPanel(getWidth() - (getWidth() - getWidth() / 50)
-//				/ 3, getHeight() / 9 * 3,
-//				(getWidth() - getWidth() / 60 * 7) / 3, getHeight() / 90 * 52,
-//				server, userToken);
-//		add(chatArea);
+//		outcome = new OutcomePanel(getWidth() / 10,
+//				getHeight() / 10, getWidth()*4/5,
+//				getHeight()*7/10, 75);
+//		outcome.setVisible(false);
+//		add(outcome);
+		
 	}
 
 	private void initBound() {
-//		background.setBounds(0, 0, this.getWidth(), this.getHeight());
+		background.setBounds(0, 0, this.getWidth(), this.getHeight());
 //		forWhoToPlay.setBounds(getWidth() - getWidth() / 20 * 6,
 //				getHeight() / 90 * 14, getWidth() / 4, getHeight() / 90 * 8);
 //		leaveBtn.setBounds(getWidth() - getWidth() / 15 * 2,
@@ -98,8 +95,30 @@ public class EmotionFrame extends MainFrame {
 	
 	// init Component end //
 	
+	// API//
+	// API end //
+	
+	private void updateOutcome() {
+		updateOutcome = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					while (true) {
+						Thread.sleep(100);
+						// update outcome start
+						
+						
+						// update outcome end
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		updateOutcome.start();
+	}
+	
 	public static void main(String args[]) {
 		EmotionFrame e = new EmotionFrame();
-		
 	}
 }
