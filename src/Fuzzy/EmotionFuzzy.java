@@ -5,7 +5,7 @@ import net.sourceforge.jFuzzyLogic.FunctionBlock;
 
 public class EmotionFuzzy {
 	public static void main(String[] args) throws Exception {
-		String filename = "PAD.fcl";
+		String filename = "pad.fcl";
 		FIS fis = FIS.load(filename, true);
 
 		
