@@ -66,7 +66,9 @@ public class SkelsManager {
 		configure();
 
 		userSkels3D = new HashMap<Integer, Skeleton3D>();
-		fw = new FileWriter("C:\\Users\\banbi\\Desktop\\kinect.csv");
+//		fw = new FileWriter("C:\\Users\\banbi\\Desktop\\kinect.csv");
+		fw = new FileWriter("C:\\Users\\Sebastian\\Desktop\\kinect.csv");
+		
 		readFile = new File();
 		head = new Vertex();
 		neck = new Vertex();

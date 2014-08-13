@@ -14,7 +14,8 @@ public class AnalyzeWave {
 	}
 	
 	public void readMaxMin() throws IOException {
-		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\mindstream.csv");
+//		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\mindstream.csv");
+		FileReader fr = new FileReader("C:\\Users\\Sebastian\\Desktop\\mindstream -ROSE媽玩CS.csv");
 		BufferedReader br = new BufferedReader(fr);
 		String readLine;
 		
@@ -85,7 +86,8 @@ public class AnalyzeWave {
 	}
 	
 	public void readFormat(String s, int i, int j) throws IOException {
-		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\mindstream.csv");
+//		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\mindstream.csv");
+		FileReader fr = new FileReader("C:\\Users\\Sebastian\\Desktop\\mindstream -ROSE媽玩CS.csv");
 		BufferedReader br = new BufferedReader(fr);
 		String readLine;
 		int p1, p2, p3, p4, p5, p6, p7, p8, p9, p10;
