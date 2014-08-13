@@ -232,11 +232,11 @@ public class SkelsManager {
 		return Math.abs(cos);
 	}
 
-	private double calculateDistance(Vertex p, Vertex v1, Vertex v2, Vertex v3) {
+	private double calculateDistance(Vertex p, Vertex v1, Vertex v2, Vertex v3, double e) {
 		double dis = 0;
 		double a, b, c, d, cos;
 		cos = calculateCos(v1, v2, v3);
-		if (cos > 0.9) {
+		if (cos > e) {
 			return -9999;
 		} else {
 			a = v1.y * (v2.z - v3.z) + v2.y * (v3.z - v1.z) + v3.y
@@ -248,7 +248,7 @@ public class SkelsManager {
 			d = -(v1.x * (v2.y * v3.z - v3.y * v2.z) + v2.x
 					* (v3.y * v1.z - v1.y * v3.z) + v3.x
 					* (v1.y * v2.z - v2.y * v1.z));
-			dis = (a * p.x + b * p.y + c * p.z + d)
+			dis = (Math.round((a * p.x + b * p.y + c * p.z + d) * 1000.0) / 1000.0)
 					/ (Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2)
 							+ Math.pow(c, 2)));
 			return dis;
@@ -259,15 +259,15 @@ public class SkelsManager {
 	public double raiseHead(Vertex head, Vertex torso, Vertex leftShoulder,
 			Vertex rightShoulder) { // 抬頭：+30 ~ -10
 		double d;
-		d = calculateDistance(head, torso, leftShoulder, rightShoulder);
-		if (d < 0) {
+		d = calculateDistance(head, torso, leftShoulder, rightShoulder, 0.9);
+		if (d < -10) {
 			return 1;
 		} else if (d == -9999) {
 			return -9999;
 		} else if (d > 30) {
 			return -1;
 		} else {
-			return Math.round((-d * 2 / 30 + 1) * 100) / 100.0;
+			return Math.round((-(d+10) / 40) * 10000) / 10000.0;
 		}
 	}
 
@@ -275,15 +275,24 @@ public class SkelsManager {
 	public double bodyStraighten(Vertex torso, Vertex neck, Vertex leftHip,
 			Vertex rightHip) { // 身體直立：1 ~ -1
 		double d;
-		d = calculateDistance(torso, neck, leftHip, rightHip);
+		d = calculateDistance(torso, neck, leftHip, rightHip, 0.95);
 		if (d > 1) {
+			if (Math.round(d * 10000.0) / 100.0 > 1) {
+				return 1;
+			}
 			return 1;
 		} else if (d == -9999) {
 			return -9999;
 		} else if (d < -1) {
+			if (Math.round(d * 10000.0) / 100.0 < -1) {
+				return -1;
+			}
 			return -1;
+		} else if (d < 1 || d > -1) {
+			System.out.println(d);
+			return Math.round(d * 1000000.0) / 10000.0;
 		} else {
-			return Math.round(d * 100) / 100.0;
+			return -9999;
 		}
 	}
 
@@ -292,7 +301,7 @@ public class SkelsManager {
 	public double leftArms(Vertex leftElbow, Vertex torso, Vertex leftShoulder,
 			Vertex rightShoulder) { // 臂不向前：250 ~ -150
 		double d;
-		d = calculateDistance(leftElbow, torso, leftShoulder, rightShoulder);
+		d = calculateDistance(leftElbow, torso, leftShoulder, rightShoulder, 0.9);
 		if (d < 0) {
 			return 1;
 		} else if (d == -9999) {
@@ -300,14 +309,14 @@ public class SkelsManager {
 		} else if (d > 250) {
 			return -1;
 		} else {
-			return Math.round((d * 2 / 250 - 1) * 100) / 100.0;
+			return Math.round((d * 2 / 250 - 1) * 10000) / 10000.0;
 		}
 	}
 
 	public double rightArms(Vertex rightElbow, Vertex torso,
 			Vertex leftShoulder, Vertex rightShoulder) {
 		double d;
-		d = calculateDistance(rightElbow, torso, leftShoulder, rightShoulder);
+		d = calculateDistance(rightElbow, torso, leftShoulder, rightShoulder, 0.9);
 		if (d < 0) {
 			return 1;
 		} else if (d == -9999) {
@@ -315,7 +324,7 @@ public class SkelsManager {
 		} else if (d > 250) {
 			return -1;
 		} else {
-			return Math.round((d * 2 / 250 - 1) * 100) / 100.0;
+			return Math.round((d * 2 / 250 - 1) * 10000) / 10000.0;
 		}
 	}
 
@@ -328,16 +337,17 @@ public class SkelsManager {
 						Thread.sleep(1000 * 1);
 						if (!isFileClose) {
 							if (writeTemp != null) {
-								System.out.println("OK");
+//								System.out.println("OK");
 								updateVertex();
 								fw.write(jointTemp);
+								System.out.println(writeTemp);
 								time++;
 							}
 							if (time > 30) {
 								isFileClose = true;
 								fw.flush();
 								fw.close();
-								readFile.read();
+//								readFile.read();
 							}
 						}
 					}
