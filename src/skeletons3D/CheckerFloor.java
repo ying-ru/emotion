@@ -1,4 +1,4 @@
-package Skeletons3D;
+package skeletons3D;
 
 // CheckerFloor.java
 // Andrew Davison, January 2003, ad@fivedots.coe.psu.ac.th

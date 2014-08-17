@@ -1,4 +1,4 @@
-package Skeletons3D;
+package skeletons3D;
 
 // ColouredTiles.java
 // Andrew Davison, April 2005, ad@fivedots.coe.psu.ac.th

@@ -16,8 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import Skeletons3D.SkelsManager;
-import Skeletons3D.TrackerPanel3D;
+import skeletons3D.SkelsManager;
+import skeletons3D.TrackerPanel3D;
+
 import com.ericblue.mindstream.systemtray.CopyOfMindStreamSystemTray;
 import com.ericblue.mindstream.window.DebugWindow;
 
@@ -75,16 +76,16 @@ public class TrackingPanel extends JPanel {
 //		});
 //		add(display);
 		
-//		save = new JButton("腦波存檔");
-//		save.setSize(getWidth() / 15, getHeight() / 15);
-//		save.setLocation(0, getHeight() / 5);
-//		save.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				brainwave.actionSaveFile();
-//			}
-//		});
-//		add(save);
+		save = new JButton("腦波存檔");
+		save.setSize(getWidth() / 15, getHeight() / 15);
+		save.setLocation(0, getHeight() / 5);
+		save.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				brainwave.actionSaveFile();
+			}
+		});
+		add(save);
 	}
 	
 	private void initJLabel() {

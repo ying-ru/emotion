@@ -1,4 +1,4 @@
-package Skeletons3D;
+package skeletons3D;
 
 // Limb3D.java
 // Andrew Davison, October 2011, ad@fivedots.coe.psu.ac.th

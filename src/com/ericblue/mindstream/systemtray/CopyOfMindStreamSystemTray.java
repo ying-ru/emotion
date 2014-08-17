@@ -66,8 +66,8 @@ public class CopyOfMindStreamSystemTray extends Observable implements Observer {
     static int port = PreferenceManager.loadPreferences().getInt("thinkgearPort", 0);
 
     final static ThinkGearSocketClient client = new ThinkGearSocketClient(host, port);
-    private boolean isStartWrite;
-    private String isTracking;
+    private boolean isStartWrite, isDataAvailable;
+    private String isTracking, brainData;
     private DebugWindow debugWindow;
     final  static PreferencesWindow preferencesWindow = new PreferencesWindow();
     
@@ -174,8 +174,10 @@ public class CopyOfMindStreamSystemTray extends Observable implements Observer {
 //    	debugWindow.getTextArea().append("123\n");
         SwingWorker worker = new SwingWorker<Void, Void>() {
             public Void doInBackground() {
-                while (client.isDataAvailable()) {
-                    debugWindow.getTextArea().append(client.getData() + '\n');
+            	isDataAvailable = client.isDataAvailable();
+                while (isDataAvailable) {
+                	brainData = client.getData();
+                    debugWindow.getTextArea().append(brainData + '\n');
                     debugWindow.getTextArea().setCaretPosition(debugWindow.getTextArea().getText().length());
                     
                 }
@@ -245,12 +247,13 @@ public class CopyOfMindStreamSystemTray extends Observable implements Observer {
     			SimpleDateFormat fmt = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
     			
     			int i = 0;
-    			while (client.isDataAvailable() && i < 30) {
+    			while (isDataAvailable && i < 30 && !brainData.equals("")) {
     				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Writing...");
     				
 //					logger.debug("$SwingWorker<Void,Void>.doInBackground() - " + client.getData());
     				try {
-    					String clientData = client.getData();
+    					String clientData = brainData;
+    					brainData = "";
     					logger.debug("$SwingWorker<Void,Void>.doInBackground() - " + clientData);
     					JSONObject json = new JSONObject(clientData);
     					

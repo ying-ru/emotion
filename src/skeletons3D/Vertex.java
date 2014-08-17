@@ -1,4 +1,4 @@
-package Skeletons3D;
+package skeletons3D;
 
 public class Vertex {
 	double x;

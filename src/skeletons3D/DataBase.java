@@ -1,4 +1,4 @@
-package Skeletons3D;
+package skeletons3D;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
