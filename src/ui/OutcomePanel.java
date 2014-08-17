@@ -249,5 +249,10 @@ public class OutcomePanel extends JPanel {
 	// init Component end //
 
 	// API//
+	public void setValue(int value) {
+		this.value = value;
+		proposal.setText(" 情緒指數：" + value + " 分\n");
+		initLines();
+	}
 	// API end //
 }

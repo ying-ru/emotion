@@ -122,8 +122,8 @@ public class DataBase {
 			stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(selectBodyStraighten);
 			rs.next();
-			bodyStraighten = Integer.parseInt(rs.getString(1));
-			System.out.println(time.toString() + " bodyStraighten: " + rs.getString(1));
+			bodyStraighten = rs.getDouble(1);
+			System.out.println(time.toString() + " bodyStraighten: " + rs.getDouble(1));
 			close();
 		} catch (SQLException e) {
 			System.out.println("CreateDB Exception :" + e.toString());
@@ -140,8 +140,8 @@ public class DataBase {
 			stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(selectLeftArms);
 			rs.next();
-			leftArms = Integer.parseInt(rs.getString(1));
-			System.out.println(time.toString() + " LeftArms: " + rs.getString(1));
+			leftArms = rs.getDouble(1);
+			System.out.println(time.toString() + " LeftArms: " + rs.getDouble(1));
 			close();
 		} catch (SQLException e) {
 			System.out.println("CreateDB Exception :" + e.toString());
@@ -158,8 +158,8 @@ public class DataBase {
 			stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(selectRightArms);
 			rs.next();
-			rightArms = Integer.parseInt(rs.getString(1));
-			System.out.println(time.toString() + " rightArms: " + rs.getString(1));
+			rightArms = rs.getDouble(1);
+			System.out.println(time.toString() + " rightArms: " + rs.getDouble(1));
 			close();
 		} catch (SQLException e) {
 			System.out.println("CreateDB Exception :" + e.toString());

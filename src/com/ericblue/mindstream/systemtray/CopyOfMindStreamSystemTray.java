@@ -215,36 +215,36 @@ public class CopyOfMindStreamSystemTray extends Observable implements Observer {
     
     // FIXME: File seems to not be saving if JSON output is viewed first
     public void actionSaveFile() {
-    	final String csvFile = PreferenceManager.loadPreferences().get("fileLocation", "");
+//    	final String csvFile = PreferenceManager.loadPreferences().get("fileLocation", "");
     	
     	final JDBC jdbc =new JDBC();
     	
     	SwingWorker worker = new SwingWorker<Void, Void>() {
     		public Void doInBackground() {
-    			if (csvFile == null) {
-    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - csvFile == null...");
-				}
+//    			if (csvFile == null) {
+//    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - csvFile == null...");
+//				}
     			
     			FileWriter writer = null;
     			String newLine = System.getProperty("line.separator");
     			
     			try {
-    				writer = new FileWriter(csvFile);
+    				writer = new FileWriter("src/file/mindstream.csv");
     			} catch (IOException e1) {
     				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Error opening file for writing!");
     				logger.error("$SwingWorker<Void,Void>.doInBackground()", e1);
     			}
     			
-    			// HEADER
-    			try {
-    				writer.append("TIMESTAMP,");
-    				writer.append("LOW_ALPHA,HIGH_ALPHA,LOW_BETA,HIGH_BETA,");
-                  	writer.append("LOW_GAMMA,HIGH_GAMA");
-                  	writer.append(newLine);
-                  	
-    			} catch (IOException e2) {
-    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Write Error..." + e2.getMessage());
-    			}
+//    			// HEADER
+//    			try {
+//    				writer.append("TIMESTAMP,");
+//    				writer.append("LOW_ALPHA,HIGH_ALPHA,LOW_BETA,HIGH_BETA,");
+//                  	writer.append("LOW_GAMMA,HIGH_GAMA");
+//                  	writer.append(newLine);
+//                  	
+//    			} catch (IOException e2) {
+//    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Write Error..." + e2.getMessage());
+//    			}
     			
     			SimpleDateFormat fmt = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
     			
@@ -308,7 +308,7 @@ public class CopyOfMindStreamSystemTray extends Observable implements Observer {
     						writer.append(Integer.toString(eegPower.getInt("highGamma")));
     						writer.append(newLine);
     						
-//							jdbc.insertTable(timeStamp, eegPower.getInt("lowAlpha"),
+//							jdbc.insert(timeStamp, eegPower.getInt("lowAlpha"),
 //								eegPower.getInt("highAlpha"), eegPower.getInt("lowBeta"),
 //								eegPower.getInt("highBeta"), eegPower.getInt("lowGamma"),
 //								eegPower.getInt("highGamma"));

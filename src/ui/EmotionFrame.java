@@ -15,6 +15,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import padModel.Outcome;
+
 public class EmotionFrame extends MainFrame {
 	private OutcomePanel outcome;
 	private LoadingPanel loading;
@@ -25,6 +27,7 @@ public class EmotionFrame extends MainFrame {
 	private String userToken;
 	private Thread playTooLong;
 	private Thread updateOutcome;
+	private Outcome value;
 	private boolean isRemind = false;
 	
 	public EmotionFrame() {
@@ -36,6 +39,7 @@ public class EmotionFrame extends MainFrame {
 		setComponentFont();
 		revalidate();
 		repaint();
+		updateOutcome();
 	}
 
 	// init Component //
@@ -78,12 +82,13 @@ public class EmotionFrame extends MainFrame {
 	}
 	
 	private void initJPanel() {
-//		outcome = new OutcomePanel(getWidth() / 10,
-//				getHeight() / 10, getWidth()*4/5,
-//				getHeight()*7/10, 75);
-//		outcome.setVisible(false);
-//		add(outcome);
-		
+		outcome = new OutcomePanel(getWidth() / 10,
+				getHeight() / 10, getWidth()*4/5,
+				getHeight()*7/10, 0);
+		outcome.setVisible(false);
+		add(outcome);
+		outcome.setValue(75);
+//		
 		tracking = new TrackingPanel(getWidth() / 18,
 		getHeight() / 15, getWidth()*9/10,
 		getHeight()*8/10);
@@ -113,7 +118,11 @@ public class EmotionFrame extends MainFrame {
 					while (true) {
 						Thread.sleep(100);
 						// update outcome start
-						
+						if (tracking.isSaveOver()) {
+							tracking.setisSaveOver();
+							value = new Outcome();
+							outcome.setValue(value.getOutcome());
+						}
 						
 						// update outcome end
 					}

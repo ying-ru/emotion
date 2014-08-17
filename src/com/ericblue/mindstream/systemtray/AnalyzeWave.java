@@ -1,6 +1,7 @@
 package com.ericblue.mindstream.systemtray;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -8,14 +9,18 @@ import java.text.NumberFormat;
 public class AnalyzeWave {
 	int lowAlphaMax, highAlphaMax, lowBetaMax, highBetaMax, lowGammaMax, highGammaMax;
 	int lowAlphaMin, highAlphaMin, lowBetaMin, highBetaMin, lowGammaMin, highGammaMin;
+	FileReader fr;
 	
 	public AnalyzeWave() {
 		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public void readMaxMin() throws IOException {
-		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\mindstream.csv");
+//		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\mindstream.csv");
 //		FileReader fr = new FileReader("C:\\Users\\Sebastian\\Desktop\\mindstream -ROSE媽玩CS.csv");
+		fr = new FileReader("src/file/mindstream.csv");
+
 		BufferedReader br = new BufferedReader(fr);
 		String readLine;
 		
@@ -84,12 +89,15 @@ public class AnalyzeWave {
 		fr.close();
 	}
 	
-	public void readFormat(String s, int i, int j) throws IOException {
-		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\mindstream.csv");
+	public double readFormat(String s, int i, int j) throws IOException {
+//		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\mindstream.csv");
 //		FileReader fr = new FileReader("C:\\Users\\Sebastian\\Desktop\\mindstream -ROSE媽玩CS.csv");
+		FileReader fr = new FileReader("src/file/mindstream.csv");
+		
 		BufferedReader br = new BufferedReader(fr);
 		String readLine;
 		int p1, p2, p3, p4, p5, p6, p7, p8, p9, p10;
+		double pTotal;
 		p1 = 0;
 		p2 = 0;
 		p3 = 0;
@@ -100,6 +108,7 @@ public class AnalyzeWave {
 		p8 = 0;
 		p9 = 0;
 		p10 = 0;
+		pTotal = 0.0;
 		
 		while (br.ready()) {
 //			System.out.println(br.readLine());
@@ -109,7 +118,7 @@ public class AnalyzeWave {
 //			System.out.println(token);
 			String str;
 			
-			double p = Integer.parseInt(tokens[j]) * 100.0 / i * 2 ;
+			double p = Integer.parseInt(tokens[j]) * 100.0 / i * 4 ;
 //			System.out.println(Integer.parseInt(tokens[j])/(double)i);
 			if (p <= 10) {
 				p1++;
@@ -129,10 +138,13 @@ public class AnalyzeWave {
 				p8++;
 			} else if (p <= 90) {
 				p9++;
+			} else if (p <= 100){
+				p10++;
 			} else {
+				p = 100;
 				p10++;
 			}
-
+			pTotal = pTotal + p;
 		}
 		System.out.println(s + ": \n0~10%: " + p1 + "\n" + "10~20%: " + p2 + "\n"
 				+ "20~30%: " + p3 + "\n" + "30~40%: " + p4 + "\n"
@@ -141,25 +153,40 @@ public class AnalyzeWave {
 				+ "80~90%: " + p9 + "\n" + "90~100%: " + p10 + "\n");
 
 		fr.close();
+		return (pTotal / 30.0 * 2 / 100.0) - 1;
+	}
+	
+	public String readBrainwave() throws IOException {
+		String bw;
+		readMaxMin();
+		bw = readFormat("lowAlpha", lowAlphaMax, 0) + ","
+				 + readFormat("highAlpha", highAlphaMax, 1) + ","
+				 + readFormat("lowBeta", lowBetaMax, 2) + ","
+				 + readFormat("highBeta", highBetaMax, 3) + ","
+				 + readFormat("lowGamma", lowGammaMax, 4) + ","
+				 + readFormat("highGamma", highGammaMax, 5);
+		return bw;
 	}
 	
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		AnalyzeWave f = new AnalyzeWave();
-		f.readMaxMin();
-		System.out.println("lowAlphaMax: " + f.lowAlphaMax + "\n" + "highAlphaMax: " + f.highAlphaMax + "\n"
-				+ "lowBetaMax: " + f.lowBetaMax + "\n" + "highBetaMax: " + f.highBetaMax + "\n"
-				+ "lowGammaMax: " + f.lowGammaMax + "\n" + "highGammaMax: " + f.highGammaMax + "\n"
-				+ "lowAlphaMin: " + f.lowAlphaMin + "\n" + "highAlphaMin: " + f.highAlphaMin + "\n"
-				+ "lowBetaMin: " + f.lowBetaMin + "\n" + "highBetaMin: " + f.highBetaMin + "\n"
-				+ "lowGammaMin: " + f.lowGammaMin + "\n" + "highGammaMin: " + f.highGammaMin + "\n");
+//		f.readMaxMin();
+//		System.out.println("lowAlphaMax: " + f.lowAlphaMax + "\n" + "highAlphaMax: " + f.highAlphaMax + "\n"
+//				+ "lowBetaMax: " + f.lowBetaMax + "\n" + "highBetaMax: " + f.highBetaMax + "\n"
+//				+ "lowGammaMax: " + f.lowGammaMax + "\n" + "highGammaMax: " + f.highGammaMax + "\n"
+//				+ "lowAlphaMin: " + f.lowAlphaMin + "\n" + "highAlphaMin: " + f.highAlphaMin + "\n"
+//				+ "lowBetaMin: " + f.lowBetaMin + "\n" + "highBetaMin: " + f.highBetaMin + "\n"
+//				+ "lowGammaMin: " + f.lowGammaMin + "\n" + "highGammaMin: " + f.highGammaMin + "\n");
+//		
+//		System.out.println(f.readFormat("lowAlpha", f.lowAlphaMax, 0));
+//		System.out.println(f.readFormat("highAlpha", f.highAlphaMax, 1));
+//		System.out.println(f.readFormat("lowBeta", f.lowBetaMax, 2));
+//		System.out.println(f.readFormat("highBeta", f.highBetaMax, 3));
+//		System.out.println(f.readFormat("lowGamma", f.lowGammaMax, 4));
+//		System.out.println(f.readFormat("highGamma", f.highGammaMax, 5));
 		
-		f.readFormat("lowAlpha", f.lowAlphaMax, 0);
-		f.readFormat("highAlpha", f.highAlphaMax, 1);
-		f.readFormat("lowBeta", f.lowBetaMax, 2);
-		f.readFormat("highBeta", f.highBetaMax, 3);
-		f.readFormat("lowGamma", f.lowGammaMax, 4);
-		f.readFormat("highGamma", f.highGammaMax, 5);
+		System.out.println(f.readBrainwave());
 	}
 
 }

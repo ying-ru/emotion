@@ -5,10 +5,9 @@ import net.sourceforge.jFuzzyLogic.FunctionBlock;
 
 public class EmotionFuzzy {
 	
-	public static void main(String[] args) throws Exception {
+	public double getOutcome(double p, double a, double d) {
 		String filename = "src/Fuzzy/pad.fcl";
 		FIS fis = FIS.load(filename, true);
-
 		
 		if (fis == null) {
 			System.err.println("Can't load file: '" + filename + "'");
@@ -19,10 +18,9 @@ public class EmotionFuzzy {
 		FunctionBlock fb = fis.getFunctionBlock(null);
 
 		// Set inputs
-		fb.setVariable("p", -0.65);
-		fb.setVariable("a", -0.62);
-		fb.setVariable("d", -0.33);
-		
+		fb.setVariable("p", p);
+		fb.setVariable("a", a);
+		fb.setVariable("d", d);
 
 		// Evaluate
 		fb.evaluate();
@@ -31,7 +29,13 @@ public class EmotionFuzzy {
 		fb.getVariable("emotion").defuzzify();
 
 		// Print ruleSet
-		System.out.println(fb);
+//		System.out.println(fb);
 		System.out.println("Emotion: " + fb.getVariable("emotion").getValue());
+		return fb.getVariable("emotion").getValue();
+	}
+	
+	public static void main(String[] args) throws Exception {
+		EmotionFuzzy fuzzy = new EmotionFuzzy();
+		fuzzy.getOutcome(-0.65, -0.62, -0.33);
 	}
 }

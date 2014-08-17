@@ -30,6 +30,7 @@ public class TrackingPanel extends JPanel {
 	private DebugWindow debug;
 	private TrackerPanel3D tp3D;
 	private Track track;
+	private boolean isSaveOver;
 	
 	public TrackingPanel(int locationX, int locationY, int width, int height) {
 		// TODO Auto-generated constructor stub
@@ -44,6 +45,7 @@ public class TrackingPanel extends JPanel {
 		initJLabel();
 		brainwave = new CopyOfMindStreamSystemTray(debug);
 		track = new Track();
+		isSaveOver = false;
 	}
 	
 	private void setComponentFont() {
@@ -76,13 +78,15 @@ public class TrackingPanel extends JPanel {
 //		});
 //		add(display);
 		
-		save = new JButton("腦波存檔");
+		save = new JButton("存檔");
 		save.setSize(getWidth() / 15, getHeight() / 15);
 		save.setLocation(0, getHeight() / 5);
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				brainwave.actionSaveFile();
+				tp3D.getSkelsManager().write();
+				
 			}
 		});
 		add(save);
@@ -129,9 +133,18 @@ public class TrackingPanel extends JPanel {
 		return brainwave;
 	}
 	
+	public boolean isSaveOver() {
+		return isSaveOver;
+	}
+	
+	public void setisSaveOver() {
+		isSaveOver = false;
+	}
+	
 	class Track extends Observable implements Observer {
 		private String brainwave = "腦波儀：尋找中\n", kinect = "體感偵測器：尋找中\n";
 		private boolean brainTrack = false, kinectTrack = false;
+		private boolean brainOk = false, kinectOk = false;
 		@Override
 		public void update(Observable o, Object arg) {
 			// TODO Auto-generated method stub
@@ -152,8 +165,27 @@ public class TrackingPanel extends JPanel {
 			}
 			
 			if (brainTrack && kinectTrack) {
-				setChanged();
-				notifyObservers();
+				connectStatus.append("可存檔");
+//				setChanged();
+//				notifyObservers();
+			}
+			
+			if (o instanceof CopyOfMindStreamSystemTray) {
+				if (arg instanceof String && arg.equals("ok")) {
+					brainOk = true;
+				}
+			}
+			
+			if (o instanceof SkelsManager) {
+				if (arg instanceof String && arg.equals("ok")) {
+					kinectOk = true;
+				}
+			}
+			
+			if (brainOk && kinectOk) {
+				isSaveOver = true;
+//				setChanged();
+//				notifyObservers();
 			}
 		}
 	}

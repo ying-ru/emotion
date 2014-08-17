@@ -11,29 +11,29 @@ VAR_OUTPUT				// Define output variable
 END_VAR
 
 FUZZIFY p
-	TERM P1 := (-1,1) (-0.3,0);
+	TERM P1 := (-1, 1) (-0.9, 1) (-0.3, 0);
 	TERM P2 := (-0.5, 0) (-0.2, 1) (0.2, 1) (0.5, 0);
-	TERM P3 := (0.3, 0) (1, 1);
+	TERM P3 := (0.3, 0) (0.9, 1) (1, 1);
 END_FUZZIFY
 
 FUZZIFY a
-	TERM A1 := (-1,1) (-0.3,0);
+	TERM A1 := (-1, 1) (-0.9, 1) (-0.3, 0);
 	TERM A2 := (-0.5, 0) (-0.2, 1) (0.2, 1) (0.5, 0);
-	TERM A3 := (0.3, 0) (1, 1);
+	TERM A3 := (0.3, 0) (0.9, 1) (1, 1);
 END_FUZZIFY
 
 FUZZIFY d
-	TERM D1 := (-1,1) (-0.3,0);
+	TERM D1 := (-1, 1) (-0.9, 1) (-0.3, 0);
 	TERM D2 := (-0.5, 0) (-0.2, 1) (0.2, 1) (0.5, 0);
-	TERM D3 := (0.3, 0) (1, 1);
+	TERM D3 := (0.3, 0) (0.9, 1) (1, 1);
 END_FUZZIFY
 
 DEFUZZIFY emotion
-	TERM VS := (0,1) (25,0);
-	TERM S := (0,0) (25,1) (50,0);
-	TERM M := (25,0) (50,1) (75,0);
-	TERM L := (50,0) (75,1) (100,0);
-	TERM VL := (75,0) (100,1);
+	TERM VS := (0, 1) (5, 1) (25, 0);
+	TERM S := (0, 0) (25, 1) (50, 0);
+	TERM M := (25, 0) (50, 1) (75, 0);
+	TERM L := (50, 0) (75, 1) (100, 0);
+	TERM VL := (75, 0) (95, 1) (100, 1);
 	
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)

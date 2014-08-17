@@ -65,8 +65,9 @@ public class SkelsManager extends Observable implements Observer {
 		configure();
 
 		userSkels3D = new HashMap<Integer, Skeleton3D>();
-		fw = new FileWriter("C:\\Users\\banbi\\Desktop\\kinect.csv");
+//		fw = new FileWriter("C:\\Users\\banbi\\Desktop\\kinect.csv");
 //		fw = new FileWriter("C:\\Users\\Sebastian\\Desktop\\kinect.csv");
+		fw = new FileWriter("src/file/kinect.csv");
 		
 		readFile = new File();
 		head = new Vertex();
@@ -85,7 +86,7 @@ public class SkelsManager extends Observable implements Observer {
 		writeTemp = null;
 		jointTemp = null;
 		isFileClose = false;
-		write();
+//		write();
 	} // end of SkelsManager()
 
 	private void configure()
@@ -330,7 +331,7 @@ public class SkelsManager extends Observable implements Observer {
 		}
 	}
 
-	private void write() throws IOException {
+	public void write() {
 		updateTime = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -350,7 +351,9 @@ public class SkelsManager extends Observable implements Observer {
 								fw.flush();
 								fw.close();
 //								readFile.read();
-								isTracking = null;
+								isTracking = "ok";
+								setChanged();
+								notifyObservers(isTracking);
 							}
 						}
 					}
@@ -485,7 +488,7 @@ public class SkelsManager extends Observable implements Observer {
 	} // end of CalibrationCompleteObserver inner class
 	
 	public void notifyTrack() {
-		if (!isTracking.equals("kinect")) {
+		if (!isTracking.equals("kinect") && !isTracking.equals("ok")) {
 			isTracking = "kinect";
 			setChanged();
 			notifyObservers(isTracking);
