@@ -44,6 +44,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import jdbc.JDBC;
+
 /**
  * <p>Title:        MindStreamSystemTray</p><br>
  * <p>Description:  Description: System tray app for streaming data from the Neurosky MindSet/MindWave</p><br>

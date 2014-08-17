@@ -1,4 +1,4 @@
-package com.ericblue.mindstream.systemtray;
+package jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,19 +15,20 @@ public class JDBC {
 	public void insertTable(String NOWTIME, int low_ALPHA,int high_ALPHA, 
 			int low_BETA, int high_BETA,int low_GAMMA, int high_GAMMA) {
 		try {
+			// Step 1: 載入JDBC驅動程式: 請將正確值填入 ""中
 			Class.forName("com.mysql.jdbc.Driver");
 			
-			// Step 2: ���o��Ʈw�s��
+			// Step 2: 取得資料庫連結: 請將正確值填入 ""中
 			// "jdbc:mysql://localhost:8282/neurosky?user=root&password=8282";
 			String url = "jdbc:mysql://sqadb.cuxcf7jbbgaj.ap-northeast-1.rds.amazonaws.com/"
 					+ "emotion?user=sai523847&password=12345678&useUnicode=true"
 					+ "&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false";
 			connection = DriverManager.getConnection(url);
 			
-			// Step 3: �إ�Statement����
+			// Step 3: 建立Statement物件
 			stmt = connection.createStatement();
 			
-			// Step 4: �USQL
+			// Step 4: 下SQL
 			int i = stmt.executeUpdate("insert into brainwave values('"
 					+ NOWTIME + "'," + low_ALPHA + "," + high_ALPHA + ","
 					+ low_BETA + "," + high_BETA + "," + low_GAMMA + ","

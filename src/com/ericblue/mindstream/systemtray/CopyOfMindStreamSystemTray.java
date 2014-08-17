@@ -44,6 +44,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import jdbc.JDBC;
+
 /**
  * <p>Title:        MindStreamSystemTray</p><br>
  * <p>Description:  Description: System tray app for streaming data from the Neurosky MindSet/MindWave</p><br>
@@ -235,8 +237,8 @@ public class CopyOfMindStreamSystemTray extends Observable implements Observer {
     			
     			// HEADER
     			try {
-    				writer.append("TIMESTAMP,POOR_SIGNAL_LEVEL,ATTENTION,MEDITATION,");
-    				writer.append("DELTA,THETA,LOW_ALPHA,HIGH_ALPHA,LOW_BETA,HIGH_BETA,");
+    				writer.append("TIMESTAMP,");
+    				writer.append("LOW_ALPHA,HIGH_ALPHA,LOW_BETA,HIGH_BETA,");
                   	writer.append("LOW_GAMMA,HIGH_GAMA");
                   	writer.append(newLine);
                   	

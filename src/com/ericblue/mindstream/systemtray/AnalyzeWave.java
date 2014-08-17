@@ -14,11 +14,10 @@ public class AnalyzeWave {
 	}
 	
 	public void readMaxMin() throws IOException {
-//		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\mindstream.csv");
-		FileReader fr = new FileReader("C:\\Users\\Sebastian\\Desktop\\mindstream -ROSE媽玩CS.csv");
+		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\mindstream.csv");
+//		FileReader fr = new FileReader("C:\\Users\\Sebastian\\Desktop\\mindstream -ROSE媽玩CS.csv");
 		BufferedReader br = new BufferedReader(fr);
 		String readLine;
-		
 		
 		lowAlphaMin = 10000;
 		highAlphaMin = 10000;
@@ -86,8 +85,8 @@ public class AnalyzeWave {
 	}
 	
 	public void readFormat(String s, int i, int j) throws IOException {
-//		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\mindstream.csv");
-		FileReader fr = new FileReader("C:\\Users\\Sebastian\\Desktop\\mindstream -ROSE媽玩CS.csv");
+		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\mindstream.csv");
+//		FileReader fr = new FileReader("C:\\Users\\Sebastian\\Desktop\\mindstream -ROSE媽玩CS.csv");
 		BufferedReader br = new BufferedReader(fr);
 		String readLine;
 		int p1, p2, p3, p4, p5, p6, p7, p8, p9, p10;
@@ -106,35 +105,34 @@ public class AnalyzeWave {
 //			System.out.println(br.readLine());
 			readLine = br.readLine();
 			String[] tokens = readLine.split(",");
-			for (String token:tokens) {
-//				System.out.println(token);
-				String str;
-				
-				double p = Integer.parseInt(tokens[j]) * 100.0 / i ;
-//				System.out.println(Integer.parseInt(tokens[j])/(double)i);
-				if (p <= 10) {
-					p1++;
-				} else if (p <= 20) {
-					p2++;
-				} else if (p <= 30) {
-					p3++;
-				} else if (p <= 40) {
-					p4++;
-				} else if (p <= 50) {
-					p5++;
-				} else if (p <= 60) {
-					p6++;
-				} else if (p <= 70) {
-					p7++;
-				} else if (p <= 80) {
-					p8++;
-				} else if (p <= 90) {
-					p9++;
-				} else if (p <= 100) {
-					p10++;
-				}
-				
+			
+//			System.out.println(token);
+			String str;
+			
+			double p = Integer.parseInt(tokens[j]) * 100.0 / i * 2 ;
+//			System.out.println(Integer.parseInt(tokens[j])/(double)i);
+			if (p <= 10) {
+				p1++;
+			} else if (p <= 20) {
+				p2++;
+			} else if (p <= 30) {
+				p3++;
+			} else if (p <= 40) {
+				p4++;
+			} else if (p <= 50) {
+				p5++;
+			} else if (p <= 60) {
+				p6++;
+			} else if (p <= 70) {
+				p7++;
+			} else if (p <= 80) {
+				p8++;
+			} else if (p <= 90) {
+				p9++;
+			} else {
+				p10++;
 			}
+
 		}
 		System.out.println(s + ": \n0~10%: " + p1 + "\n" + "10~20%: " + p2 + "\n"
 				+ "20~30%: " + p3 + "\n" + "30~40%: " + p4 + "\n"
