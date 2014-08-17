@@ -11,27 +11,21 @@ VAR_OUTPUT				// Define output variable
 END_VAR
 
 FUZZIFY p
-	TERM P1 := (-1,1) (-0.7,0);
-	TERM P2 := (-0.8, 0) (-0.5,1) (-0.2,0);
-	TERM P3 := (-0.3, 0) (0, 1) (0.3, 0);
-	TERM P4 := (0.2, 0) (0.5, 1) (0.8, 0);
-	TERM P5 := (0.7, 0) (1, 1);
+	TERM P1 := (-1,1) (-0.3,0);
+	TERM P2 := (-0.5, 0) (-0.2, 1) (0.2, 1) (0.5, 0);
+	TERM P3 := (0.3, 0) (1, 1);
 END_FUZZIFY
 
 FUZZIFY a
-	TERM A1 := (-1,1) (-0.7,0);
-	TERM A2 := (-0.8, 0) (-0.5,1) (-0.2,0);
-	TERM A3 := (-0.3, 0) (0, 1) (0.3, 0);
-	TERM A4 := (0.2, 0) (0.5, 1) (0.8, 0);
-	TERM A5 := (0.7, 0) (1, 1);
+	TERM A1 := (-1,1) (-0.3,0);
+	TERM A2 := (-0.5, 0) (-0.2, 1) (0.2, 1) (0.5, 0);
+	TERM A3 := (0.3, 0) (1, 1);
 END_FUZZIFY
 
 FUZZIFY d
-	TERM D1 := (-1,1) (-0.7,0);
-	TERM D2 := (-0.8, 0) (-0.5,1) (-0.2,0);
-	TERM D3 := (-0.3, 0) (0, 1) (0.3, 0);
-	TERM D4 := (0.2, 0) (0.5, 1) (0.8, 0);
-	TERM D5 := (0.7, 0) (1, 1);
+	TERM D1 := (-1,1) (-0.3,0);
+	TERM D2 := (-0.5, 0) (-0.2, 1) (0.2, 1) (0.5, 0);
+	TERM D3 := (0.3, 0) (1, 1);
 END_FUZZIFY
 
 DEFUZZIFY emotion
@@ -39,7 +33,7 @@ DEFUZZIFY emotion
 	TERM S := (0,0) (25,1) (50,0);
 	TERM M := (25,0) (50,1) (75,0);
 	TERM L := (50,0) (75,1) (100,0);
-	TERM VL := (75,0) (100.,1);
+	TERM VL := (75,0) (100,1);
 	
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
@@ -51,15 +45,17 @@ RULEBLOCK No1
 	ACT : MIN;			// Use 'min' activation method
 	ACCU : MAX;			// Use 'max' accumulation method
 	
-//	RULE 1 : IF p IS P1 AND a IS A1 AND d IS D1 THEN emotion IS VS;
-//	RULE 2 : IF p IS P2 AND a IS A AND d IS D1 THEN emotion IS S;
-//	RULE 3 : IF p IS P3 AND a IS A AND d IS D1 THEN emotion IS M;
-//	RULE 4 : IF p IS P4 AND a IS A AND d IS D1 THEN emotion IS S;
-//	RULE 5 : IF p IS P5 AND a IS A AND d IS D1 THEN emotion IS M;
-//	RULE 6 : IF p IS MD AND a IS A AND d IS D1 THEN emotion IS L;
-//	RULE 7 : IF p IS LD AND a IS A AND d IS D1 THEN emotion IS M;
-//	RULE 8 : IF p IS LD AND a IS A AND d IS D1 THEN emotion IS L;
-//	RULE 9 : IF p IS LD AND a IS A AND d IS D1 THEN emotion IS VL;
+	RULE 1 : IF p IS P1 AND a IS A1 THEN emotion IS VS;
+	RULE 2 : IF p IS P1 AND a IS A2 AND d IS D1 THEN emotion IS VS;
+	RULE 3 : IF p IS P1 AND a IS A2 AND NOT (d IS D1) THEN emotion IS S;
+	RULE 4 : IF p IS P1 AND a IS A3 THEN emotion IS S;
+	RULE 5 : IF p IS P2 AND a IS A1 THEN emotion IS M;
+	RULE 6 : IF p IS P2 AND a IS A2 THEN emotion IS M;
+	RULE 7 : IF p IS P2 AND a IS A3 THEN emotion IS L;
+	RULE 8 : IF p IS P3 AND a IS A1 THEN emotion IS L;
+	RULE 9 : IF p IS P3 AND a IS A2 AND d IS D1 THEN emotion IS L;
+	RULE 10 : IF p IS P3 AND a IS A3 THEN emotion IS VL;
+	RULE 11 : IF p IS P3 AND a IS A2 AND NOT (d IS D1) THEN emotion IS VL;
 	
 END_RULEBLOCK
 

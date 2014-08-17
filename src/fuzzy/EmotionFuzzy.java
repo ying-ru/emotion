@@ -19,9 +19,9 @@ public class EmotionFuzzy {
 		FunctionBlock fb = fis.getFunctionBlock(null);
 
 		// Set inputs
-		fb.setVariable("p", 60);
-		fb.setVariable("a", 70);
-		fb.setVariable("d", 70);
+		fb.setVariable("p", -0.65);
+		fb.setVariable("a", -0.62);
+		fb.setVariable("d", -0.33);
 		
 
 		// Evaluate
