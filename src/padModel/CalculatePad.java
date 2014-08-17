@@ -1,8 +1,8 @@
 package padModel;
 
-public class calculatePad {
+public class CalculatePad {
 
-	public calculatePad() {
+	public CalculatePad() {
 		
 	}
 	

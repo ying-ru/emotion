@@ -7,8 +7,8 @@ import java.io.IOException;
 public class File {
 	
 	public void read() throws IOException {
-//		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\kinect.csv");
-		FileReader fr = new FileReader("C:\\Users\\Sebastian\\Desktop\\kinect.csv");
+		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\kinect.csv");
+//		FileReader fr = new FileReader("C:\\Users\\Sebastian\\Desktop\\kinect.csv");
 		
 		DataBase db = new DataBase();
 		BufferedReader br = new BufferedReader(fr);

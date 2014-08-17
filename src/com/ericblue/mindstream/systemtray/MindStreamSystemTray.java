@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.prefs.Preferences;
 
 import javax.swing.ImageIcon;
@@ -54,7 +56,7 @@ import java.sql.Statement;
  */
 
 
-public class MindStreamSystemTray {
+public class MindStreamSystemTray  extends Observable implements Observer{
     /**
      * Logger for this class
      */
@@ -66,7 +68,14 @@ public class MindStreamSystemTray {
      * @param args
      * @return void
      */
-
+    
+    private boolean isTracking, isStartWrite;
+    
+    public MindStreamSystemTray() {
+    	isTracking = false;
+    	isStartWrite = false;
+    }
+    
     public static void main(String[] args) {
         // TODO Set look and feel
         // UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -171,7 +180,7 @@ public class MindStreamSystemTray {
 
         popup.add(exitItem);
 
-        final DebugWindow debugWindow = new DebugWindow();
+        final DebugWindow debugWindow = new DebugWindow(400, 400);
         final PreferencesWindow preferencesWindow = new PreferencesWindow();
 
         trayIcon.setPopupMenu(popup);
@@ -426,4 +435,18 @@ public class MindStreamSystemTray {
             return (new ImageIcon(imageURL, description)).getImage();
         }
     }
+
+    public void notifyTrack(boolean isTracking) {
+		if (!isTracking) {
+			isTracking = true;
+			setChanged();
+			notifyObservers(isTracking);
+		}
+	}
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		isStartWrite = true;
+	}
 }

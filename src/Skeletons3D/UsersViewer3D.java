@@ -44,7 +44,10 @@ public class UsersViewer3D extends JFrame
     setLocationRelativeTo(null);
     setVisible(true);
   } // end of UsersViewer3D()
-
+  
+//  public TrackerPanel3D getTp3D() {
+//	  return tp3D;
+//  }
 
   // -------------------------------------------------------
 

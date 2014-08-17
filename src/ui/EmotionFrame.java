@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 public class EmotionFrame extends MainFrame {
 	private OutcomePanel outcome;
 	private LoadingPanel loading;
+	private TrackingPanel tracking;
 	private JLabel background, forWhoToPlay;
 	private JButton leaveBtn;
 	private ImageIcon backgroundPhoto;
@@ -83,6 +84,12 @@ public class EmotionFrame extends MainFrame {
 //		outcome.setVisible(false);
 //		add(outcome);
 		
+		tracking = new TrackingPanel(getWidth() / 18,
+		getHeight() / 15, getWidth()*9/10,
+		getHeight()*8/10);
+//		tracking.setVisible(false);
+		add(tracking);
+		
 	}
 
 	private void initBound() {
@@ -120,5 +127,9 @@ public class EmotionFrame extends MainFrame {
 	
 	public static void main(String args[]) {
 		EmotionFrame e = new EmotionFrame();
+		e.tracking.getTrack().addObserver(e.tracking.getTrackerPanel3D().getSkelsManager());
+		e.tracking.getTrack().addObserver(e.tracking.getCopyOfMindStreamSystemTray());
+		e.tracking.getTrackerPanel3D().getSkelsManager().addObserver(e.tracking.getTrack());
+		e.tracking.getCopyOfMindStreamSystemTray().addObserver(e.tracking.getTrack());
 	}
 }

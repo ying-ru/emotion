@@ -23,15 +23,13 @@ package Skeletons3D;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
+import java.util.Observable;
 import org.OpenNI.*;
-
 import javax.media.j3d.*;
 
-public class SkelsManager {
+public class SkelsManager extends Observable implements Observer {
 	// OpenNI
 	private UserGenerator userGen;
 
@@ -51,12 +49,13 @@ public class SkelsManager {
 
 	private FileWriter fw;
 	private int time;
-	private String writeTemp, jointTemp;
+	private String writeTemp, jointTemp, isTracking;
 	private boolean isFileClose;
 	private Thread updateTime;
 	private Vertex head, neck, torso, leftShoulder, rightShoulder, leftHip,
 			rightHip, leftElbow, rightElbow;
 	private File readFile;
+	private boolean isStartWrite;
 
 	public SkelsManager(UserGenerator userGen, BranchGroup sceneBG)
 			throws IOException {
@@ -66,8 +65,8 @@ public class SkelsManager {
 		configure();
 
 		userSkels3D = new HashMap<Integer, Skeleton3D>();
-//		fw = new FileWriter("C:\\Users\\banbi\\Desktop\\kinect.csv");
-		fw = new FileWriter("C:\\Users\\Sebastian\\Desktop\\kinect.csv");
+		fw = new FileWriter("C:\\Users\\banbi\\Desktop\\kinect.csv");
+//		fw = new FileWriter("C:\\Users\\Sebastian\\Desktop\\kinect.csv");
 		
 		readFile = new File();
 		head = new Vertex();
@@ -81,6 +80,8 @@ public class SkelsManager {
 		rightElbow = new Vertex();
 
 		time = 0;
+		isTracking = "";
+		isStartWrite = false;
 		writeTemp = null;
 		jointTemp = null;
 		isFileClose = false;
@@ -143,6 +144,7 @@ public class SkelsManager {
 					userSkels3D.get(userID).update();
 					writeTemp = userID + userSkels3D.get(userID).toString()
 							+ "\n";
+					notifyTrack();
 				} else {
 					writeTemp = null;
 				}
@@ -336,7 +338,7 @@ public class SkelsManager {
 					while (true) {
 						Thread.sleep(1000 * 1);
 						if (!isFileClose) {
-							if (writeTemp != null) {
+							if (writeTemp != null && isStartWrite) {
 //								System.out.println("OK");
 								updateVertex();
 								fw.write(jointTemp);
@@ -348,6 +350,7 @@ public class SkelsManager {
 								fw.flush();
 								fw.close();
 //								readFile.read();
+								isTracking = null;
 							}
 						}
 					}
@@ -480,6 +483,20 @@ public class SkelsManager {
 			}
 		}
 	} // end of CalibrationCompleteObserver inner class
+	
+	public void notifyTrack() {
+		if (!isTracking.equals("kinect")) {
+			isTracking = "kinect";
+			setChanged();
+			notifyObservers(isTracking);
+		}
+	}
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		isStartWrite = true;
+	}
 
 } // end of SkelsManager class
 

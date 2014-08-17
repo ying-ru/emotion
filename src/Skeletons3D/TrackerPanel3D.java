@@ -239,6 +239,10 @@ public class TrackerPanel3D extends JPanel implements Runnable
 	public void closeDown() {
 		isRunning = false;
 	}
+	
+	public SkelsManager getSkelsManager() {
+		return skels;
+	}
 
 } // end of TrackerPanel3D class
 
