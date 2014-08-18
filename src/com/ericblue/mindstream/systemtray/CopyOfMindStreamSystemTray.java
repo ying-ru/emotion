@@ -249,14 +249,14 @@ public class CopyOfMindStreamSystemTray extends Observable implements Observer {
     			SimpleDateFormat fmt = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
     			
     			int i = 0;
-    			while (isDataAvailable && i < 30 && !brainData.equals("")) {
-    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Writing...");
+    			while (isDataAvailable && i < 30 ) {
+//    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Writing...");
     				
 //					logger.debug("$SwingWorker<Void,Void>.doInBackground() - " + client.getData());
     				try {
     					String clientData = brainData;
     					brainData = "";
-    					logger.debug("$SwingWorker<Void,Void>.doInBackground() - " + clientData);
+//    					logger.debug("$SwingWorker<Void,Void>.doInBackground() - " + clientData);
     					JSONObject json = new JSONObject(clientData);
     					
     					/*
@@ -293,7 +293,7 @@ public class CopyOfMindStreamSystemTray extends Observable implements Observer {
 //								writer.append(Integer.toString(esense.getInt("attention")) + ',');
 //								writer.append(Integer.toString(esense.getInt("meditation")) + ',');
     						} else {
-    							logger.debug("$SwingWorker<Void,Void>.doInBackground() - eSense is null!");
+//    							logger.debug("$SwingWorker<Void,Void>.doInBackground() - eSense is null!");
     						}
     						
     						JSONObject eegPower = json.getJSONObject("eegPower");
@@ -315,22 +315,25 @@ public class CopyOfMindStreamSystemTray extends Observable implements Observer {
     						
     						i++;
     					} else {
-    						logger.debug("$SwingWorker<Void,Void>.doInBackground() - eegPower is null!");
+//    						logger.debug("$SwingWorker<Void,Void>.doInBackground() - eegPower is null!");
     					}
     					
     					writer.flush();
     					
     				} catch (JSONException e1) {
-    					logger.debug("$SwingWorker<Void,Void>.doInBackground() - JSON Error" + e1.getMessage());
+//    					logger.debug("$SwingWorker<Void,Void>.doInBackground() - JSON Error" + e1.getMessage());
     				} catch (IOException e2) {
-    					logger.debug("$SwingWorker<Void,Void>.doInBackground() - Write Error" + e2.getMessage());
+//    					logger.debug("$SwingWorker<Void,Void>.doInBackground() - Write Error" + e2.getMessage());
     				}
     			}
     			try {
-    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Closing file...");
+//    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Closing file...");
     				writer.close();
+    				isTracking = "bok";
+					setChanged();
+					notifyObservers(isTracking);
     			} catch (IOException e) {
-    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Write Error" + e.getMessage());
+//    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Write Error" + e.getMessage());
     			}
     			return null;
     		}
@@ -339,7 +342,7 @@ public class CopyOfMindStreamSystemTray extends Observable implements Observer {
 	}
     
     public void notifyTrack() {
-    	while (client.isDataAvailable() && !isTracking.equals("brain")) {
+    	while (client.isDataAvailable() && !isTracking.equals("brain") && !isTracking.equals("bok")) {
     		if (client.getData().startsWith("{\"eSense\":{\"attention\":")) {
             	isTracking = "brain";
             	
@@ -358,10 +361,10 @@ public class CopyOfMindStreamSystemTray extends Observable implements Observer {
     public void actionExit() {
         System.exit(0);
     }
-
+    
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
-		actionSaveFile();
+//		actionSaveFile();
 	}
 }

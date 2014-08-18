@@ -43,44 +43,44 @@ public class AnalyzeWave {
 			String[] tokens = readLine.split(",");
 			for (String token:tokens) {
 //				System.out.println(token);
-				if (lowAlphaMin > Integer.parseInt(tokens[0])) {
-					lowAlphaMin = Integer.parseInt(tokens[0]);
+				if (lowAlphaMin > Integer.parseInt(tokens[1])) {
+					lowAlphaMin = Integer.parseInt(tokens[1]);
 				}
-				if (highAlphaMin > Integer.parseInt(tokens[1])) {
-					highAlphaMin = Integer.parseInt(tokens[1]);
+				if (highAlphaMin > Integer.parseInt(tokens[2])) {
+					highAlphaMin = Integer.parseInt(tokens[2]);
 				}
-				if (lowBetaMin > Integer.parseInt(tokens[2])) {
-					lowBetaMin = Integer.parseInt(tokens[2]);
+				if (lowBetaMin > Integer.parseInt(tokens[3])) {
+					lowBetaMin = Integer.parseInt(tokens[3]);
 				}
-				if (highBetaMin > Integer.parseInt(tokens[3])) {
-					highBetaMin = Integer.parseInt(tokens[3]);
+				if (highBetaMin > Integer.parseInt(tokens[4])) {
+					highBetaMin = Integer.parseInt(tokens[4]);
 				}
-				if (lowGammaMin > Integer.parseInt(tokens[4])) {
-					lowGammaMin = Integer.parseInt(tokens[4]);
+				if (lowGammaMin > Integer.parseInt(tokens[5])) {
+					lowGammaMin = Integer.parseInt(tokens[5]);
 				}
-				if (highGammaMin > Integer.parseInt(tokens[5])) {
-					highGammaMin = Integer.parseInt(tokens[5]);
+				if (highGammaMin > Integer.parseInt(tokens[6])) {
+					highGammaMin = Integer.parseInt(tokens[6]);
 				}
 				
 				
 				
-				if (lowAlphaMax < Integer.parseInt(tokens[0])) {
-					lowAlphaMax = Integer.parseInt(tokens[0]);
+				if (lowAlphaMax < Integer.parseInt(tokens[1])) {
+					lowAlphaMax = Integer.parseInt(tokens[1]);
 				}
-				if (highAlphaMax < Integer.parseInt(tokens[1])) {
-					highAlphaMax = Integer.parseInt(tokens[1]);
+				if (highAlphaMax < Integer.parseInt(tokens[2])) {
+					highAlphaMax = Integer.parseInt(tokens[2]);
 				}
-				if (lowBetaMax < Integer.parseInt(tokens[2])) {
-					lowBetaMax = Integer.parseInt(tokens[2]);
+				if (lowBetaMax < Integer.parseInt(tokens[3])) {
+					lowBetaMax = Integer.parseInt(tokens[3]);
 				}
-				if (highBetaMax < Integer.parseInt(tokens[3])) {
-					highBetaMax = Integer.parseInt(tokens[3]);
+				if (highBetaMax < Integer.parseInt(tokens[4])) {
+					highBetaMax = Integer.parseInt(tokens[4]);
 				}
-				if (lowGammaMax < Integer.parseInt(tokens[4])) {
-					lowGammaMax = Integer.parseInt(tokens[4]);
+				if (lowGammaMax < Integer.parseInt(tokens[5])) {
+					lowGammaMax = Integer.parseInt(tokens[5]);
 				}
-				if (highGammaMax < Integer.parseInt(tokens[5])) {
-					highGammaMax = Integer.parseInt(tokens[5]);
+				if (highGammaMax < Integer.parseInt(tokens[6])) {
+					highGammaMax = Integer.parseInt(tokens[6]);
 				}
 			}
 		}
@@ -159,12 +159,12 @@ public class AnalyzeWave {
 	public String readBrainwave() throws IOException {
 		String bw;
 		readMaxMin();
-		bw = readFormat("lowAlpha", lowAlphaMax, 0) + ","
-				 + readFormat("highAlpha", highAlphaMax, 1) + ","
-				 + readFormat("lowBeta", lowBetaMax, 2) + ","
-				 + readFormat("highBeta", highBetaMax, 3) + ","
-				 + readFormat("lowGamma", lowGammaMax, 4) + ","
-				 + readFormat("highGamma", highGammaMax, 5);
+		bw = readFormat("lowAlpha", lowAlphaMax, 1) + ","
+				 + readFormat("highAlpha", highAlphaMax, 2) + ","
+				 + readFormat("lowBeta", lowBetaMax, 3) + ","
+				 + readFormat("highBeta", highBetaMax, 4) + ","
+				 + readFormat("lowGamma", lowGammaMax, 5) + ","
+				 + readFormat("highGamma", highGammaMax, 6);
 		return bw;
 	}
 	

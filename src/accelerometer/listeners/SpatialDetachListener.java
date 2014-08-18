@@ -56,7 +56,7 @@ public class SpatialDetachListener implements DetachListener {
     private GyroGraphPanel gyroGraphPanel;
     private CompassBearingGraphPanel compassBearingGraphPanel;
 
-    public SpatialDetachListener(JFrame appFrame, JTextField attachedTxt, JTextArea nameTxt, JTextField serialTxt,
+    public SpatialDetachListener(JTextField attachedTxt, JTextArea nameTxt, JTextField serialTxt,
             JTextField versionTxt, JTextField numAccelAxesTxt, JTextField numGyroAxesTxt, JTextField numCompassAxesTxt,
             JSlider dataRateScrl, JTextField dataRateTxt, JTextField accelXTxt, JTextField accelYTxt, JTextField accelZTxt,
             JTextField gyroXTxt, JTextField gyroYTxt, JTextField gyroZTxt, JButton zeroGyroBtn, JTextField gyroXTxt1,

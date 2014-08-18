@@ -29,6 +29,7 @@ public class EmotionFrame extends MainFrame {
 	private Thread updateOutcome;
 	private Outcome value;
 	private boolean isRemind = false;
+	private static String[] arg;
 	
 	public EmotionFrame() {
 		initJPanel();
@@ -91,7 +92,7 @@ public class EmotionFrame extends MainFrame {
 //		
 		tracking = new TrackingPanel(getWidth() / 18,
 		getHeight() / 15, getWidth()*9/10,
-		getHeight()*8/10);
+		getHeight()*8/10, arg);
 //		tracking.setVisible(false);
 		add(tracking);
 		
@@ -122,6 +123,9 @@ public class EmotionFrame extends MainFrame {
 							tracking.setisSaveOver();
 							value = new Outcome();
 							outcome.setValue(value.getOutcome());
+							
+							tracking.setVisible(false);
+							outcome.setVisible(true);
 						}
 						
 						// update outcome end
@@ -136,6 +140,7 @@ public class EmotionFrame extends MainFrame {
 	
 	public static void main(String args[]) {
 		EmotionFrame e = new EmotionFrame();
+		arg = args;
 		e.tracking.getTrack().addObserver(e.tracking.getTrackerPanel3D().getSkelsManager());
 		e.tracking.getTrack().addObserver(e.tracking.getCopyOfMindStreamSystemTray());
 		e.tracking.getTrackerPanel3D().getSkelsManager().addObserver(e.tracking.getTrack());

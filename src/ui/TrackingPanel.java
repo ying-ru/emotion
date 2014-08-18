@@ -18,6 +18,7 @@ import javax.swing.JTextArea;
 
 import skeletons3D.SkelsManager;
 import skeletons3D.TrackerPanel3D;
+import accelerometer.spatial.CopyOfSpatial;
 
 import com.ericblue.mindstream.systemtray.CopyOfMindStreamSystemTray;
 import com.ericblue.mindstream.window.DebugWindow;
@@ -30,11 +31,13 @@ public class TrackingPanel extends JPanel {
 	private DebugWindow debug;
 	private TrackerPanel3D tp3D;
 	private Track track;
+	private CopyOfSpatial spatial;
 	private boolean isSaveOver;
+	private String[] arg;
 	
-	public TrackingPanel(int locationX, int locationY, int width, int height) {
+	public TrackingPanel(int locationX, int locationY, int width, int height, String[] arg) {
 		// TODO Auto-generated constructor stub
-		
+		this.arg = arg;
 		setSize(width, height);
 		setLocation(locationX, locationY);
 		setLayout(null);
@@ -45,6 +48,7 @@ public class TrackingPanel extends JPanel {
 		initJLabel();
 		brainwave = new CopyOfMindStreamSystemTray(debug);
 		track = new Track();
+		
 		isSaveOver = false;
 	}
 	
@@ -67,16 +71,16 @@ public class TrackingPanel extends JPanel {
 		});
 		add(connect);
 		
-//		display = new JButton("顯示");
-//		display.setSize(getWidth() / 15, getHeight() / 15);
-//		display.setLocation(0, getHeight() / 10);
-//		display.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				a.actionDebugWindow();
-//			}
-//		});
-//		add(display);
+		display = new JButton("中斷");
+		display.setSize(getWidth() / 15, getHeight() / 15);
+		display.setLocation(0, getHeight() / 10);
+		display.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				brainwave.actionDisconnection();
+			}
+		});
+		add(display);
 		
 		save = new JButton("存檔");
 		save.setSize(getWidth() / 15, getHeight() / 15);
@@ -85,7 +89,7 @@ public class TrackingPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				brainwave.actionSaveFile();
-				tp3D.getSkelsManager().write();
+//				tp3D.getSkelsManager().write();
 				
 			}
 		});
@@ -112,9 +116,13 @@ public class TrackingPanel extends JPanel {
 		
 		tp3D = new TrackerPanel3D();
 		tp3D.setBounds(getWidth() / 10, (int)(getHeight() / 2.5), 512, 512);
-//		debug.getTextArea().append("123\n");
-//		debug.setVisible(false);
+//		tp3D.setVisible(false);
 		add(tp3D, BorderLayout.CENTER);
+		
+		spatial = new CopyOfSpatial(arg);
+		spatial.setBounds((int)(getWidth() / 1.5), (int)(getHeight() / 2.5), 512, 512);
+//		spatial.setVisible(false);
+		add(spatial, BorderLayout.CENTER);
 	}
 	
 	public void setStatus(String str) {
@@ -166,27 +174,38 @@ public class TrackingPanel extends JPanel {
 			
 			if (brainTrack && kinectTrack) {
 				connectStatus.append("可存檔");
-//				setChanged();
-//				notifyObservers();
+				setChanged();
+				notifyObservers();
 			}
 			
 			if (o instanceof CopyOfMindStreamSystemTray) {
-				if (arg instanceof String && arg.equals("ok")) {
+				if (arg instanceof String && arg.equals("bok")) {
 					brainOk = true;
+					System.out.println(arg);
+					if (brainOk && kinectOk) {
+						isSaveOver = true;
+						System.out.println(isSaveOver);
+//					setChanged();
+//					notifyObservers("ok");
+					}
 				}
 			}
 			
 			if (o instanceof SkelsManager) {
-				if (arg instanceof String && arg.equals("ok")) {
+				if (arg instanceof String && arg.equals("kok")) {
 					kinectOk = true;
+					System.out.println(arg);
+					if (brainOk && kinectOk) {
+						isSaveOver = true;
+						System.out.println(isSaveOver);
+//					setChanged();
+//					notifyObservers("ok");
+					}
 				}
+				
 			}
 			
-			if (brainOk && kinectOk) {
-				isSaveOver = true;
-//				setChanged();
-//				notifyObservers();
-			}
+			
 		}
 	}
 }

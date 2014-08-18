@@ -11,6 +11,7 @@ import accelerometer.graphics.CompassBearingGraphPanel;
 import accelerometer.graphics.GyroGraphPanel;
 import accelerometer.graphics.MagFieldGraphPanel;
 import accelerometer.graphics.MotionGraphPanel;
+import accelerometer.spatial.CopyOfSpatial;
 
 import com.phidgets.SpatialPhidget;
 import com.phidgets.PhidgetException;
@@ -61,7 +62,7 @@ public class SpatialAttachListener implements AttachListener {
     private GyroGraphPanel gyroGraphPanel;
     private CompassBearingGraphPanel compassBearingGraphPanel;
 
-    public SpatialAttachListener(JFrame appFrame, JPanel jPanel2, JPanel jPanel3, JPanel jPanel4,
+    public SpatialAttachListener(JPanel jPanel2, JPanel jPanel3, JPanel jPanel4,
             JPanel jPanel5, JTextField attachedTxt, JTextArea nameTxt, JTextField serialTxt,
             JTextField versionTxt, JTextField numAccelAxesTxt, JTextField numGyroAxesTxt, JTextField numCompassAxesTxt,
             JSlider dataRateScrl, JTextField dataRateTxt, JTextField accelXTxt, JTextField accelYTxt, JTextField accelZTxt,

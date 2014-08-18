@@ -20,15 +20,19 @@ import com.phidgets.PhidgetException;
 import com.phidgets.event.SpatialDataListener;
 import com.phidgets.event.SpatialDataEvent;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JTextField;
 
-public class SpatialSpatialDataListener implements SpatialDataListener {
+public class SpatialSpatialDataListener extends Observable implements Observer, SpatialDataListener {
 
     private JTextField accelXTxt;
     private JTextField accelYTxt;
@@ -51,6 +55,8 @@ public class SpatialSpatialDataListener implements SpatialDataListener {
     private double compassBearing;
     private CompassBearingGraphPanel compassBearingGraphPanel;
     private final char DEGREESYMBOL = '\u00b0';
+    private FileWriter fw;
+    private String write;
 
     public SpatialSpatialDataListener(JTextField accelXTxt, JTextField accelYTxt, JTextField accelZTxt,
             JTextField gyroXTxt, JTextField gyroYTxt, JTextField gyroZTxt, JTextField gyroXTxt1, JTextField gyroYTxt1, JTextField gyroZTxt1,
@@ -77,6 +83,7 @@ public class SpatialSpatialDataListener implements SpatialDataListener {
         this.gyroGraphPanel = gyroGraphPanel;
         this.compassBearingGraphPanel = compassBearingGraphPanel;
         compassBearing = 0.0;
+        write = "";
     }
 
     public Double getLastTime() {
@@ -89,8 +96,11 @@ public class SpatialSpatialDataListener implements SpatialDataListener {
         try {
             if (spatial.getAccelerationAxisCount() > 0) {
                 accelXTxt.setText(Double.toString(roundDouble((sde.getData()[0].getAcceleration()[0]), 3)));
+                write = Double.toString(roundDouble((sde.getData()[0].getAcceleration()[0]), 3));
                 accelYTxt.setText(Double.toString(roundDouble((sde.getData()[0].getAcceleration()[1]), 3)));
+                write = write + Double.toString(roundDouble((sde.getData()[0].getAcceleration()[1]), 3));
                 accelZTxt.setText(Double.toString(roundDouble((sde.getData()[0].getAcceleration()[2]), 3)));
+                write = write + Double.toString(roundDouble((sde.getData()[0].getAcceleration()[2]), 3));
                 displayAccelGraph(sde.getData()[0].getAcceleration(), graphPanel);
             }
 
@@ -310,4 +320,24 @@ public class SpatialSpatialDataListener implements SpatialDataListener {
         BigDecimal bd = new BigDecimal(value).setScale(decimalPlaces, RoundingMode.HALF_EVEN);
         return (bd.doubleValue());
     }
+    
+    public void write() throws IOException {
+    	fw = new FileWriter("src/file/activity.csv");
+    	int i = 0;
+    	while (i < 30) {
+    		fw.append(write);
+    		i++;
+    	}
+    }
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		try {
+			write();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

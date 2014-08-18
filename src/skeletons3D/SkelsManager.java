@@ -26,7 +26,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Observable;
+
 import org.OpenNI.*;
+
 import javax.media.j3d.*;
 
 public class SkelsManager extends Observable implements Observer {
@@ -79,14 +81,14 @@ public class SkelsManager extends Observable implements Observer {
 		rightHip = new Vertex();
 		leftElbow = new Vertex();
 		rightElbow = new Vertex();
-
+		
 		time = 0;
 		isTracking = "";
 		isStartWrite = false;
 		writeTemp = null;
 		jointTemp = null;
 		isFileClose = false;
-//		write();
+		write();
 	} // end of SkelsManager()
 
 	private void configure()
@@ -335,12 +337,13 @@ public class SkelsManager extends Observable implements Observer {
 		updateTime = new Thread(new Runnable() {
 			@Override
 			public void run() {
+				System.out.println("write..");
 				try {
 					while (true) {
 						Thread.sleep(1000 * 1);
 						if (!isFileClose) {
 							if (writeTemp != null && isStartWrite) {
-//								System.out.println("OK");
+								System.out.println("OK");
 								updateVertex();
 								fw.write(jointTemp);
 								System.out.println(writeTemp);
@@ -351,7 +354,7 @@ public class SkelsManager extends Observable implements Observer {
 								fw.flush();
 								fw.close();
 //								readFile.read();
-								isTracking = "ok";
+								isTracking = "kok";
 								setChanged();
 								notifyObservers(isTracking);
 							}
@@ -488,7 +491,7 @@ public class SkelsManager extends Observable implements Observer {
 	} // end of CalibrationCompleteObserver inner class
 	
 	public void notifyTrack() {
-		if (!isTracking.equals("kinect") && !isTracking.equals("ok")) {
+		if (!isTracking.equals("kinect") && !isTracking.equals("kok")) {
 			isTracking = "kinect";
 			setChanged();
 			notifyObservers(isTracking);
@@ -499,7 +502,7 @@ public class SkelsManager extends Observable implements Observer {
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
 		isStartWrite = true;
+			
 	}
-
 } // end of SkelsManager class
 
