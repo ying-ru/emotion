@@ -265,24 +265,24 @@ public class CopyOfSpatial extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_formWindowOpened
 
-    private void formWindowClosed() {//GEN-FIRST:event_formWindowClosed
-        try {
-            spatial.removeSpatialDataListener(spatialData_listener);
-            spatial.removeErrorListener(error_listener);
-            spatial.removeDetachListener(detach_listener);
-            spatial.removeAttachListener(attach_listener);
-
-            spatial.close();
-            spatial = null;
-
+//    private void formWindowClosed() {//GEN-FIRST:event_formWindowClosed
+//        try {
+//            spatial.removeSpatialDataListener(spatialData_listener);
+//            spatial.removeErrorListener(error_listener);
+//            spatial.removeDetachListener(detach_listener);
+//            spatial.removeAttachListener(attach_listener);
+//
+//            spatial.close();
+//            spatial = null;
+//
 //            dispose();
-            System.exit(0);
-        } catch (PhidgetException ex) {
-            JOptionPane.showMessageDialog(this, ex.getDescription(), "Phidget Error" + ex.getErrorNumber(), JOptionPane.ERROR_MESSAGE);
+//            System.exit(0);
+//        } catch (PhidgetException ex) {
+//            JOptionPane.showMessageDialog(this, ex.getDescription(), "Phidget Error" + ex.getErrorNumber(), JOptionPane.ERROR_MESSAGE);
 //            dispose();
-            System.exit(0);
-        }
-    }//GEN-LAST:event_formWindowClosed
+//            System.exit(0);
+//        }
+//    }//GEN-LAST:event_formWindowClosed
 
     private void dataRateScrlStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_dataRateScrlStateChanged
         if (dataRateScrl.isEnabled()) {
@@ -311,7 +311,11 @@ public class CopyOfSpatial extends javax.swing.JPanel {
         gyroHeading[1] = 0.0;
         gyroHeading[2] = 0.0;
     }//GEN-LAST:event_zeroGyroBtnActionPerformed
-
+    
+    public SpatialSpatialDataListener getSpatialSpatialDataListener() {
+    	return spatialData_listener;
+    }
+    
     /**
      * @param args the command line arguments
      */

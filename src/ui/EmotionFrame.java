@@ -145,5 +145,6 @@ public class EmotionFrame extends MainFrame {
 		e.tracking.getTrack().addObserver(e.tracking.getCopyOfMindStreamSystemTray());
 		e.tracking.getTrackerPanel3D().getSkelsManager().addObserver(e.tracking.getTrack());
 		e.tracking.getCopyOfMindStreamSystemTray().addObserver(e.tracking.getTrack());
+		e.tracking.getCopyOfSpatial().getSpatialSpatialDataListener().addObserver(e.tracking.getTrack());
 	}
 }

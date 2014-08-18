@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JTextField;
 
-public class SpatialSpatialDataListener extends Observable implements Observer, SpatialDataListener {
+public class SpatialSpatialDataListener extends Observable implements SpatialDataListener {
 
     private JTextField accelXTxt;
     private JTextField accelYTxt;
@@ -57,6 +57,8 @@ public class SpatialSpatialDataListener extends Observable implements Observer, 
     private final char DEGREESYMBOL = '\u00b0';
     private FileWriter fw;
     private String write;
+    private String isTracking;
+    private double x, y, z;
 
     public SpatialSpatialDataListener(JTextField accelXTxt, JTextField accelYTxt, JTextField accelZTxt,
             JTextField gyroXTxt, JTextField gyroYTxt, JTextField gyroZTxt, JTextField gyroXTxt1, JTextField gyroYTxt1, JTextField gyroZTxt1,
@@ -84,6 +86,7 @@ public class SpatialSpatialDataListener extends Observable implements Observer, 
         this.compassBearingGraphPanel = compassBearingGraphPanel;
         compassBearing = 0.0;
         write = "";
+        isTracking = "";
     }
 
     public Double getLastTime() {
@@ -96,11 +99,14 @@ public class SpatialSpatialDataListener extends Observable implements Observer, 
         try {
             if (spatial.getAccelerationAxisCount() > 0) {
                 accelXTxt.setText(Double.toString(roundDouble((sde.getData()[0].getAcceleration()[0]), 3)));
-                write = Double.toString(roundDouble((sde.getData()[0].getAcceleration()[0]), 3));
+                write = Double.toString(Math.abs(roundDouble((sde.getData()[0].getAcceleration()[0]), 3) * 1000 - x)) + ",";
+                x = roundDouble((sde.getData()[0].getAcceleration()[0]), 3) * 1000;
                 accelYTxt.setText(Double.toString(roundDouble((sde.getData()[0].getAcceleration()[1]), 3)));
-                write = write + Double.toString(roundDouble((sde.getData()[0].getAcceleration()[1]), 3));
+                write = write + Double.toString(Math.abs(roundDouble((sde.getData()[0].getAcceleration()[1]), 3) * 1000 - y)) + ",";
+                y = roundDouble((sde.getData()[0].getAcceleration()[1]), 3) * 1000;
                 accelZTxt.setText(Double.toString(roundDouble((sde.getData()[0].getAcceleration()[2]), 3)));
-                write = write + Double.toString(roundDouble((sde.getData()[0].getAcceleration()[2]), 3));
+                write = write + Double.toString(Math.abs(roundDouble((sde.getData()[0].getAcceleration()[2]), 3) * 1000 - z)) + "\n";
+                z = roundDouble((sde.getData()[0].getAcceleration()[2]), 3) * 1000;
                 displayAccelGraph(sde.getData()[0].getAcceleration(), graphPanel);
             }
 
@@ -321,23 +327,28 @@ public class SpatialSpatialDataListener extends Observable implements Observer, 
         return (bd.doubleValue());
     }
     
-    public void write() throws IOException {
-    	fw = new FileWriter("src/file/activity.csv");
-    	int i = 0;
-    	while (i < 30) {
-    		fw.append(write);
-    		i++;
-    	}
-    }
-
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		try {
-			write();
+    public void write() {
+    	try {
+    		fw = new FileWriter("src/file/activity.csv");
+    		int i = 0;
+    		while (i < 30) {
+    			try {
+    				Thread.sleep(1000);
+    			} catch (InterruptedException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    			fw.append(write);
+    			i++;
+    		}
+    		fw.flush();
+			fw.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+    	isTracking = "aok";
+		setChanged();
+		notifyObservers(isTracking);
+    }
 }

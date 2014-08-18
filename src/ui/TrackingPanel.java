@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -18,6 +19,7 @@ import javax.swing.JTextArea;
 
 import skeletons3D.SkelsManager;
 import skeletons3D.TrackerPanel3D;
+import accelerometer.listeners.SpatialSpatialDataListener;
 import accelerometer.spatial.CopyOfSpatial;
 
 import com.ericblue.mindstream.systemtray.CopyOfMindStreamSystemTray;
@@ -90,7 +92,7 @@ public class TrackingPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				brainwave.actionSaveFile();
 //				tp3D.getSkelsManager().write();
-				
+				spatial.getSpatialSpatialDataListener().write();
 			}
 		});
 		add(save);
@@ -137,6 +139,10 @@ public class TrackingPanel extends JPanel {
 		return track;
 	}
 	
+	public CopyOfSpatial getCopyOfSpatial() {
+		return spatial;
+	}
+	
 	public CopyOfMindStreamSystemTray getCopyOfMindStreamSystemTray() {
 		return brainwave;
 	}
@@ -152,7 +158,7 @@ public class TrackingPanel extends JPanel {
 	class Track extends Observable implements Observer {
 		private String brainwave = "腦波儀：尋找中\n", kinect = "體感偵測器：尋找中\n";
 		private boolean brainTrack = false, kinectTrack = false;
-		private boolean brainOk = false, kinectOk = false;
+		private boolean brainOk = false, kinectOk = false, actOk = false;
 		@Override
 		public void update(Observable o, Object arg) {
 			// TODO Auto-generated method stub
@@ -161,6 +167,11 @@ public class TrackingPanel extends JPanel {
 					brainwave = "腦波儀：追蹤中\n";
 					setStatus(brainwave + kinect);
 					brainTrack = true;
+					if (brainTrack && kinectTrack) {
+						connectStatus.append("可存檔");
+						setChanged();
+						notifyObservers();
+					}
 				}
 			}
 			
@@ -169,20 +180,19 @@ public class TrackingPanel extends JPanel {
 					kinect = "體感偵測器：追蹤中\n";
 					setStatus(brainwave + kinect);
 					kinectTrack = true;
+					if (brainTrack && kinectTrack) {
+						connectStatus.append("可存檔");
+						setChanged();
+						notifyObservers();
+					}
 				}
-			}
-			
-			if (brainTrack && kinectTrack) {
-				connectStatus.append("可存檔");
-				setChanged();
-				notifyObservers();
 			}
 			
 			if (o instanceof CopyOfMindStreamSystemTray) {
 				if (arg instanceof String && arg.equals("bok")) {
 					brainOk = true;
 					System.out.println(arg);
-					if (brainOk && kinectOk) {
+					if (brainOk && kinectOk && actOk) {
 						isSaveOver = true;
 						System.out.println(isSaveOver);
 //					setChanged();
@@ -195,17 +205,26 @@ public class TrackingPanel extends JPanel {
 				if (arg instanceof String && arg.equals("kok")) {
 					kinectOk = true;
 					System.out.println(arg);
-					if (brainOk && kinectOk) {
+					if (brainOk && kinectOk && actOk) {
 						isSaveOver = true;
 						System.out.println(isSaveOver);
 //					setChanged();
 //					notifyObservers("ok");
 					}
 				}
-				
 			}
-			
-			
+			if (o instanceof SpatialSpatialDataListener) {
+				if (arg instanceof String && arg.equals("aok")) {
+					actOk = true;
+					System.out.println(arg);
+					if (brainOk && kinectOk && actOk) {
+						isSaveOver = true;
+						System.out.println(isSaveOver);
+//					setChanged();
+//					notifyObservers("ok");
+					}
+				}
+			}
 		}
 	}
 }

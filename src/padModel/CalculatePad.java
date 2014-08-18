@@ -25,11 +25,11 @@ public class CalculatePad {
 		try {
 			getKinect();
 			getBrainwave();
+			getAccelerometer();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		getAccelerometer();
 	}
 	
 	private void getKinect() throws IOException {
@@ -54,8 +54,11 @@ public class CalculatePad {
 		highGamma = Double.parseDouble(token[5]);
 	}
 	
-	private void getAccelerometer() {
-		activity = 0;
+	private void getAccelerometer() throws IOException {
+//		activity = 0;
+		double k;
+		k = file.readActivity();
+		activity = k;
 	}
 	
 //	愉悅度↑：活動量↑、抬頭、身體直立、上臂不向前、Alpha
