@@ -21,8 +21,8 @@ import skeletons3D.SkelsManager;
 import skeletons3D.TrackerPanel3D;
 import accelerometer.listeners.SpatialSpatialDataListener;
 import accelerometer.spatial.CopyOfSpatial;
-import brain.control.BrainwaveControl;
-import brain.window.DebugWindow;
+import brainwave.control.BrainwaveControl;
+import brainwave.window.DebugWindow;
 
 public class TrackingPanel extends JPanel {
 	

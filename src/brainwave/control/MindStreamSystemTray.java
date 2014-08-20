@@ -1,4 +1,4 @@
-package brain.control;
+package brainwave.control;
 
 import org.apache.log4j.Logger;
 
@@ -33,10 +33,10 @@ import javax.swing.UIManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import brain.preferences.PreferenceManager;
-import brain.window.DebugWindow;
-import brain.window.PreferencesWindow;
 import brainwave.client.ThinkGearSocketClient;
+import brainwave.preferences.PreferenceManager;
+import brainwave.window.DebugWindow;
+import brainwave.window.PreferencesWindow;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

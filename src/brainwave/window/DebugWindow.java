@@ -1,4 +1,4 @@
-package brain.window;
+package brainwave.window;
 
 import org.apache.log4j.Logger;
 

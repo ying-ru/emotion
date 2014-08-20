@@ -1,4 +1,4 @@
-package brain.control;
+package brainwave.control;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

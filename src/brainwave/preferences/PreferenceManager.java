@@ -1,4 +1,4 @@
-package brain.preferences;
+package brainwave.preferences;
 
 import java.util.prefs.Preferences;
 

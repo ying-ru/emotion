@@ -1,4 +1,4 @@
-package brain.window;
+package brainwave.window;
 
 import org.apache.log4j.Logger;
 
@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
 
-import brain.preferences.PreferenceManager;
+import brainwave.preferences.PreferenceManager;
 
 /**
  * <p>Title:		PreferencesWindow</p><br>

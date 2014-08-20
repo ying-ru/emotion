@@ -2,7 +2,7 @@ package padModel;
 
 import java.io.IOException;
 
-import brain.control.AnalyzeWave;
+import brainwave.control.AnalyzeWave;
 import skeletons3D.File;
 import jdbc.DataBase;
 import jdbc.JDBC;
