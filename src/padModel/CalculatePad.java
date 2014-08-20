@@ -2,8 +2,7 @@ package padModel;
 
 import java.io.IOException;
 
-import com.ericblue.mindstream.systemtray.AnalyzeWave;
-
+import brain.control.AnalyzeWave;
 import skeletons3D.File;
 import jdbc.DataBase;
 import jdbc.JDBC;
@@ -73,6 +72,7 @@ public class CalculatePad {
 		p = activity * 0.25 + highAlpha * 0.1 + lowAlpha * 0.1 
 				+ raiseHead * 0.2 + bodyStraighten * 0.2
 				+ rightArms * 0.075 + leftArms * 0.075;
+		System.out.println("P: " + p);
 		return p;
 	}
 	
@@ -84,6 +84,7 @@ public class CalculatePad {
 		double a;
 		a = activity * 0.35 - highAlpha * 0.15 - lowAlpha * 0.15 
 				+ highBeta * 0.175 + lowBeta * 0.175;
+		System.out.println("A: " + a);
 		return a;
 	}
 	
@@ -92,6 +93,7 @@ public class CalculatePad {
 	public double getValueD() {
 		double d;
 		d = highGamma * 0.5 + lowGamma * 0.5;
+		System.out.println("D: " + d);
 		return d;
 	}
 }

@@ -1,4 +1,4 @@
-package com.ericblue.mindstream.preferences;
+package brain.preferences;
 
 import java.util.prefs.Preferences;
 

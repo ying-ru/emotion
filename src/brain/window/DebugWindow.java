@@ -1,4 +1,4 @@
-package com.ericblue.mindstream.window;
+package brain.window;
 
 import org.apache.log4j.Logger;
 

@@ -1,4 +1,4 @@
-package com.ericblue.mindstream.systemtray;
+package brain.control;
 
 import org.apache.log4j.Logger;
 
@@ -33,10 +33,10 @@ import javax.swing.UIManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.ericblue.mindstream.client.ThinkGearSocketClient;
-import com.ericblue.mindstream.preferences.PreferenceManager;
-import com.ericblue.mindstream.window.DebugWindow;
-import com.ericblue.mindstream.window.PreferencesWindow;
+import brain.preferences.PreferenceManager;
+import brain.window.DebugWindow;
+import brain.window.PreferencesWindow;
+import brainwave.client.ThinkGearSocketClient;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

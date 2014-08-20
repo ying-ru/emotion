@@ -1,4 +1,4 @@
-package com.ericblue.mindstream.client;
+package brainwave.client;
 
 import org.apache.log4j.Logger;
 

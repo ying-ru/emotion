@@ -1,4 +1,4 @@
-package com.ericblue.mindstream.systemtray;
+package brain.control;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -118,7 +118,7 @@ public class AnalyzeWave {
 //			System.out.println(token);
 			String str;
 			
-			double p = Integer.parseInt(tokens[j]) * 100.0 / i * 4 ;
+			double p = Integer.parseInt(tokens[j]) * 100.0 / i * 1 ;
 //			System.out.println(Integer.parseInt(tokens[j])/(double)i);
 			if (p <= 10) {
 				p1++;

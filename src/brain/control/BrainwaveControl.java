@@ -1,4 +1,4 @@
-package com.ericblue.mindstream.systemtray;
+package brain.control;
 
 import org.apache.log4j.Logger;
 
@@ -33,10 +33,10 @@ import javax.swing.UIManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.ericblue.mindstream.client.ThinkGearSocketClient;
-import com.ericblue.mindstream.preferences.PreferenceManager;
-import com.ericblue.mindstream.window.DebugWindow;
-import com.ericblue.mindstream.window.PreferencesWindow;
+import brain.preferences.PreferenceManager;
+import brain.window.DebugWindow;
+import brain.window.PreferencesWindow;
+import brainwave.client.ThinkGearSocketClient;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -58,11 +58,11 @@ import jdbc.JDBC;
  */
 
 
-public class CopyOfMindStreamSystemTray extends Observable implements Observer {
+public class BrainwaveControl extends Observable implements Observer {
     /**
      * Logger for this class
      */
-    private static final Logger logger = Logger.getLogger(CopyOfMindStreamSystemTray.class);
+    private static final Logger logger = Logger.getLogger(BrainwaveControl.class);
     
     static String host = PreferenceManager.loadPreferences().get("thinkgearHost", "");
     static int port = PreferenceManager.loadPreferences().getInt("thinkgearPort", 0);
@@ -80,7 +80,7 @@ public class CopyOfMindStreamSystemTray extends Observable implements Observer {
      * @return void
      */
     
-    public CopyOfMindStreamSystemTray(DebugWindow debug) {
+    public BrainwaveControl(DebugWindow debug) {
     	debugWindow = debug;
     	isTracking = "";
     	isStartWrite = false;
@@ -156,7 +156,7 @@ public class CopyOfMindStreamSystemTray extends Observable implements Observer {
 
     // Obtain the image URL
     protected static Image createImage(String path, String description) {
-        URL imageURL = CopyOfMindStreamSystemTray.class.getResource(path);
+        URL imageURL = BrainwaveControl.class.getResource(path);
 
         if (imageURL == null) {
             logger.error("createImage(String, String) - Resource not found: " + path, null);

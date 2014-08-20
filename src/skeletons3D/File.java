@@ -41,13 +41,14 @@ public class File {
 			b = b + Double.parseDouble(tokens[2]);
 			c = c + Double.parseDouble(tokens[3]);
 			d = d + Double.parseDouble(tokens[4]);
-			System.out.println(readLine);
+			
 		}
 		fr.close();
 		a = a / 30.0;
 		b = b / 30.0;
 		c = c / 30.0;
 		d = d / 30.0;
+		System.out.println("kinect: " + a + "," + b + "," + c + "," + d);
 		return a + "," + b + "," + c + "," + d;
 	}
 	
@@ -68,13 +69,14 @@ public class File {
 			a = a + Double.parseDouble(tokens[0]);
 			b = b + Double.parseDouble(tokens[1]);
 			c = c + Double.parseDouble(tokens[2]);
-			System.out.println(readLine);
+			
 		}
 		fr.close();
 		a = a / 30.0;
 		b = b / 30.0;
 		c = c / 30.0;
-		return (a + b + c) / 30.0;
+		System.out.println("activity: " + (a + b + c) / 3.0 / 1000.0);
+		return (a + b + c) / 3.0 / 1000.0;
 	}
 	
 //	public static void main(String[] argv) throws IOException {

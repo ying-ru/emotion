@@ -1,4 +1,4 @@
-package com.ericblue.mindstream.window;
+package brain.window;
 
 import org.apache.log4j.Logger;
 
@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
 
-import com.ericblue.mindstream.preferences.PreferenceManager;
+import brain.preferences.PreferenceManager;
 
 /**
  * <p>Title:		PreferencesWindow</p><br>

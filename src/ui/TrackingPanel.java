@@ -21,15 +21,14 @@ import skeletons3D.SkelsManager;
 import skeletons3D.TrackerPanel3D;
 import accelerometer.listeners.SpatialSpatialDataListener;
 import accelerometer.spatial.CopyOfSpatial;
-
-import com.ericblue.mindstream.systemtray.CopyOfMindStreamSystemTray;
-import com.ericblue.mindstream.window.DebugWindow;
+import brain.control.BrainwaveControl;
+import brain.window.DebugWindow;
 
 public class TrackingPanel extends JPanel {
 	
 	private JButton connect, save, display;
 	private JTextArea connectStatus;
-	private CopyOfMindStreamSystemTray brainwave;
+	private BrainwaveControl brainwave;
 	private DebugWindow debug;
 	private TrackerPanel3D tp3D;
 	private Track track;
@@ -48,7 +47,7 @@ public class TrackingPanel extends JPanel {
 		setComponentFont();
 		initJPanel();
 		initJLabel();
-		brainwave = new CopyOfMindStreamSystemTray(debug);
+		brainwave = new BrainwaveControl(debug);
 		track = new Track();
 		
 		isSaveOver = false;
@@ -143,7 +142,7 @@ public class TrackingPanel extends JPanel {
 		return spatial;
 	}
 	
-	public CopyOfMindStreamSystemTray getCopyOfMindStreamSystemTray() {
+	public BrainwaveControl getCopyOfMindStreamSystemTray() {
 		return brainwave;
 	}
 	
@@ -162,7 +161,7 @@ public class TrackingPanel extends JPanel {
 		@Override
 		public void update(Observable o, Object arg) {
 			// TODO Auto-generated method stub
-			if (o instanceof CopyOfMindStreamSystemTray) {
+			if (o instanceof BrainwaveControl) {
 				if (arg instanceof String && arg.equals("brain")) {
 					brainwave = "腦波儀：追蹤中\n";
 					setStatus(brainwave + kinect);
@@ -188,7 +187,7 @@ public class TrackingPanel extends JPanel {
 				}
 			}
 			
-			if (o instanceof CopyOfMindStreamSystemTray) {
+			if (o instanceof BrainwaveControl) {
 				if (arg instanceof String && arg.equals("bok")) {
 					brainOk = true;
 					System.out.println(arg);

@@ -15,4 +15,9 @@ public class Outcome {
 		int emotion = (int)Math.round(fuzzy.getOutcome(pad.getValueP(), pad.getValueA(), pad.getValueD()));
 		return emotion;
 	}
+	
+	public static void main(String[] args) throws Exception {
+		Outcome value = new Outcome();
+		System.out.println(value.getOutcome());
+	}
 }
