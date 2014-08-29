@@ -7,17 +7,17 @@
  */
 package accelerometer.listeners;
 
+import com.phidgets.SpatialPhidget;
+import com.phidgets.PhidgetException;
+import com.phidgets.event.DetachListener;
+import com.phidgets.event.DetachEvent;
 import accelerometer.graphics.CompassBearingGraphPanel;
 import accelerometer.graphics.GyroGraphPanel;
 import accelerometer.graphics.MagFieldGraphPanel;
 import accelerometer.graphics.MotionGraphPanel;
 
-import com.phidgets.SpatialPhidget;
-import com.phidgets.PhidgetException;
-import com.phidgets.event.DetachListener;
-import com.phidgets.event.DetachEvent;
-
 import javax.swing.JButton;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JSlider;
@@ -56,7 +56,7 @@ public class SpatialDetachListener implements DetachListener {
     private GyroGraphPanel gyroGraphPanel;
     private CompassBearingGraphPanel compassBearingGraphPanel;
 
-    public SpatialDetachListener(JTextField attachedTxt, JTextArea nameTxt, JTextField serialTxt,
+    public SpatialDetachListener(JFrame appFrame, JTextField attachedTxt, JTextArea nameTxt, JTextField serialTxt,
             JTextField versionTxt, JTextField numAccelAxesTxt, JTextField numGyroAxesTxt, JTextField numCompassAxesTxt,
             JSlider dataRateScrl, JTextField dataRateTxt, JTextField accelXTxt, JTextField accelYTxt, JTextField accelZTxt,
             JTextField gyroXTxt, JTextField gyroYTxt, JTextField gyroZTxt, JButton zeroGyroBtn, JTextField gyroXTxt1,

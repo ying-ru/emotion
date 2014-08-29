@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import java.awt.AWTException;
 import java.awt.CheckboxMenuItem;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Menu;
 import java.awt.MenuItem;
@@ -26,6 +27,7 @@ import java.util.prefs.Preferences;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
@@ -33,6 +35,8 @@ import javax.swing.UIManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import emotion.ui.BarChartPanel;
+import emotion.jdbc.JDBC;
 import brainwave.client.ThinkGearSocketClient;
 import brainwave.preferences.PreferenceManager;
 import brainwave.window.DebugWindow;
@@ -43,8 +47,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import jdbc.JDBC;
 
 /**
  * <p>Title:        MindStreamSystemTray</p><br>
@@ -66,11 +68,13 @@ public class BrainwaveControl extends Observable implements Observer {
     
     static String host = PreferenceManager.loadPreferences().get("thinkgearHost", "");
     static int port = PreferenceManager.loadPreferences().getInt("thinkgearPort", 0);
-
+    
     final static ThinkGearSocketClient client = new ThinkGearSocketClient(host, port);
     private boolean isStartWrite, isDataAvailable;
     private String isTracking, brainData;
     private DebugWindow debugWindow;
+    private BarChartPanel barChartPanel;
+    private JPanel chartpanel;
     final  static PreferencesWindow preferencesWindow = new PreferencesWindow();
     
     /**
@@ -80,27 +84,19 @@ public class BrainwaveControl extends Observable implements Observer {
      * @return void
      */
     
-    public BrainwaveControl(DebugWindow debug) {
+    public BrainwaveControl(DebugWindow debug, BarChartPanel brainwaveBarChart) {
+    	initializeGUI();
+    	barChartPanel = brainwaveBarChart;
     	debugWindow = debug;
     	isTracking = "";
     	isStartWrite = false;
+    	barChartPanel.updateValue(0D, "高α波");
+    	barChartPanel.updateValue(0D, "低α波");
+    	barChartPanel.updateValue(0D, "高β波");
+    	barChartPanel.updateValue(0D, "低β波");
+    	barChartPanel.updateValue(0D, "高γ波");
+    	barChartPanel.updateValue(0D, "低γ波");
     }
-    
-//    public static void main(String[] args) {
-        // TODO Set look and feel
-        // UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-
-        /* Turn off metal's use of bold fonts */
-//        UIManager.put("swing.boldMetal", Boolean.FALSE);
-
-//        SwingUtilities.invokeLater(new Runnable() {
-//            public void run() {
-//                initializeGUI();
-//                actionConnected();
-//                actionSaveFile();
-//            }
-//        });
-//    }
 
     /**
      * Initializes preferences on first time launch
@@ -139,19 +135,14 @@ public class BrainwaveControl extends Observable implements Observer {
      */
 
     private static void initializeGUI() {
-
         // TODO Cleanup all System.out/.err with log4j calls
-
         // Check the SystemTray support
         if (!SystemTray.isSupported()) {
             logger.debug("initializeGUI() - SystemTray is not supported");
             return;
         }
-
         initializePreferences();
         // TODO Load default preferences if they haven't been initialized
-        
-        
     }
 
     // Obtain the image URL
@@ -177,11 +168,22 @@ public class BrainwaveControl extends Observable implements Observer {
         SwingWorker worker = new SwingWorker<Void, Void>() {
             public Void doInBackground() {
             	isDataAvailable = client.isDataAvailable();
+            	
                 while (isDataAvailable) {
                 	brainData = client.getData();
+                	
                     debugWindow.getTextArea().append(brainData + '\n');
                     debugWindow.getTextArea().setCaretPosition(debugWindow.getTextArea().getText().length());
-                    
+                	String value = getPowerValue();
+                    if (value != null) {
+                    	String[] tokens = value.split(",");
+                    	barChartPanel.updateValue(Integer.parseInt(tokens[0]), "高α波");
+                    	barChartPanel.updateValue(Integer.parseInt(tokens[1]), "低α波");
+                    	barChartPanel.updateValue(Integer.parseInt(tokens[2]), "高β波");
+                    	barChartPanel.updateValue(Integer.parseInt(tokens[3]), "低β波");
+                    	barChartPanel.updateValue(Integer.parseInt(tokens[4]), "高γ波");
+                    	barChartPanel.updateValue(Integer.parseInt(tokens[5]), "低γ波");
+                    }
                 }
                 return null;
             }
@@ -235,99 +237,28 @@ public class BrainwaveControl extends Observable implements Observer {
     				logger.error("$SwingWorker<Void,Void>.doInBackground()", e1);
     			}
     			
-//    			// HEADER
-//    			try {
-//    				writer.append("TIMESTAMP,");
-//    				writer.append("LOW_ALPHA,HIGH_ALPHA,LOW_BETA,HIGH_BETA,");
-//                  	writer.append("LOW_GAMMA,HIGH_GAMA");
-//                  	writer.append(newLine);
-//                  	
-//    			} catch (IOException e2) {
-//    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Write Error..." + e2.getMessage());
-//    			}
-    			
     			SimpleDateFormat fmt = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
     			
     			int i = 0;
     			while (isDataAvailable && i < 30 ) {
 //    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Writing...");
-    				
 //					logger.debug("$SwingWorker<Void,Void>.doInBackground() - " + client.getData());
-    				try {
-    					String clientData = brainData;
-    					brainData = "";
-//    					logger.debug("$SwingWorker<Void,Void>.doInBackground() - " + clientData);
-    					JSONObject json = new JSONObject(clientData);
-    					
-    					/*
-    					 * JH: check just in case it's not there due to poorSignallevel
-    					 */
-    					if (!json.isNull("eegPower")) {
-    						String timeStamp = fmt.format(new Date());
-							writer.append(timeStamp + ',');
-    						
-    						/*
-    						 * JH: check for existence of poorSignalLevel. 
-    						 * If not available, assume 0 
-    						 */
-    						
-//							if (!json.isNull("poorSignalLevel")) {
-//								writer.append(Integer.toString(json.getInt("poorSignalLevel")) + ',');
-//							} else {
-//								writer.append("0,");
-//							}
-    					
-    						/*
-    						 * JH: check for existence of eSense. 
-    						 * I noticed it's possible to get eegPower
-    						 * without eSense when poorSignallevel >0
-    						 */
-    						if (!json.isNull("eSense")) {
-    							JSONObject esense = json.getJSONObject("eSense");
-    							
-    							/*
-    							 * JH: Don't know if it's possible
-    							 * for these attributes to not exist
-    							 * even when the JSON Object exists
-    							 */
-//								writer.append(Integer.toString(esense.getInt("attention")) + ',');
-//								writer.append(Integer.toString(esense.getInt("meditation")) + ',');
-    						} else {
-//    							logger.debug("$SwingWorker<Void,Void>.doInBackground() - eSense is null!");
-    						}
-    						
-    						JSONObject eegPower = json.getJSONObject("eegPower");
-    						
-//							writer.append(Integer.toString(eegPower.getInt("delta")) + ",");
-//							writer.append(Integer.toString(eegPower.getInt("theta")) + ',');
-    						writer.append(Integer.toString(eegPower.getInt("lowAlpha")) + ',');
-    						writer.append(Integer.toString(eegPower.getInt("highAlpha")) + ',');
-    						writer.append(Integer.toString(eegPower.getInt("lowBeta")) + ',');
-    						writer.append(Integer.toString(eegPower.getInt("highBeta")) + ',');
-    						writer.append(Integer.toString(eegPower.getInt("lowGamma")) + ',');
-    						writer.append(Integer.toString(eegPower.getInt("highGamma")));
-    						writer.append(newLine);
-    						
-//							jdbc.insert(timeStamp, eegPower.getInt("lowAlpha"),
-//								eegPower.getInt("highAlpha"), eegPower.getInt("lowBeta"),
-//								eegPower.getInt("highBeta"), eegPower.getInt("lowGamma"),
-//								eegPower.getInt("highGamma"));
-    						
-    						i++;
-    					} else {
-//    						logger.debug("$SwingWorker<Void,Void>.doInBackground() - eegPower is null!");
-    					}
-    					
-    					writer.flush();
-    					
-    				} catch (JSONException e1) {
-//    					logger.debug("$SwingWorker<Void,Void>.doInBackground() - JSON Error" + e1.getMessage());
-    				} catch (IOException e2) {
-//    					logger.debug("$SwingWorker<Void,Void>.doInBackground() - Write Error" + e2.getMessage());
+    				String value = getPowerValue();
+    				if (value != null) {
+    					String timeStamp = fmt.format(new Date());
+    					try {
+    						writer.append(timeStamp + ',');
+							writer.append(value + '\n');
+							i++;
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
     				}
     			}
     			try {
 //    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Closing file...");
+    				writer.flush();
     				writer.close();
     				isTracking = "bok";
 					setChanged();
@@ -358,8 +289,64 @@ public class BrainwaveControl extends Observable implements Observer {
     	}
     }
     
-    public void actionExit() {
-        System.exit(0);
+    public String getPowerValue() {
+    	String value = null;
+    	String newLine = System.getProperty("line.separator");
+    	try {
+			String clientData = brainData;
+			brainData = "";
+			JSONObject json = new JSONObject(clientData);
+			
+			/*
+			 * JH: check just in case it's not there due to poorSignallevel
+			 */
+			if (!json.isNull("eegPower")) {				
+				/*
+				 * JH: check for existence of poorSignalLevel. 
+				 * If not available, assume 0 
+				 */
+				
+//				if (!json.isNull("poorSignalLevel")) {
+//					writer.append(Integer.toString(json.getInt("poorSignalLevel")) + ',');
+//				} else {
+//					writer.append("0,");
+//				}
+			
+				/*
+				 * JH: check for existence of eSense. 
+				 * I noticed it's possible to get eegPower
+				 * without eSense when poorSignallevel >0
+				 */
+				if (!json.isNull("eSense")) {
+					JSONObject esense = json.getJSONObject("eSense");
+					
+					/*
+					 * JH: Don't know if it's possible
+					 * for these attributes to not exist
+					 * even when the JSON Object exists
+					 */
+//					writer.append(Integer.toString(esense.getInt("attention")) + ',');
+//					writer.append(Integer.toString(esense.getInt("meditation")) + ',');
+				} else {
+//					logger.debug("$SwingWorker<Void,Void>.doInBackground() - eSense is null!");
+				}
+				
+				JSONObject eegPower = json.getJSONObject("eegPower");
+				
+				value = Integer.toString(eegPower.getInt("lowAlpha")) + ',';
+				value = value + Integer.toString(eegPower.getInt("highAlpha")) + ',';
+				value = value + Integer.toString(eegPower.getInt("lowBeta")) + ',';
+				value = value + Integer.toString(eegPower.getInt("highBeta")) + ',';
+				value = value + Integer.toString(eegPower.getInt("lowGamma")) + ',';
+				value = value + Integer.toString(eegPower.getInt("highGamma"));
+				return value;
+			} else {
+//				logger.debug("$SwingWorker<Void,Void>.doInBackground() - eegPower is null!");
+			}
+		} catch (JSONException e1) {
+//			logger.debug("$SwingWorker<Void,Void>.doInBackground() - JSON Error" + e1.getMessage());
+		}
+		return value;
     }
     
 	@Override

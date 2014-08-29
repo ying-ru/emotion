@@ -1,11 +1,11 @@
-package padModel;
+package emotion.padModel;
 
 import java.io.IOException;
 
+import emotion.jdbc.DataBase;
+import emotion.jdbc.JDBC;
 import brainwave.control.AnalyzeWave;
 import skeletons3D.File;
-import jdbc.DataBase;
-import jdbc.JDBC;
 
 public class CalculatePad {
 	private DataBase db;

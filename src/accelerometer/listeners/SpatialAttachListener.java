@@ -7,32 +7,26 @@
  */
 package accelerometer.listeners;
 
-import accelerometer.graphics.CompassBearingGraphPanel;
-import accelerometer.graphics.GyroGraphPanel;
-import accelerometer.graphics.MagFieldGraphPanel;
-import accelerometer.graphics.MotionGraphPanel;
-import accelerometer.spatial.CopyOfSpatial;
-
 import com.phidgets.SpatialPhidget;
 import com.phidgets.PhidgetException;
 import com.phidgets.event.AttachListener;
 import com.phidgets.event.AttachEvent;
-
+import accelerometer.graphics.CompassBearingGraphPanel;
+import accelerometer.graphics.GyroGraphPanel;
+import accelerometer.graphics.MagFieldGraphPanel;
+import accelerometer.graphics.MotionGraphPanel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
+
 import javax.swing.JTextField;
 
 public class SpatialAttachListener implements AttachListener {
 
     private JFrame appFrame;
-    private JPanel jPanel2;
-    private JPanel jPanel3;
-    private JPanel jPanel4;
-    private JPanel jPanel5;
     private JTextField attachedTxt;
     private JTextArea nameTxt;
     private JTextField serialTxt;
@@ -62,7 +56,7 @@ public class SpatialAttachListener implements AttachListener {
     private GyroGraphPanel gyroGraphPanel;
     private CompassBearingGraphPanel compassBearingGraphPanel;
 
-    public SpatialAttachListener(JPanel jPanel2, JPanel jPanel3, JPanel jPanel4,
+    public SpatialAttachListener(JFrame appFrame, JPanel jPanel2, JPanel jPanel3, JPanel jPanel4,
             JPanel jPanel5, JTextField attachedTxt, JTextArea nameTxt, JTextField serialTxt,
             JTextField versionTxt, JTextField numAccelAxesTxt, JTextField numGyroAxesTxt, JTextField numCompassAxesTxt,
             JSlider dataRateScrl, JTextField dataRateTxt, JTextField accelXTxt, JTextField accelYTxt, JTextField accelZTxt,
@@ -128,9 +122,10 @@ public class SpatialAttachListener implements AttachListener {
 
                 dataRateTxt.setEnabled(true);
                 dataRateScrl.setEnabled(true);
+                
                 dataRateScrl.setMinimum((int) Math.ceil(attached.getDataRateMax()));
                 dataRateScrl.setMaximum((int) attached.getDataRateMin());
-                dataRateScrl.setValue(1000);
+                dataRateScrl.setValue(184);
                 dataRateTxt.setText(Integer.toString(dataRateScrl.getValue()));
 
                 if (attached.getAccelerationAxisCount() > 2) {

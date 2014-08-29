@@ -20,13 +20,14 @@ import com.phidgets.PhidgetException;
 import com.phidgets.event.SpatialDataListener;
 import com.phidgets.event.SpatialDataEvent;
 
+import emotion.ui.BarChartPanel;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,12 +60,14 @@ public class SpatialSpatialDataListener extends Observable implements SpatialDat
     private String write;
     private String isTracking;
     private double x, y, z;
+    private double actValue;
+	private BarChartPanel barChartPanel;
 
     public SpatialSpatialDataListener(JTextField accelXTxt, JTextField accelYTxt, JTextField accelZTxt,
             JTextField gyroXTxt, JTextField gyroYTxt, JTextField gyroZTxt, JTextField gyroXTxt1, JTextField gyroYTxt1, JTextField gyroZTxt1,
             Double[] gyroHeading, Double lastTime, JTextField pitchAngleTxt, JTextField rollAngleTxt, JTextField bearingTxt,
             ArrayList<Double[]> compassBearingFilter, MotionGraphPanel graphPanel, MagFieldGraphPanel magFieldGraphPanel,
-            GyroGraphPanel gyroGraphPanel, CompassBearingGraphPanel compassBearingGraphPanel) {
+            GyroGraphPanel gyroGraphPanel, CompassBearingGraphPanel compassBearingGraphPanel, BarChartPanel barChartPanel) {
         this.accelXTxt = accelXTxt;
         this.accelYTxt = accelYTxt;
         this.accelZTxt = accelZTxt;
@@ -84,9 +87,14 @@ public class SpatialSpatialDataListener extends Observable implements SpatialDat
         this.magFieldGraphPanel = magFieldGraphPanel;
         this.gyroGraphPanel = gyroGraphPanel;
         this.compassBearingGraphPanel = compassBearingGraphPanel;
+        this.barChartPanel = barChartPanel;
         compassBearing = 0.0;
         write = "";
-        isTracking = "";
+        isTracking = "0,0,0";
+        x = 0;
+        y = 0;
+        z = 0;
+        actValue = 0;
     }
 
     public Double getLastTime() {
@@ -96,9 +104,18 @@ public class SpatialSpatialDataListener extends Observable implements SpatialDat
     public void data(SpatialDataEvent sde) {
 
         SpatialPhidget spatial = (SpatialPhidget) sde.getSource();
+        
         try {
+//        	System.out.println("aaa");
+//        	spatial.setDataRate(500);
+//        	System.out.println("bbb");
             if (spatial.getAccelerationAxisCount() > 0) {
-                accelXTxt.setText(Double.toString(roundDouble((sde.getData()[0].getAcceleration()[0]), 3)));
+            	
+            	actValue = Math.abs(((Math.abs(roundDouble((sde.getData()[0].getAcceleration()[0]), 3) * 1000 - x) + 
+                		Math.abs(roundDouble((sde.getData()[0].getAcceleration()[1]), 3) * 1000 - y) + 
+        				Math.abs(roundDouble((sde.getData()[0].getAcceleration()[2]), 3) * 1000 - z)) / 3));
+                
+            	accelXTxt.setText(Double.toString(roundDouble((sde.getData()[0].getAcceleration()[0]), 3)));
                 write = Double.toString(Math.abs(roundDouble((sde.getData()[0].getAcceleration()[0]), 3) * 1000 - x)) + ",";
                 x = roundDouble((sde.getData()[0].getAcceleration()[0]), 3) * 1000;
                 accelYTxt.setText(Double.toString(roundDouble((sde.getData()[0].getAcceleration()[1]), 3)));
@@ -107,6 +124,8 @@ public class SpatialSpatialDataListener extends Observable implements SpatialDat
                 accelZTxt.setText(Double.toString(roundDouble((sde.getData()[0].getAcceleration()[2]), 3)));
                 write = write + Double.toString(Math.abs(roundDouble((sde.getData()[0].getAcceleration()[2]), 3) * 1000 - z)) + "\n";
                 z = roundDouble((sde.getData()[0].getAcceleration()[2]), 3) * 1000;
+                
+                barChartPanel.updateValue(actValue, "活動量");
                 displayAccelGraph(sde.getData()[0].getAcceleration(), graphPanel);
             }
 

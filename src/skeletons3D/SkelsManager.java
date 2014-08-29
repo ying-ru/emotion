@@ -52,12 +52,10 @@ public class SkelsManager extends Observable implements Observer {
 	private FileWriter fw;
 	private int time;
 	private String writeTemp, jointTemp, isTracking;
-	private boolean isFileClose;
 	private Thread updateTime;
 	private Vertex head, neck, torso, leftShoulder, rightShoulder, leftHip,
 			rightHip, leftElbow, rightElbow;
 	private File readFile;
-	private boolean isStartWrite;
 
 	public SkelsManager(UserGenerator userGen, BranchGroup sceneBG)
 			throws IOException {
@@ -67,9 +65,6 @@ public class SkelsManager extends Observable implements Observer {
 		configure();
 
 		userSkels3D = new HashMap<Integer, Skeleton3D>();
-//		fw = new FileWriter("C:\\Users\\banbi\\Desktop\\kinect.csv");
-//		fw = new FileWriter("C:\\Users\\Sebastian\\Desktop\\kinect.csv");
-		fw = new FileWriter("src/file/kinect.csv");
 		
 		readFile = new File();
 		head = new Vertex();
@@ -84,11 +79,8 @@ public class SkelsManager extends Observable implements Observer {
 		
 		time = 0;
 		isTracking = "";
-		isStartWrite = false;
 		writeTemp = null;
 		jointTemp = null;
-		isFileClose = false;
-		write();
 	} // end of SkelsManager()
 
 	private void configure()
@@ -334,42 +326,35 @@ public class SkelsManager extends Observable implements Observer {
 	}
 
 	public void write() {
-		updateTime = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				System.out.println("write..");
-				try {
-					while (true) {
-						Thread.sleep(1000 * 1);
-						if (!isFileClose) {
-							if (writeTemp != null && isStartWrite) {
-								System.out.println("OK");
-								updateVertex();
-								fw.write(jointTemp);
-								System.out.println(writeTemp);
-								time++;
-							}
-							if (time > 30) {
-								isFileClose = true;
-								fw.flush();
-								fw.close();
-//								readFile.read();
-								isTracking = "kok";
-								setChanged();
-								notifyObservers(isTracking);
-							}
-						}
-					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		updateTime.start();
-	}
+    	try {
+    		fw = new FileWriter("src/file/kinect.csv");
+    		int i = 0;
+    		
+    		while (i < 30) {
+    			if (writeTemp != null) {
+    				try {
+    					Thread.sleep(1000);
+    				} catch (InterruptedException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+    				System.out.println("OK");
+					updateVertex();
+    				fw.append(writeTemp);
+    				System.out.println(writeTemp);
+    				i++;
+    			}
+    		}
+    		fw.flush();
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	isTracking = "kok";
+		setChanged();
+		notifyObservers(isTracking);
+    }
 
 	// ----------------- 7 observers -----------------------
 	/*
@@ -501,8 +486,7 @@ public class SkelsManager extends Observable implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
-		isStartWrite = true;
-			
+		
 	}
 } // end of SkelsManager class
 

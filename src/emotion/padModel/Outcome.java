@@ -1,6 +1,6 @@
-package padModel;
+package emotion.padModel;
 
-import fuzzy.EmotionFuzzy;
+import emotion.fuzzy.EmotionFuzzy;
 
 public class Outcome {
 	private EmotionFuzzy fuzzy;

@@ -1,4 +1,4 @@
-package fuzzy;
+package emotion.fuzzy;
 
 import net.sourceforge.jFuzzyLogic.FIS;
 import net.sourceforge.jFuzzyLogic.FunctionBlock;

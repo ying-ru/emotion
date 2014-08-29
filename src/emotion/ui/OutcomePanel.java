@@ -1,4 +1,4 @@
-package ui;
+package emotion.ui;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -209,7 +209,7 @@ public class OutcomePanel extends JPanel {
 	}
 	
 	private void initLines() {
-		for (int i = 0; value * 15 / 100 > i; i++) {
+		for (int i = 0; i < value * 15 / 100; i++) {
 			if (i == 0) {
 				line15.setIcon(line8Photo);
 			} else if (i == 1) {

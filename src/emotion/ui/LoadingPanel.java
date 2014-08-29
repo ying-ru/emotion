@@ -1,4 +1,4 @@
-package ui;
+package emotion.ui;
 
 import java.awt.Color;
 import java.awt.Font;

@@ -1,4 +1,4 @@
-package ui;
+package emotion.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,7 +20,6 @@ import javax.swing.JTextArea;
 import skeletons3D.SkelsManager;
 import skeletons3D.TrackerPanel3D;
 import accelerometer.listeners.SpatialSpatialDataListener;
-import accelerometer.spatial.CopyOfSpatial;
 import brainwave.control.BrainwaveControl;
 import brainwave.window.DebugWindow;
 
@@ -30,13 +29,15 @@ public class TrackingPanel extends JPanel {
 	private JTextArea connectStatus;
 	private BrainwaveControl brainwave;
 	private DebugWindow debug;
+	private BarChartPanel barChartPanel;
+    private JPanel chartpanel;
 	private TrackerPanel3D tp3D;
 	private Track track;
 	private CopyOfSpatial spatial;
 	private boolean isSaveOver;
 	private String[] arg;
 	
-	public TrackingPanel(int locationX, int locationY, int width, int height, String[] arg) {
+	public TrackingPanel(int locationX, int locationY, int width, int height) {
 		// TODO Auto-generated constructor stub
 		this.arg = arg;
 		setSize(width, height);
@@ -47,7 +48,7 @@ public class TrackingPanel extends JPanel {
 		setComponentFont();
 		initJPanel();
 		initJLabel();
-		brainwave = new BrainwaveControl(debug);
+		brainwave = new BrainwaveControl(debug, barChartPanel);
 		track = new Track();
 		
 		isSaveOver = false;
@@ -90,8 +91,8 @@ public class TrackingPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				brainwave.actionSaveFile();
-//				tp3D.getSkelsManager().write();
-				spatial.getSpatialSpatialDataListener().write();
+				tp3D.getSkelsManager().write();
+				
 			}
 		});
 		add(save);
@@ -113,17 +114,19 @@ public class TrackingPanel extends JPanel {
 		debug.setBounds(getWidth() / 10, 0, getWidth(), getHeight() / 3);
 //		debug.getTextArea().append("123\n");
 //		debug.setVisible(false);
-		add(debug);
+//		add(debug);
+		
+		barChartPanel = new BarChartPanel();
+    	chartpanel = barChartPanel.createDemoPanel();
+        chartpanel.setPreferredSize(new Dimension(800, 270));
+        chartpanel.setBounds(getWidth() / 10, 0, 800, 270);
+        add(chartpanel);
 		
 		tp3D = new TrackerPanel3D();
 		tp3D.setBounds(getWidth() / 10, (int)(getHeight() / 2.5), 512, 512);
 //		tp3D.setVisible(false);
 		add(tp3D, BorderLayout.CENTER);
 		
-		spatial = new CopyOfSpatial(arg);
-		spatial.setBounds((int)(getWidth() / 1.5), (int)(getHeight() / 2.5), 512, 512);
-//		spatial.setVisible(false);
-		add(spatial, BorderLayout.CENTER);
 	}
 	
 	public void setStatus(String str) {
@@ -154,7 +157,7 @@ public class TrackingPanel extends JPanel {
 		isSaveOver = false;
 	}
 	
-	class Track extends Observable implements Observer {
+	public class Track extends Observable implements Observer {
 		private String brainwave = "腦波儀：尋找中\n", kinect = "體感偵測器：尋找中\n";
 		private boolean brainTrack = false, kinectTrack = false;
 		private boolean brainOk = false, kinectOk = false, actOk = false;

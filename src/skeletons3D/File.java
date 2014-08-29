@@ -4,7 +4,7 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import jdbc.DataBase;
+import emotion.jdbc.DataBase;
 
 public class File {
 	

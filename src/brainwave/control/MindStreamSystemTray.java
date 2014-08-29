@@ -33,6 +33,7 @@ import javax.swing.UIManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import emotion.jdbc.JDBC;
 import brainwave.client.ThinkGearSocketClient;
 import brainwave.preferences.PreferenceManager;
 import brainwave.window.DebugWindow;
@@ -43,8 +44,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import jdbc.JDBC;
 
 /**
  * <p>Title:        MindStreamSystemTray</p><br>
