@@ -125,7 +125,7 @@ public class SpatialAttachListener implements AttachListener {
                 
                 dataRateScrl.setMinimum((int) Math.ceil(attached.getDataRateMax()));
                 dataRateScrl.setMaximum((int) attached.getDataRateMin());
-                dataRateScrl.setValue(184);
+                dataRateScrl.setValue(160);
                 dataRateTxt.setText(Integer.toString(dataRateScrl.getValue()));
 
                 if (attached.getAccelerationAxisCount() > 2) {

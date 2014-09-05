@@ -2,20 +2,8 @@ package brainwave.control;
 
 import org.apache.log4j.Logger;
 
-import java.awt.AWTException;
-import java.awt.CheckboxMenuItem;
-import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.Menu;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
 import java.awt.SystemTray;
-import java.awt.TrayIcon;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -26,16 +14,13 @@ import java.util.Observer;
 import java.util.prefs.Preferences;
 
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
-import javax.swing.UIManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import emotion.ui.BarChartPanel;
+import emotion.ui.BrainwaveBarChartPanel;
 import emotion.jdbc.JDBC;
 import brainwave.client.ThinkGearSocketClient;
 import brainwave.preferences.PreferenceManager;
@@ -72,9 +57,12 @@ public class BrainwaveControl extends Observable implements Observer {
     final static ThinkGearSocketClient client = new ThinkGearSocketClient(host, port);
     private boolean isStartWrite, isDataAvailable;
     private String isTracking, brainData;
-    private DebugWindow debugWindow;
-    private BarChartPanel barChartPanel;
-    private JPanel chartpanel;
+    private String value;
+    private BrainwaveBarChartPanel barChartPanel;
+
+	protected boolean canSave;
+
+	protected FileWriter fw;
     final  static PreferencesWindow preferencesWindow = new PreferencesWindow();
     
     /**
@@ -84,10 +72,10 @@ public class BrainwaveControl extends Observable implements Observer {
      * @return void
      */
     
-    public BrainwaveControl(DebugWindow debug, BarChartPanel brainwaveBarChart) {
+    public BrainwaveControl(BrainwaveBarChartPanel brainwaveBarChart) {
     	initializeGUI();
     	barChartPanel = brainwaveBarChart;
-    	debugWindow = debug;
+//    	debugWindow = debug;
     	isTracking = "";
     	isStartWrite = false;
     	barChartPanel.updateValue(0D, "高α波");
@@ -96,6 +84,7 @@ public class BrainwaveControl extends Observable implements Observer {
     	barChartPanel.updateValue(0D, "低β波");
     	barChartPanel.updateValue(0D, "高γ波");
     	barChartPanel.updateValue(0D, "低γ波");
+    	write();
     }
 
     /**
@@ -163,18 +152,14 @@ public class BrainwaveControl extends Observable implements Observer {
     }
     
     public void actionDebugWindow() {
-//        debugWindow.setVisible(true);
-//    	debugWindow.getTextArea().append("123\n");
         SwingWorker worker = new SwingWorker<Void, Void>() {
             public Void doInBackground() {
             	isDataAvailable = client.isDataAvailable();
             	
                 while (isDataAvailable) {
                 	brainData = client.getData();
+                	value = getPowerValue();
                 	
-                    debugWindow.getTextArea().append(brainData + '\n');
-                    debugWindow.getTextArea().setCaretPosition(debugWindow.getTextArea().getText().length());
-                	String value = getPowerValue();
                     if (value != null) {
                     	String[] tokens = value.split(",");
                     	barChartPanel.updateValue(Integer.parseInt(tokens[0]), "高α波");
@@ -215,63 +200,6 @@ public class BrainwaveControl extends Observable implements Observer {
     	}
     }
     
-    // FIXME: File seems to not be saving if JSON output is viewed first
-    public void actionSaveFile() {
-//    	final String csvFile = PreferenceManager.loadPreferences().get("fileLocation", "");
-    	
-    	final JDBC jdbc =new JDBC();
-    	
-    	SwingWorker worker = new SwingWorker<Void, Void>() {
-    		public Void doInBackground() {
-//    			if (csvFile == null) {
-//    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - csvFile == null...");
-//				}
-    			
-    			FileWriter writer = null;
-    			String newLine = System.getProperty("line.separator");
-    			
-    			try {
-    				writer = new FileWriter("src/file/mindstream.csv");
-    			} catch (IOException e1) {
-    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Error opening file for writing!");
-    				logger.error("$SwingWorker<Void,Void>.doInBackground()", e1);
-    			}
-    			
-    			SimpleDateFormat fmt = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
-    			
-    			int i = 0;
-    			while (isDataAvailable && i < 30 ) {
-//    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Writing...");
-//					logger.debug("$SwingWorker<Void,Void>.doInBackground() - " + client.getData());
-    				String value = getPowerValue();
-    				if (value != null) {
-    					String timeStamp = fmt.format(new Date());
-    					try {
-    						writer.append(timeStamp + ',');
-							writer.append(value + '\n');
-							i++;
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-    				}
-    			}
-    			try {
-//    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Closing file...");
-    				writer.flush();
-    				writer.close();
-    				isTracking = "bok";
-					setChanged();
-					notifyObservers(isTracking);
-    			} catch (IOException e) {
-//    				logger.debug("$SwingWorker<Void,Void>.doInBackground() - Write Error" + e.getMessage());
-    			}
-    			return null;
-    		}
-    	};
-    	worker.execute();
-	}
-    
     public void notifyTrack() {
     	while (client.isDataAvailable() && !isTracking.equals("brain") && !isTracking.equals("bok")) {
     		if (client.getData().startsWith("{\"eSense\":{\"attention\":")) {
@@ -294,7 +222,7 @@ public class BrainwaveControl extends Observable implements Observer {
     	String newLine = System.getProperty("line.separator");
     	try {
 			String clientData = brainData;
-			brainData = "";
+//			brainData = "";
 			JSONObject json = new JSONObject(clientData);
 			
 			/*
@@ -348,6 +276,55 @@ public class BrainwaveControl extends Observable implements Observer {
 		}
 		return value;
     }
+    
+    public void setWrite() {
+    	canSave = true;
+    }
+    
+    public void write() {
+		Thread update = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					SimpleDateFormat fmt = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+					int i = 0;
+					while (true) {
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						if (isDataAvailable && canSave && i < 10) {
+							if (i == 0) {
+								fw = new FileWriter("src/file/mindstream.csv");
+							}
+							if (value != null) {
+								String timeStamp = fmt.format(new Date());
+								
+								fw.append(timeStamp + ',');
+								fw.append(value + '\n');
+								value = null;
+								i++;
+							}
+						} else if (i >= 10) {
+							fw.flush();
+							fw.close();
+							i = 0;
+							canSave = false;
+							isTracking = "bok";
+							setChanged();
+							notifyObservers(isTracking);
+						}
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		update.start();
+	}
     
 	@Override
 	public void update(Observable arg0, Object arg1) {

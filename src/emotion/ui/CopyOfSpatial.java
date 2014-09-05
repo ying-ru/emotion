@@ -25,9 +25,10 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
 
 public class CopyOfSpatial extends ApplicationFrame {
 	private static final long serialVersionUID = 1L;
@@ -35,7 +36,7 @@ public class CopyOfSpatial extends ApplicationFrame {
     private SpatialAttachListener attach_listener;
     private SpatialDetachListener detach_listener;
     private SpatialErrorListener error_listener;
-    private SpatialSpatialDataListener spatialData_listener;
+    public SpatialSpatialDataListener spatialData_listener;
     private MotionGraphPanel graphPanel;
     private MagFieldGraphPanel magFieldGraphPanel;
     private GyroGraphPanel gyroGraphPanel;
@@ -43,12 +44,12 @@ public class CopyOfSpatial extends ApplicationFrame {
     private Double[] gyroHeading = {0.0, 0.0, 0.0}; //degrees
     private Double lastTime;
     private ArrayList<Double[]> compassBearingFilter = new ArrayList<Double[]>();
-    private BarChartPanel barChartpanel;
-    
+
     /** Creates new form Spatial */
     public CopyOfSpatial(String s) {
     	super(s);
     	initComponents();
+    	formWindowOpened();
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit()
 				.getScreenSize();
 		setSize((int) (screenSize.getWidth() / 1.2),
@@ -57,16 +58,21 @@ public class CopyOfSpatial extends ApplicationFrame {
 		setLayout(null);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-		barChartpanel = new BarChartPanel();
-        JPanel chartpanel = barChartpanel.createDemoPanel();
-        barChartpanel.setTitle("活動量");
-        barChartpanel.setRange(1000);
-        barChartpanel.setValueVisible(true);
-        barChartpanel.setTickLabelsVisible(false);
-        chartpanel.setPreferredSize(new Dimension(350, 270));
-        chartpanel.setBounds((int)(getWidth() / 1.4), getHeight() / 15, 350, 270);
-        add(chartpanel);
+		try {
+			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
     }
 
     /** This method is called from within the constructor to
@@ -103,14 +109,15 @@ public class CopyOfSpatial extends ApplicationFrame {
         rollAngleTxt = new javax.swing.JTextField();
         bearingTxt = new javax.swing.JTextField();
 
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
-        });
+//        addWindowListener(new java.awt.event.WindowAdapter() {
+//            public void windowClosed(java.awt.event.WindowEvent evt) {
+//                formWindowClosed();
+//            }
+//            public void windowOpened(java.awt.event.WindowEvent evt) {
+//                formWindowOpened();
+//            }
+//        });
+        
 //        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         dataRateScrl.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -119,10 +126,11 @@ public class CopyOfSpatial extends ApplicationFrame {
             }
         });
         graphPanel = new MotionGraphPanel();
+        
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+    private void formWindowOpened() {//GEN-FIRST:event_formWindowOpened
         try {
             spatial = new SpatialPhidget();
             gyroHeading[0] = 0.0;
@@ -150,8 +158,8 @@ public class CopyOfSpatial extends ApplicationFrame {
                     this.gyroXTxt, this.gyroYTxt, this.gyroZTxt, this.gyroXTxt1, this.gyroYTxt1, this.gyroZTxt1,
                     this.gyroHeading, this.lastTime, this.pitchAngleTxt, this.rollAngleTxt, this.bearingTxt,
                     this.compassBearingFilter, this.graphPanel, this.magFieldGraphPanel, this.gyroGraphPanel,
-                    this.compassBearingGraphPanel, this.barChartpanel);
-
+                    this.compassBearingGraphPanel);
+            
             spatial.addAttachListener(attach_listener);
             spatial.addDetachListener(detach_listener);
             spatial.addErrorListener(error_listener);
@@ -163,7 +171,7 @@ public class CopyOfSpatial extends ApplicationFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+    private void formWindowClosed() {//GEN-FIRST:event_formWindowClosed
         try {
             spatial.removeSpatialDataListener(spatialData_listener);
             spatial.removeErrorListener(error_listener);
@@ -193,13 +201,17 @@ public class CopyOfSpatial extends ApplicationFrame {
         }
     }//GEN-LAST:event_dataRateScrlStateChanged
     
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                RefineryUtilities.centerFrameOnScreen(new CopyOfSpatial("情緒"));
-            }
-        });
+    public SpatialSpatialDataListener getSpatialDataListener() {
+    	return spatialData_listener;
     }
+    
+//    public static void main(String args[]) {
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                RefineryUtilities.centerFrameOnScreen(new CopyOfSpatial("情緒"));
+//            }
+//        });
+//    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField accelXTxt;
     private javax.swing.JTextField accelYTxt;

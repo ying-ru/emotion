@@ -57,6 +57,8 @@ public class SkelsManager extends Observable implements Observer {
 			rightHip, leftElbow, rightElbow;
 	private File readFile;
 
+	protected boolean canSave;
+
 	public SkelsManager(UserGenerator userGen, BranchGroup sceneBG)
 			throws IOException {
 		this.userGen = userGen;
@@ -81,6 +83,7 @@ public class SkelsManager extends Observable implements Observer {
 		isTracking = "";
 		writeTemp = null;
 		jointTemp = null;
+		write();
 	} // end of SkelsManager()
 
 	private void configure()
@@ -324,37 +327,54 @@ public class SkelsManager extends Observable implements Observer {
 			return Math.round((d * 2 / 250 - 1) * 10000) / 10000.0;
 		}
 	}
-
-	public void write() {
-    	try {
-    		fw = new FileWriter("src/file/kinect.csv");
-    		int i = 0;
-    		
-    		while (i < 30) {
-    			if (writeTemp != null) {
-    				try {
-    					Thread.sleep(1000);
-    				} catch (InterruptedException e) {
-    					// TODO Auto-generated catch block
-    					e.printStackTrace();
-    				}
-    				System.out.println("OK");
-					updateVertex();
-    				fw.append(writeTemp);
-    				System.out.println(writeTemp);
-    				i++;
-    			}
-    		}
-    		fw.flush();
-			fw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	isTracking = "kok";
-		setChanged();
-		notifyObservers(isTracking);
+	
+	public void setWrite() {
+    	canSave = true;
     }
+    
+    public void write() {
+		Thread update = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					int i = 0;
+					while (true) {
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						if (canSave && i < 10 && writeTemp != null) {
+							if (i == 0) {
+								fw = new FileWriter("src/file/kinect.csv");
+							}
+							System.out.println("OK");
+							updateVertex();
+							fw.append(writeTemp);
+							System.out.println(writeTemp);
+
+							// barChartPanel.updateValue(actValue, "活動量");
+							i++;
+						} else if (i >= 10) {
+							fw.flush();
+							fw.close();
+							i = 0;
+							canSave = false;
+							isTracking = "kok";
+							setChanged();
+							notifyObservers(isTracking);
+						}
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		update.start();
+	}
 
 	// ----------------- 7 observers -----------------------
 	/*

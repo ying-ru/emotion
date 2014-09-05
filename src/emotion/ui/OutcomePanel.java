@@ -4,13 +4,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class OutcomePanel extends JPanel {
-	
+	private static final long serialVersionUID = 1L;
 	private JTextArea proposal;
 	private JLabel line0, line1, line2, line3, line4, 
 		line5, line6, line7, line8, line9, line10, line11, line12, 
@@ -39,7 +40,7 @@ public class OutcomePanel extends JPanel {
 
 	private void setComponentFont() {
 		proposal.setFont(new Font(Font.DIALOG, Font.BOLD,
-				getHeight() * 5 / 40));
+				getHeight() * 2 / 40));
 	}
 
 	private void initImageIcon() {
@@ -84,9 +85,6 @@ public class OutcomePanel extends JPanel {
 	private void initJLabel() {
 		proposal = new JTextArea();
 		proposal.setEditable(false);
-		proposal.setLineWrap(true);
-		proposal.setBackground(Color.white);
-		proposal.setOpaque(true);
 		proposal.append(" 情緒指數：" + value + " 分\n"
 				+ " test\n");
 		add(proposal);
@@ -183,8 +181,8 @@ public class OutcomePanel extends JPanel {
 	}
 
 	private void initBound() {
-		proposal.setBounds((getWidth() / 2) - (getWidth() / 6), 0,
-				getWidth()*3/5 , getHeight());
+		proposal.setBounds((getWidth() / 2) - (getWidth() / 5), 0,
+				getWidth()*5/10 , getHeight());
 	}
 
 	private void initLocation() {

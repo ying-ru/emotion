@@ -23,12 +23,13 @@ import org.jfree.ui.GradientPaintTransformType;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.StandardGradientPaintTransformer;
 
-public class BarChartPanel extends JPanel{
+public class BarChartPanel extends ChartPanel{
 	private static final long serialVersionUID = 1L;
 	private DefaultCategoryDataset defaultcategorydataset;
-	private JFreeChart jfreechart;
-    class CustomBarRenderer extends BarRenderer {   
-        private static final long serialVersionUID = 1L;   
+	private static JFreeChart jfreechart;
+	
+    class CustomBarRenderer extends BarRenderer {
+		private static final long serialVersionUID = 1L;
         private Paint colors[];   
         
         public Paint getItemPaint(int i, int j) {   
@@ -40,25 +41,21 @@ public class BarChartPanel extends JPanel{
         }   
     }
     
-    {
-    	ChartFactory.setChartTheme(StandardChartTheme.createDarknessTheme());
-    }
     
     public BarChartPanel() {
-        defaultcategorydataset = new DefaultCategoryDataset();
+    	super(jfreechart);
+        JFreeChart jfreechart = createChart(createDataset());
+        super.setChart(jfreechart);
+        
     }   
    
     private CategoryDataset createDataset() {   
-//        defaultcategorydataset.addValue(40100D, "", "High Alpha");   
-//        defaultcategorydataset.addValue(68000D, "", "Low Alpha");   
-//        defaultcategorydataset.addValue(41000D, "", "High Beta");   
-//        defaultcategorydataset.addValue(68000D, "", "Low Beta");   
-//        defaultcategorydataset.addValue(53000D, "", "High Gamma");
-//        defaultcategorydataset.addValue(53000D, "", "Low Gamma"); 
+    	defaultcategorydataset = new DefaultCategoryDataset();
         return defaultcategorydataset;   
     }   
     
     private JFreeChart createChart(CategoryDataset categorydataset) {   
+    	ChartFactory.setChartTheme(StandardChartTheme.createDarknessTheme());
         jfreechart = ChartFactory.createBarChart("腦波強度", null, null, categorydataset, PlotOrientation.VERTICAL, false, false, false);   
         TextTitle texttitle = jfreechart.getTitle();
         texttitle.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
@@ -72,7 +69,7 @@ public class BarChartPanel extends JPanel{
         categoryplot.setRangeGridlinePaint(Color.white);   
         categoryplot.setRangeGridlineStroke(new BasicStroke(0.0F));
         
-        categoryplot.getDomainAxis().setTickLabelFont(new Font("sansserf", Font.PLAIN, 25));
+        categoryplot.getDomainAxis().setTickLabelFont(new Font("sansserf", Font.PLAIN, 28));
         
         
         Paint apaint[] = createPaint();
@@ -100,8 +97,8 @@ public class BarChartPanel extends JPanel{
     }
     
     public JPanel createDemoPanel() {   
-        JFreeChart jfreechart = createChart(createDataset());   
-        return new ChartPanel(jfreechart);   
+        JFreeChart jfreechart = createChart(createDataset());
+        return new ChartPanel(jfreechart);
     }
     
     public void setTitle(String s) {

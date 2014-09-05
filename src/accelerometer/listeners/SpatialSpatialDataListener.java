@@ -20,13 +20,13 @@ import com.phidgets.PhidgetException;
 import com.phidgets.event.SpatialDataListener;
 import com.phidgets.event.SpatialDataEvent;
 
-import emotion.ui.BarChartPanel;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,13 +61,13 @@ public class SpatialSpatialDataListener extends Observable implements SpatialDat
     private String isTracking;
     private double x, y, z;
     private double actValue;
-	private BarChartPanel barChartPanel;
+    private boolean canSave;
 
     public SpatialSpatialDataListener(JTextField accelXTxt, JTextField accelYTxt, JTextField accelZTxt,
             JTextField gyroXTxt, JTextField gyroYTxt, JTextField gyroZTxt, JTextField gyroXTxt1, JTextField gyroYTxt1, JTextField gyroZTxt1,
             Double[] gyroHeading, Double lastTime, JTextField pitchAngleTxt, JTextField rollAngleTxt, JTextField bearingTxt,
             ArrayList<Double[]> compassBearingFilter, MotionGraphPanel graphPanel, MagFieldGraphPanel magFieldGraphPanel,
-            GyroGraphPanel gyroGraphPanel, CompassBearingGraphPanel compassBearingGraphPanel, BarChartPanel barChartPanel) {
+            GyroGraphPanel gyroGraphPanel, CompassBearingGraphPanel compassBearingGraphPanel) {
         this.accelXTxt = accelXTxt;
         this.accelYTxt = accelYTxt;
         this.accelZTxt = accelZTxt;
@@ -87,18 +87,23 @@ public class SpatialSpatialDataListener extends Observable implements SpatialDat
         this.magFieldGraphPanel = magFieldGraphPanel;
         this.gyroGraphPanel = gyroGraphPanel;
         this.compassBearingGraphPanel = compassBearingGraphPanel;
-        this.barChartPanel = barChartPanel;
         compassBearing = 0.0;
         write = "";
         isTracking = "0,0,0";
+        canSave = false;
         x = 0;
         y = 0;
         z = 0;
         actValue = 0;
+        write();
     }
 
     public Double getLastTime() {
         return this.lastTime;
+    }
+    
+    public double update() {
+    	return actValue;
     }
 
     public void data(SpatialDataEvent sde) {
@@ -106,11 +111,7 @@ public class SpatialSpatialDataListener extends Observable implements SpatialDat
         SpatialPhidget spatial = (SpatialPhidget) sde.getSource();
         
         try {
-//        	System.out.println("aaa");
-//        	spatial.setDataRate(500);
-//        	System.out.println("bbb");
             if (spatial.getAccelerationAxisCount() > 0) {
-            	
             	actValue = Math.abs(((Math.abs(roundDouble((sde.getData()[0].getAcceleration()[0]), 3) * 1000 - x) + 
                 		Math.abs(roundDouble((sde.getData()[0].getAcceleration()[1]), 3) * 1000 - y) + 
         				Math.abs(roundDouble((sde.getData()[0].getAcceleration()[2]), 3) * 1000 - z)) / 3));
@@ -125,7 +126,6 @@ public class SpatialSpatialDataListener extends Observable implements SpatialDat
                 write = write + Double.toString(Math.abs(roundDouble((sde.getData()[0].getAcceleration()[2]), 3) * 1000 - z)) + "\n";
                 z = roundDouble((sde.getData()[0].getAcceleration()[2]), 3) * 1000;
                 
-                barChartPanel.updateValue(actValue, "活動量");
                 displayAccelGraph(sde.getData()[0].getAcceleration(), graphPanel);
             }
 
@@ -346,28 +346,50 @@ public class SpatialSpatialDataListener extends Observable implements SpatialDat
         return (bd.doubleValue());
     }
     
-    public void write() {
-    	try {
-    		fw = new FileWriter("src/file/activity.csv");
-    		int i = 0;
-    		while (i < 30) {
-    			try {
-    				Thread.sleep(1000);
-    			} catch (InterruptedException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			}
-    			fw.append(write);
-    			i++;
-    		}
-    		fw.flush();
-			fw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	isTracking = "aok";
-		setChanged();
-		notifyObservers(isTracking);
+    public void setWrite() {
+    	canSave = true;
     }
+    
+    public void write() {
+		Thread update = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					SimpleDateFormat fmt = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+					int i = 0;
+					while (true) {
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						if (canSave && i < 10) {
+							if (i == 0) {
+								fw = new FileWriter("src/file/activity.csv");
+							}
+							String timeStamp = fmt.format(new Date());
+							fw.append(timeStamp + ',');
+							fw.append(write);
+							i++;
+						} else if (i >= 10) {
+							
+							fw.flush();
+							fw.close();
+							i = 0;
+							canSave = false;
+							isTracking = "aok";
+							setChanged();
+							notifyObservers(isTracking);
+						}
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		update.start();
+	}
 }
