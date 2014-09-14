@@ -7,6 +7,7 @@ import java.io.IOException;
 import emotion.jdbc.DataBase;
 
 public class File {
+	private double dataNumber = 10.0;
 	
 	public void read() throws IOException {
 //		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\kinect.csv");
@@ -44,10 +45,10 @@ public class File {
 			
 		}
 		fr.close();
-		a = a / 30.0;
-		b = b / 30.0;
-		c = c / 30.0;
-		d = d / 30.0;
+		a = a / dataNumber;
+		b = b / dataNumber;
+		c = c / dataNumber;
+		d = d / dataNumber;
 		System.out.println("kinect: " + a + "," + b + "," + c + "," + d);
 		return a + "," + b + "," + c + "," + d;
 	}
@@ -66,15 +67,15 @@ public class File {
 			readLine = br.readLine();
 //			db.insert(readLine);
 			String[] tokens = readLine.split(",");
-			a = a + Double.parseDouble(tokens[0]);
-			b = b + Double.parseDouble(tokens[1]);
-			c = c + Double.parseDouble(tokens[2]);
+			a = a + Double.parseDouble(tokens[1]);
+			b = b + Double.parseDouble(tokens[2]);
+			c = c + Double.parseDouble(tokens[3]);
 			
 		}
 		fr.close();
-		a = a / 30.0;
-		b = b / 30.0;
-		c = c / 30.0;
+		a = a / dataNumber;
+		b = b / dataNumber;
+		c = c / dataNumber;
 		System.out.println("activity: " + (a + b + c) / 3.0 / 1000.0);
 		return (a + b + c) / 3.0 / 1000.0;
 	}

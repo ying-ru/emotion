@@ -352,10 +352,8 @@ public class SkelsManager extends Observable implements Observer {
 							}
 							System.out.println("OK");
 							updateVertex();
-							fw.append(writeTemp);
+							fw.append(jointTemp);
 							System.out.println(writeTemp);
-
-							// barChartPanel.updateValue(actValue, "活動量");
 							i++;
 						} else if (i >= 10) {
 							fw.flush();

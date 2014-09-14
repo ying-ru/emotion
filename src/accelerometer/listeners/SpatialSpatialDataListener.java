@@ -117,13 +117,15 @@ public class SpatialSpatialDataListener extends Observable implements SpatialDat
         				Math.abs(roundDouble((sde.getData()[0].getAcceleration()[2]), 3) * 1000 - z)) / 3));
                 
             	accelXTxt.setText(Double.toString(roundDouble((sde.getData()[0].getAcceleration()[0]), 3)));
-                write = Double.toString(Math.abs(roundDouble((sde.getData()[0].getAcceleration()[0]), 3) * 1000 - x)) + ",";
-                x = roundDouble((sde.getData()[0].getAcceleration()[0]), 3) * 1000;
-                accelYTxt.setText(Double.toString(roundDouble((sde.getData()[0].getAcceleration()[1]), 3)));
-                write = write + Double.toString(Math.abs(roundDouble((sde.getData()[0].getAcceleration()[1]), 3) * 1000 - y)) + ",";
-                y = roundDouble((sde.getData()[0].getAcceleration()[1]), 3) * 1000;
+            	accelYTxt.setText(Double.toString(roundDouble((sde.getData()[0].getAcceleration()[1]), 3)));
                 accelZTxt.setText(Double.toString(roundDouble((sde.getData()[0].getAcceleration()[2]), 3)));
-                write = write + Double.toString(Math.abs(roundDouble((sde.getData()[0].getAcceleration()[2]), 3) * 1000 - z)) + "\n";
+
+                write = Double.toString(Math.abs(roundDouble((sde.getData()[0].getAcceleration()[0]), 3) * 1000 - x)) + ","
+                		+ Double.toString(Math.abs(roundDouble((sde.getData()[0].getAcceleration()[1]), 3) * 1000 - y)) + ","
+                		+ Double.toString(Math.abs(roundDouble((sde.getData()[0].getAcceleration()[2]), 3) * 1000 - z)) + "\n";
+                
+                x = roundDouble((sde.getData()[0].getAcceleration()[0]), 3) * 1000;
+                y = roundDouble((sde.getData()[0].getAcceleration()[1]), 3) * 1000;
                 z = roundDouble((sde.getData()[0].getAcceleration()[2]), 3) * 1000;
                 
                 displayAccelGraph(sde.getData()[0].getAcceleration(), graphPanel);

@@ -6,7 +6,7 @@ import net.sourceforge.jFuzzyLogic.FunctionBlock;
 public class EmotionFuzzy {
 	
 	public double getOutcome(double p, double a, double d) {
-		String filename = "src/Fuzzy/pad.fcl";
+		String filename = "src/emotion/fuzzy/pad.fcl";
 		FIS fis = FIS.load(filename, true);
 		
 		if (fis == null) {

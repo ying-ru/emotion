@@ -31,7 +31,7 @@ public class CopyOfEmotionFrame extends CopyOfSpatial {
 		sensorStatus.getTrack().addObserver(brainwavePanel.getBrainwave());
 		kinectPanel.getKinect().getSkelsManager().addObserver(sensorStatus.getTrack());
 		brainwavePanel.getBrainwave().addObserver(sensorStatus.getTrack());
-//		getSpatialDataListener().addObserver(sensorStatus.getTrack());
+		getSpatialDataListener().addObserver(sensorStatus.getTrack());
 	}
 
 	// init Component //
@@ -87,9 +87,6 @@ public class CopyOfEmotionFrame extends CopyOfSpatial {
 							sensorStatus.setisSaveOver();
 							value = new Outcome();
 							outcome.setValue(value.getOutcome());
-							
-							sensorStatus.setVisible(false);
-							outcome.setVisible(true);
 						}
 						// update outcome end
 					}
