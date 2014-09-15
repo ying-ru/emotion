@@ -19,10 +19,11 @@ public class JDBC {
 			Class.forName("com.mysql.jdbc.Driver");
 			
 			// Step 2: 取得資料庫連結: 請將正確值填入 ""中
-			// "jdbc:mysql://localhost:8282/neurosky?user=root&password=8282";
-			String url = "jdbc:mysql://sqadb.cuxcf7jbbgaj.ap-northeast-1.rds.amazonaws.com/"
-					+ "emotion?user=sai523847&password=12345678&useUnicode=true"
-					+ "&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false";
+			// String url = "jdbc:mysql://localhost:8282/neurosky?user=root&password=8282";
+            String url = "jdbc:mysql://localhost/emotion?user=root&password=pcroom";
+//			String url = "jdbc:mysql://sqadb.cuxcf7jbbgaj.ap-northeast-1.rds.amazonaws.com/"
+//					+ "emotion?user=sai523847&password=12345678&useUnicode=true"
+//					+ "&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false";
 			connection = DriverManager.getConnection(url);
 			
 			// Step 3: 建立Statement物件

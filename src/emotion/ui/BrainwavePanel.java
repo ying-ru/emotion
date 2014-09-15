@@ -6,7 +6,7 @@ import brainwave.control.BrainwaveControl;
 public class BrainwavePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private BrainwaveControl brainwave;
-	private BrainwaveBarChartPanel barChartPanel;
+	private BarChartPanel barChartPanel;
     
 	public BrainwavePanel(int locationX, int locationY, int width, int height) {
 		// TODO Auto-generated constructor stub
@@ -19,7 +19,7 @@ public class BrainwavePanel extends JPanel {
 	}
 	
 	private void initJPanel() {
-		barChartPanel = new BrainwaveBarChartPanel();
+		barChartPanel = new BarChartPanel();
 		barChartPanel.setBounds(0, 0, getWidth(), getHeight());
         add(barChartPanel);
 	}

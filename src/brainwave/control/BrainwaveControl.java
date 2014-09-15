@@ -20,7 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import emotion.ui.BarChartPanel;
-import emotion.ui.BrainwaveBarChartPanel;
+import emotion.ui.BarChartPanel;
 import emotion.jdbc.JDBC;
 import brainwave.client.ThinkGearSocketClient;
 import brainwave.preferences.PreferenceManager;
@@ -58,7 +58,7 @@ public class BrainwaveControl extends Observable implements Observer {
     private boolean isStartWrite, isDataAvailable;
     private String isTracking, brainData;
     private String value;
-    private BrainwaveBarChartPanel barChartPanel;
+    private BarChartPanel barChartPanel;
 
 	protected boolean canSave;
 
@@ -72,7 +72,7 @@ public class BrainwaveControl extends Observable implements Observer {
      * @return void
      */
     
-    public BrainwaveControl(BrainwaveBarChartPanel brainwaveBarChart) {
+    public BrainwaveControl(BarChartPanel brainwaveBarChart) {
     	initializeGUI();
     	barChartPanel = brainwaveBarChart;
 //    	debugWindow = debug;
@@ -269,7 +269,7 @@ public class BrainwaveControl extends Observable implements Observer {
 				value = value + Integer.toString(eegPower.getInt("highGamma"));
 				return value;
 			} else {
-//				logger.debug("$SwingWorker<Void,Void>.doInBackground() - eegPower is null!");
+				logger.debug("$SwingWorker<Void,Void>.doInBackground() - eegPower is null!");
 			}
 		} catch (JSONException e1) {
 //			logger.debug("$SwingWorker<Void,Void>.doInBackground() - JSON Error" + e1.getMessage());

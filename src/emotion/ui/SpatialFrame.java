@@ -1,9 +1,9 @@
-/* - Spatial full -
+/* - SpatialFrame full -
  * This example simply displays the spatial info if it is attached and displays the acceleration data
  * for each axis as it is changing in pretty much raw form.  It also allows for modifying the sensitivity of
  * each axis that is availabl on the attached spatial.
 
- * Please note that this example was designed to work with only one Phidget Spatial connected.
+ * Please note that this example was designed to work with only one Phidget SpatialFrame connected.
  *
  * Copyright 2011 Phidgets Inc.
  * This work is licensed under the Creative Commons Attribution 2.5 Canada License.
@@ -30,7 +30,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.jfree.ui.ApplicationFrame;
 
-public class CopyOfSpatial extends ApplicationFrame {
+public class SpatialFrame extends ApplicationFrame {
 	private static final long serialVersionUID = 1L;
     private SpatialPhidget spatial;
     private SpatialAttachListener attach_listener;
@@ -45,8 +45,8 @@ public class CopyOfSpatial extends ApplicationFrame {
     private Double lastTime;
     private ArrayList<Double[]> compassBearingFilter = new ArrayList<Double[]>();
 
-    /** Creates new form Spatial */
-    public CopyOfSpatial(String s) {
+    /** Creates new form SpatialFrame */
+    public SpatialFrame(String s) {
     	super(s);
     	initComponents();
     	formWindowOpened();

@@ -1,7 +1,7 @@
 package main;
 
 import org.jfree.ui.RefineryUtilities;
-import emotion.ui.CopyOfEmotionFrame;
+import emotion.ui.EmotionFrame;
 
 public class Main {
 	public static void main(String args[]) {
@@ -14,7 +14,7 @@ public class Main {
 		
 		java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                RefineryUtilities.centerFrameOnScreen(new CopyOfEmotionFrame("情緒"));
+                RefineryUtilities.centerFrameOnScreen(new EmotionFrame("情緒"));
             }
         });
 		

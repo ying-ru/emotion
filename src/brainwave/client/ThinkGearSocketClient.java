@@ -97,7 +97,6 @@ public class ThinkGearSocketClient {
 		} else {
             logger.debug("connect() - Already connected...");
 		}
-
 	}
 
 	public boolean isDataAvailable() {

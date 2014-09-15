@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 
 import emotion.padModel.Outcome;
 
-public class CopyOfEmotionFrame extends CopyOfSpatial {
+public class EmotionFrame extends SpatialFrame {
 	private static final long serialVersionUID = 1L;
 	private OutcomePanel outcome;
 	private ButtonPanel buttonPanel;
@@ -19,7 +19,7 @@ public class CopyOfEmotionFrame extends CopyOfSpatial {
 	private Outcome value;
 	private AccelerometerBarChartPanel barChartpanel;
 	
-	public CopyOfEmotionFrame(String s) {
+	public EmotionFrame(String s) {
 		super(s);
 		initJPanel();
 		initBackground();
