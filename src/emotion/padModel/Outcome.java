@@ -1,6 +1,7 @@
 package emotion.padModel;
 
 import emotion.fuzzy.EmotionFuzzy;
+import emotion.jdbc.DataBase;
 
 public class Outcome {
 	private EmotionFuzzy fuzzy;
@@ -12,7 +13,10 @@ public class Outcome {
 	}
 	
 	public int getOutcome() {
+		DataBase db = new DataBase();
+		int order = db.selectOrder();
 		int emotion = (int)Math.round(fuzzy.getOutcome(pad.getValueP(), pad.getValueA(), pad.getValueD()));
+		db.insertPAD(emotion + "," + pad.getValueP() + "," + pad.getValueA() + "," + pad.getValueD() + "," + order);
 		return emotion;
 	}
 	

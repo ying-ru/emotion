@@ -8,6 +8,7 @@ import emotion.jdbc.DataBase;
 
 public class File {
 	private double dataNumber = 10.0;
+	private int order;
 	
 	public void read() throws IOException {
 //		FileReader fr = new FileReader("C:\\Users\\banbi\\Desktop\\kinect.csv");
@@ -19,7 +20,7 @@ public class File {
 		String readLine;
 		while (br.ready()) {
 			readLine = br.readLine();
-			db.insert(readLine);
+			db.insertKinect(readLine);
 			System.out.println(readLine);
 		}
 		fr.close();
@@ -30,13 +31,15 @@ public class File {
 //		FileReader fr = new FileReader("C:\\Users\\Sebastian\\Desktop\\kinect.csv");
 		FileReader fr = new FileReader("src/file/kinect.csv");
 
-//		DataBase db = new DataBase();
+		DataBase db = new DataBase();
 		BufferedReader br = new BufferedReader(fr);
 		String readLine;
 		double a = 0, b = 0, c = 0, d = 0;
+		db.updateOrder();
+		order = db.selectOrder();
 		while (br.ready()) {
 			readLine = br.readLine();
-//			db.insert(readLine);
+			db.insertKinect(readLine + "," + order);
 			String[] tokens = readLine.split(",");
 			a = a + Double.parseDouble(tokens[1]);
 			b = b + Double.parseDouble(tokens[2]);
@@ -58,14 +61,14 @@ public class File {
 //		FileReader fr = new FileReader("C:\\Users\\Sebastian\\Desktop\\kinect.csv");
 		FileReader fr = new FileReader("src/file/activity.csv");
 
-//		DataBase db = new DataBase();
+		DataBase db = new DataBase();
 		BufferedReader br = new BufferedReader(fr);
 		String readLine;
 		double a = 0, b = 0, c = 0;
 		
 		while (br.ready()) {
 			readLine = br.readLine();
-//			db.insert(readLine);
+			db.insertAccelerometer("'" + readLine + "," + order);
 			String[] tokens = readLine.split(",");
 			a = a + Double.parseDouble(tokens[1]);
 			b = b + Double.parseDouble(tokens[2]);
@@ -76,8 +79,8 @@ public class File {
 		a = a / dataNumber;
 		b = b / dataNumber;
 		c = c / dataNumber;
-		System.out.println("activity: " + (a + b + c) / 3.0 / 1000.0);
-		return (a + b + c) / 3.0 / 1000.0;
+		System.out.println("activity: " + ((a + b + c) / 3.0 / 500.0 - 1));
+		return (a + b + c) / 3.0 / 500.0 - 1;
 	}
 	
 //	public static void main(String[] argv) throws IOException {

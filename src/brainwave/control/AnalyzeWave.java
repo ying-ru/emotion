@@ -4,10 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import emotion.jdbc.DataBase;
+
 public class AnalyzeWave {
 	int lowAlphaMax, highAlphaMax, lowBetaMax, highBetaMax, lowGammaMax, highGammaMax;
 	int lowAlphaMin, highAlphaMin, lowBetaMin, highBetaMin, lowGammaMin, highGammaMin;
+	private final double dataNumber = 10.0;
 	FileReader fr;
+	private int order;
 	
 	public AnalyzeWave() {
 		// TODO Auto-generated constructor stub
@@ -16,7 +20,7 @@ public class AnalyzeWave {
 	
 	public void readMaxMin() throws IOException {
 		fr = new FileReader("src/file/mindstream.csv");
-
+		DataBase db = new DataBase();
 		BufferedReader br = new BufferedReader(fr);
 		String readLine;
 		
@@ -32,9 +36,11 @@ public class AnalyzeWave {
 		highBetaMax = 0;
 		lowGammaMax = 0;
 		highGammaMax = 0;
+		order = db.selectOrder();
 		
 		while (br.ready()) {
 			readLine = br.readLine();
+			db.insertBrainwave("'" + readLine + "," + order);
 			String[] tokens = readLine.split(",");
 
 			if (lowAlphaMin > Integer.parseInt(tokens[1])) {
@@ -103,7 +109,7 @@ public class AnalyzeWave {
 			readLine = br.readLine();
 			String[] tokens = readLine.split(",");
 			
-			double p = Integer.parseInt(tokens[j]) * 100.0 / i * 1 ;
+			double p = Integer.parseInt(tokens[j]) * 100.0 / i * 2 ;
 			if (p <= 10) {
 				p1++;
 			} else if (p <= 20) {
@@ -137,7 +143,7 @@ public class AnalyzeWave {
 				+ "80~90%: " + p9 + "\n" + "90~100%: " + p10 + "\n");
 
 		fr.close();
-		return (pTotal / 30.0 * 2 / 100.0) - 1;
+		return (pTotal / dataNumber * 2 / 100.0) - 1;
 	}
 	
 	public String readBrainwave() throws IOException {

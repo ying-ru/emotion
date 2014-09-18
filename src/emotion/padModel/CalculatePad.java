@@ -44,6 +44,7 @@ public class CalculatePad {
 	private void getBrainwave() throws IOException {
 		String b;
 		b = f.readBrainwave();
+		System.out.println("brainwave: " + b);
 		String[] token = b.split(",");
 		lowAlpha = Double.parseDouble(token[0]);
 		highAlpha = Double.parseDouble(token[1]);

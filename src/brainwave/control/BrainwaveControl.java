@@ -302,7 +302,7 @@ public class BrainwaveControl extends Observable implements Observer {
 							if (value != null) {
 								String timeStamp = fmt.format(new Date());
 								
-								fw.append(timeStamp + ',');
+								fw.append("'" + timeStamp + "'" + ',');
 								fw.append(value + '\n');
 								value = null;
 								i++;

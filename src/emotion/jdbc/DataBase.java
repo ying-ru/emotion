@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DataBase {
-	private String time;
 	private double raiseHead, bodyStraighten, leftArms, rightArms;
 	private Connection connection = null;
 	private Statement stmt;
@@ -22,6 +21,7 @@ public class DataBase {
 //			String url = "jdbc:mysql://sqadb.cuxcf7jbbgaj.ap-northeast-1.rds.amazonaws.com/"
 //					+ "emotion?user=sai523847&password=12345678&useUnicode=true"
 //					+ "&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false";
+            
 			connection = DriverManager.getConnection(url);
 //			createTable(); //if NEVER createTable
 		} catch (Exception ex) {
@@ -29,85 +29,113 @@ public class DataBase {
 		}
 	}
 	
-	public void insert(String data) {
+	public void insertKinect(String data) {
 		connect();
 		String insert = "INSERT INTO kinect VALUES (" + data + ")";
 		try {
 			stmt = connection.createStatement();
 			int result = stmt.executeUpdate(insert);
-			System.out.println(result + " data was insert");
+			System.out.println("kinect: " + result + " data was insert");
 			close();
 		} catch (SQLException e) {
 			System.out.println("CreateDB Exception :" + e.toString());
 		}
 	}
 	
-	public void update(String time, double raiseHead, double bodyStraighten, double leftArms, double rightArms) {
+	public void insertAccelerometer(String data) {
 		connect();
-		this.time = time;
-		String update = "UPDATE kinect "
-				+ "SET raiseHead = " + raiseHead + ", bodyStraighten = " + bodyStraighten
-				+ ", leftArms = " + leftArms + ", rightArms = " + rightArms
-				+ " WHERE time = " + time;
+		String insert = "INSERT INTO accelerometer VALUES (" + data + ")";
+		try {
+			stmt = connection.createStatement();
+			int result = stmt.executeUpdate(insert);
+			System.out.println("accelerometer: " + result + " data was insert");
+			close();
+		} catch (SQLException e) {
+			System.out.println("CreateDB Exception :" + e.toString());
+		}
+	}
+	
+	public void insertBrainwave(String data) {
+		connect();
+		String insert = "INSERT INTO brainwave VALUES (" + data + ")";
+		try {
+			stmt = connection.createStatement();
+			int result = stmt.executeUpdate(insert);
+			System.out.println("brainwave: " + result + " data was insert");
+			close();
+		} catch (SQLException e) {
+			System.out.println("CreateDB Exception :" + e.toString());
+		}
+	}
+
+	public void insertPAD(String data) {
+		connect();
+		String insert = "INSERT INTO pad VALUES (" + data + ")";
+		try {
+			stmt = connection.createStatement();
+			int result = stmt.executeUpdate(insert);
+			System.out.println("pad: " + result + " data was insert");
+			close();
+		} catch (SQLException e) {
+			System.out.println("CreateDB Exception :" + e.toString());
+		}
+	}
+	
+	public void updateOrder() {
+		int order = selectOrder() + 1;
+		connect();
+		String update = "UPDATE emotion.order SET number = " + order;
 		try {
 			stmt = connection.createStatement();
 			int result = stmt.executeUpdate(update);
-			System.out.println(result + " data was update");
+			System.out.println("Order: " + result + " data was update");
 			close();
 		} catch (SQLException e) {
 			System.out.println("CreateDB Exception :" + e.toString());
 		}
 	}
+//	
+//	public void deleteKinect(String time) {
+//		connect();
+//		this.time = time;
+//		String delete = "DELETE FROM kinect "
+//				+ "WHERE time = " + time;
+//		try {
+//			stmt = connection.createStatement();
+//			int result = stmt.executeUpdate(delete);
+//			System.out.println(result + " data was delete");
+//			close();
+//		} catch (SQLException e) {
+//			System.out.println("CreateDB Exception :" + e.toString());
+//		}
+//	}
 	
-	public void delete(String time) {
+	public int selectOrder() { 
 		connect();
-		this.time = time;
-		String delete = "DELETE FROM kinect "
-				+ "WHERE time = " + time;
+		String selectOrder = "SELECT number FROM emotion.order";
 		try {
 			stmt = connection.createStatement();
-			int result = stmt.executeUpdate(delete);
-			System.out.println(result + " data was delete");
-			close();
-		} catch (SQLException e) {
-			System.out.println("CreateDB Exception :" + e.toString());
-		}
-	}
-	
-	public boolean selectTime(String time) { 
-		connect();
-		this.time = time;
-		String selectTime = "SELECT time FROM kinect "
-				+ "WHERE time = " + time;
-		try {
-			stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery(selectTime);
+			ResultSet rs = stmt.executeQuery(selectOrder);
 			rs.next();
-			if (rs.getString(1) == null) {
-				close();
-				return false;
-			} else {
-				close();
-				return true;
-			}
-			
+			int order = rs.getInt(1);
+			close();
+			return order;
 		} catch (SQLException e) {
 			System.out.println("CreateDB Exception :" + e.toString());
-			return false;
+			return -999;
 		}
 	}
 	
-	public double selectRaiseHead(String time) {
+	public double selectRaiseHead(int order) {
 		connect();
-		this.time = time;
 		String selectRaiseHead = "SELECT raiseHead FROM kinect "
-				+ "WHERE time = " + time;
+				+ "WHERE order = " + order;
 		try {
 			stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(selectRaiseHead);
 			rs.next();
-			raiseHead = Integer.parseInt(rs.getString(1));
-			System.out.println(time.toString() + " raiseHead: " + raiseHead);
+			raiseHead = rs.getDouble(1);
+//			System.out.println(" raiseHead: " + raiseHead);
 			close();
 		} catch (SQLException e) {
 			System.out.println("CreateDB Exception :" + e.toString());
@@ -115,17 +143,16 @@ public class DataBase {
 		return raiseHead;
 	}
 	
-	public double selectBodyStraighten(String time) { 
+	public double selectBodyStraighten(int order) { 
 		connect();
-		this.time = time;
 		String selectBodyStraighten = "SELECT bodyStraighten FROM kinect "
-				+ "WHERE time = " + time;
+				+ "WHERE order = " + order;
 		try {
 			stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(selectBodyStraighten);
 			rs.next();
 			bodyStraighten = rs.getDouble(1);
-			System.out.println(time.toString() + " bodyStraighten: " + rs.getDouble(1));
+//			System.out.println(" bodyStraighten: " + rs.getDouble(1));
 			close();
 		} catch (SQLException e) {
 			System.out.println("CreateDB Exception :" + e.toString());
@@ -133,17 +160,16 @@ public class DataBase {
 		return bodyStraighten;
 	}
 	
-	public double selectLeftArms(String time) { 
+	public double selectLeftArms(int order) { 
 		connect();
-		this.time = time;
 		String selectLeftArms = "SELECT bodyStraighten FROM kinect "
-				+ "WHERE time = " + time;
+				+ "WHERE order = " + order;
 		try {
 			stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(selectLeftArms);
 			rs.next();
 			leftArms = rs.getDouble(1);
-			System.out.println(time.toString() + " LeftArms: " + rs.getDouble(1));
+//			System.out.println(" LeftArms: " + rs.getDouble(1));
 			close();
 		} catch (SQLException e) {
 			System.out.println("CreateDB Exception :" + e.toString());
@@ -151,22 +177,38 @@ public class DataBase {
 		return leftArms;
 	}
 	
-	public double selectRightArms(String time) { 
+	public double selectRightArms(int order) { 
 		connect();
-		this.time = time;
 		String selectRightArms = "SELECT rightArms FROM kinect "
-				+ "WHERE time = " + time;
+				+ "WHERE order = " + order;
 		try {
 			stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(selectRightArms);
 			rs.next();
 			rightArms = rs.getDouble(1);
-			System.out.println(time.toString() + " rightArms: " + rs.getDouble(1));
+//			System.out.println(" rightArms: " + rs.getDouble(1));
 			close();
 		} catch (SQLException e) {
 			System.out.println("CreateDB Exception :" + e.toString());
 		}
 		return rightArms;
+	}
+	
+	public int selectWave(String time, String wave) {
+		int value = 0;
+		connect();
+		try {
+			stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT " + wave + " FROM brainwave "
+				+ "WHERE time = " + time);
+			rs.next();
+			value = rs.getInt(1);
+			System.out.println(wave + ": " + rs.getInt(1));
+			close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return value;
 	}
 	
 	public void close() {
@@ -176,14 +218,11 @@ public class DataBase {
 		}
 	}
 	
-//	public static void main(String[] args) {
-//		DataBase db = new DataBase();
-//		db.delete("123");
-//		db.delete(null);
-//		db.update("123", 0, 1, 0, 0);
-//		System.out.println();
-//		db.insert("123", 0, 1, 0, 0);
-//		db.close();
-//	}
+	public static void main(String[] args) {
+		DataBase db = new DataBase();
+		db.updateOrder();
+		System.out.println(db.selectOrder());
+		db.close();
+	}
 	
 }
