@@ -68,7 +68,7 @@ public class File {
 		
 		while (br.ready()) {
 			readLine = br.readLine();
-			db.insertAccelerometer("'" + readLine + "," + order);
+			db.insertAccelerometer(readLine + "," + order);
 			String[] tokens = readLine.split(",");
 			a = a + Double.parseDouble(tokens[1]);
 			b = b + Double.parseDouble(tokens[2]);

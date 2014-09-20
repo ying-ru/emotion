@@ -372,7 +372,7 @@ public class SpatialSpatialDataListener extends Observable implements SpatialDat
 								fw = new FileWriter("src/file/activity.csv");
 							}
 							String timeStamp = fmt.format(new Date());
-							fw.append(timeStamp + ',');
+							fw.append("'" + timeStamp + "'" + ',');
 							fw.append(write);
 							i++;
 						} else if (i >= 10) {

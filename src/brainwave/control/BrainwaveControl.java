@@ -269,7 +269,7 @@ public class BrainwaveControl extends Observable implements Observer {
 				value = value + Integer.toString(eegPower.getInt("highGamma"));
 				return value;
 			} else {
-				logger.debug("$SwingWorker<Void,Void>.doInBackground() - eegPower is null!");
+//				logger.debug("$SwingWorker<Void,Void>.doInBackground() - eegPower is null!");
 			}
 		} catch (JSONException e1) {
 //			logger.debug("$SwingWorker<Void,Void>.doInBackground() - JSON Error" + e1.getMessage());

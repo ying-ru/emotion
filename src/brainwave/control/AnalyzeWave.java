@@ -40,7 +40,7 @@ public class AnalyzeWave {
 		
 		while (br.ready()) {
 			readLine = br.readLine();
-			db.insertBrainwave("'" + readLine + "," + order);
+			db.insertBrainwave(readLine + "," + order);
 			String[] tokens = readLine.split(",");
 
 			if (lowAlphaMin > Integer.parseInt(tokens[1])) {
@@ -109,7 +109,7 @@ public class AnalyzeWave {
 			readLine = br.readLine();
 			String[] tokens = readLine.split(",");
 			
-			double p = Integer.parseInt(tokens[j]) * 100.0 / i * 2 ;
+			double p = Integer.parseInt(tokens[j]) * 100.0 / i * 4 ;
 			if (p <= 10) {
 				p1++;
 			} else if (p <= 20) {
