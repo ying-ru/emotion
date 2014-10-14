@@ -27,6 +27,9 @@ public class EmotionFrame extends SpatialFrame {
 	private Outcome value;
 	private AccelerometerBarChartPanel barChartpanel;
 	private FirstPanel fp;
+	private SecondPanel sp;
+	private ThirdPanel thp;
+	private FourthPanel fop;
 	
 	public EmotionFrame(String s) {
 		super(s);
@@ -81,10 +84,12 @@ public class EmotionFrame extends SpatialFrame {
 //		cp.add(brainwavePanel);
 //		cp.add(buttonPanel);
 //		cp.add(sensorStatus);
-		fp = new FirstPanel(0, 0, this.getWidth(), this.getHeight(), getSpatialDataListener());
+		fp = new FirstPanel(this.getWidth(), this.getHeight(), getSpatialDataListener());
+		sp = new SecondPanel(this.getWidth(), this.getHeight());
+		thp = new ThirdPanel(this.getWidth(), this.getHeight());
+		fop = new FourthPanel(this.getWidth(), this.getHeight());
 		
-		
-	}
+}
 
 	private void initBound() {
 		background.setBounds(0, 0, this.getWidth(), this.getHeight());
@@ -93,7 +98,10 @@ public class EmotionFrame extends SpatialFrame {
 	private void initTab() {
 		JTabbedPane tp = new JTabbedPane();
 		tp.setFont(new Font(Font.DIALOG, Font.BOLD, getHeight() / 20));
-		tp.addTab("主畫面", fp);
+		tp.addTab(" 主畫面 ", fp);
+		tp.addTab(" 肢體動作 ", sp);
+		tp.addTab(" PAD數值及說明 ", thp);
+		tp.addTab(" PAD計算方式 ", fop);
 		tp.setSize(getWidth(), getHeight());
 		tp.setLocation(0, 0);
 		add(tp);
