@@ -8,6 +8,8 @@
 	<classpathentry kind="lib" path="lib/log4j-1.2.14.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.20-bin.jar"/>
 	<classpathentry kind="lib" path="lib/jFuzzyLogic.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/DJNativeSwing.jar"/>
+	<classpathentry kind="lib" path="lib/DJNativeSwing-SWT.jar"/>
 	<classpathentry kind="lib" path="lib/com.primesense.NITE.jar"/>
 	<classpathentry kind="lib" path="lib/org.OpenNI.jar">
 		<attributes>
@@ -37,7 +39,5 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/swing-layout-1.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/swing-layout-1.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/DJNativeSwing-SWT.jar"/>
-	<classpathentry kind="lib" path="lib/DJNativeSwing.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
