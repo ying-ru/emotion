@@ -249,7 +249,19 @@ public class OutcomePanel extends JPanel {
 	// API//
 	public void setValue(int value) {
 		this.value = value;
+		String temp = "";
 		proposal.setText(" 情緒指數：" + value + " 分\n");
+		if (value < 40) {
+			temp = "強烈建議您與家人或朋友聊聊心事!\n" + "利用早晨或傍晚出去走走，曬曬陽光；\n"
+					+ "另外提醒您盡量避免吃如巧克力、咖啡、茶等刺激性飲食";
+		} else if (value < 60) {
+			temp = "要不要找家人或朋友聊聊呢?\n" + "先看個影片轉換一下吧!";
+		} else if (value < 80) {
+			temp = "現在狀態尚可，有空要多出去戶外踏青、曬曬溫暖的陽光哦!\n";
+		} else if (value <= 100) {
+			temp = "目前的狀態很棒!\n" + "要繼續保持哦!";
+		} 
+		proposal.setText(" 情緒指數：" + value + " 分\n" + temp);
 		initLines();
 	}
 	// API end //
