@@ -52,8 +52,8 @@ public class SpatialFrame extends ApplicationFrame {
     	formWindowOpened();
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit()
 				.getScreenSize();
-		setSize((int) (screenSize.getWidth()),
-				(int) (screenSize.getHeight()));
+		setSize((int) (screenSize.getWidth()/1.1),
+				(int) (screenSize.getHeight()/1.1));
 		setVisible(true);
 		setLayout(null);
 		setResizable(false);

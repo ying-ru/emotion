@@ -46,9 +46,9 @@ public class EmotionFrame extends SpatialFrame {
 		
 		
 		
-//		fp.sensorStatus.getTrack().addObserver(fp.kinectPanel.getKinect().getSkelsManager());
+		fp.sensorStatus.getTrack().addObserver(fp.kinectPanel.getKinect().getSkelsManager());
 		fp.sensorStatus.getTrack().addObserver(fp.brainwavePanel.getBrainwave());
-//		fp.kinectPanel.getKinect().getSkelsManager().addObserver(fp.sensorStatus.getTrack());
+		fp.kinectPanel.getKinect().getSkelsManager().addObserver(fp.sensorStatus.getTrack());
 		fp.brainwavePanel.getBrainwave().addObserver(fp.sensorStatus.getTrack());
 		getSpatialDataListener().addObserver(fp.sensorStatus.getTrack());
 		
@@ -126,7 +126,9 @@ public class EmotionFrame extends SpatialFrame {
 						if (fp.sensorStatus.isSaveOver()) {
 							fp.sensorStatus.setisSaveOver();
 							value = new Outcome();
-							outcome.setValue(value.getOutcome());
+							fp.outcome.setValue(value.getOutcome());
+							sp.setText(value.getString("kinect"));
+							thp.setText(value.getString("pad"));
 						}
 						// update outcome end
 					}

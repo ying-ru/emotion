@@ -71,4 +71,8 @@ public class ThirdPanel extends JPanel {
 		scrollPane.setBounds(0, 0, getWidth(), getHeight());
 		add(scrollPane);
 	}
+	
+	public void setText(String t) {
+		discription.setText(t);
+	}
 }

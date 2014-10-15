@@ -20,6 +20,16 @@ public class Outcome {
 		return emotion;
 	}
 	
+	public String getString(String t) {
+		if (t.equals("kinect")) {
+			return pad.getKinectString();
+		} else if (t.equals("pad")) {
+			return pad.getPadString();
+		} else {
+			return "error";
+		}
+	}
+	
 	public static void main(String[] args) throws Exception {
 		Outcome value = new Outcome();
 		System.out.println(value.getOutcome());

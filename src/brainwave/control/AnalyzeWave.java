@@ -42,44 +42,44 @@ public class AnalyzeWave {
 			readLine = br.readLine();
 			db.insertBrainwave(readLine + "," + order);
 			String[] tokens = readLine.split(",");
-
-			if (lowAlphaMin > Integer.parseInt(tokens[1])) {
+			
+			if (lowAlphaMin > Integer.parseInt(tokens[1]) && Integer.parseInt(tokens[1]) <= 50000) {
 				lowAlphaMin = Integer.parseInt(tokens[1]);
 			}
-			if (highAlphaMin > Integer.parseInt(tokens[2])) {
+			if (highAlphaMin > Integer.parseInt(tokens[2]) && Integer.parseInt(tokens[2]) <= 50000) {
 				highAlphaMin = Integer.parseInt(tokens[2]);
 			}
-			if (lowBetaMin > Integer.parseInt(tokens[3])) {
+			if (lowBetaMin > Integer.parseInt(tokens[3]) && Integer.parseInt(tokens[3]) <= 50000) {
 				lowBetaMin = Integer.parseInt(tokens[3]);
 			}
-			if (highBetaMin > Integer.parseInt(tokens[4])) {
+			if (highBetaMin > Integer.parseInt(tokens[4]) && Integer.parseInt(tokens[4]) <= 50000) {
 				highBetaMin = Integer.parseInt(tokens[4]);
 			}
-			if (lowGammaMin > Integer.parseInt(tokens[5])) {
+			if (lowGammaMin > Integer.parseInt(tokens[5]) && Integer.parseInt(tokens[5]) <= 10000) {
 				lowGammaMin = Integer.parseInt(tokens[5]);
 			}
-			if (highGammaMin > Integer.parseInt(tokens[6])) {
+			if (highGammaMin > Integer.parseInt(tokens[6]) && Integer.parseInt(tokens[6]) <= 10000) {
 				highGammaMin = Integer.parseInt(tokens[6]);
 			}
 			
 			
 			
-			if (lowAlphaMax < Integer.parseInt(tokens[1])) {
+			if (lowAlphaMax < Integer.parseInt(tokens[1]) && Integer.parseInt(tokens[1]) <= 50000) {
 				lowAlphaMax = Integer.parseInt(tokens[1]);
 			}
-			if (highAlphaMax < Integer.parseInt(tokens[2])) {
+			if (highAlphaMax < Integer.parseInt(tokens[2]) && Integer.parseInt(tokens[2]) <= 50000) {
 				highAlphaMax = Integer.parseInt(tokens[2]);
 			}
-			if (lowBetaMax < Integer.parseInt(tokens[3])) {
+			if (lowBetaMax < Integer.parseInt(tokens[3]) && Integer.parseInt(tokens[3]) <= 50000) {
 				lowBetaMax = Integer.parseInt(tokens[3]);
 			}
-			if (highBetaMax < Integer.parseInt(tokens[4])) {
+			if (highBetaMax < Integer.parseInt(tokens[4]) && Integer.parseInt(tokens[4]) <= 50000) {
 				highBetaMax = Integer.parseInt(tokens[4]);
 			}
-			if (lowGammaMax < Integer.parseInt(tokens[5])) {
+			if (lowGammaMax < Integer.parseInt(tokens[5]) && Integer.parseInt(tokens[5]) <= 10000) {
 				lowGammaMax = Integer.parseInt(tokens[5]);
 			}
-			if (highGammaMax < Integer.parseInt(tokens[6])) {
+			if (highGammaMax < Integer.parseInt(tokens[6]) && Integer.parseInt(tokens[6]) <= 10000) {
 				highGammaMax = Integer.parseInt(tokens[6]);
 			}
 		}
@@ -91,6 +91,7 @@ public class AnalyzeWave {
 		
 		BufferedReader br = new BufferedReader(fr);
 		String readLine;
+		int errorCount = 0;
 		int p1, p2, p3, p4, p5, p6, p7, p8, p9, p10;
 		double pTotal;
 		p1 = 0;
@@ -108,33 +109,108 @@ public class AnalyzeWave {
 		while (br.ready()) {
 			readLine = br.readLine();
 			String[] tokens = readLine.split(",");
+			double p = 0.0;
 			
-			double p = Integer.parseInt(tokens[j]) * 100.0 / i * 4 ;
-			if (p <= 10) {
-				p1++;
-			} else if (p <= 20) {
-				p2++;
-			} else if (p <= 30) {
-				p3++;
-			} else if (p <= 40) {
-				p4++;
-			} else if (p <= 50) {
-				p5++;
-			} else if (p <= 60) {
-				p6++;
-			} else if (p <= 70) {
-				p7++;
-			} else if (p <= 80) {
-				p8++;
-			} else if (p <= 90) {
-				p9++;
-			} else if (p <= 100){
-				p10++;
-			} else {
-				p = 100;
-				p10++;
+			if ((!s.equals("lowGamma") && !s.equals("highGamma") && Integer.parseInt(tokens[j]) <= 50000) || 
+					((s.equals("lowGamma") || s.equals("highGamma")) && Integer.parseInt(tokens[j]) <= 10000)) {
+				
+				if (s.equals("lowAlpha")) {
+					if (Integer.parseInt(tokens[j]) < 1800) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 1800;
+					} else if (Integer.parseInt(tokens[j]) < 8000) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 8000 + 30;
+					} else if (Integer.parseInt(tokens[j]) < 50000) {
+						p = Integer.parseInt(tokens[j]) * 40.0 / 50000 + 60;
+					} else {
+						p = 9999;
+					}
+				} else if (s.equals("highAlpha")) {
+					if (Integer.parseInt(tokens[j]) < 1800) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 1800;
+					} else if (Integer.parseInt(tokens[j]) < 8000) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 8000 + 30;
+					} else if (Integer.parseInt(tokens[j]) < 50000) {
+						p = Integer.parseInt(tokens[j]) * 40.0 / 50000 + 60;
+					} else {
+						p = 9999;
+					}
+				} else if (s.equals("lowBeta")) {
+					if (Integer.parseInt(tokens[j]) < 1200) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 1200;
+					} else if (Integer.parseInt(tokens[j]) < 7500) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 7500 + 30;
+					} else if (Integer.parseInt(tokens[j]) < 50000) {
+						p = Integer.parseInt(tokens[j]) * 40.0 / 50000 + 60;
+					} else {
+						p = 9999;
+					}
+				} else if (s.equals("highBeta")) {
+					if (Integer.parseInt(tokens[j]) < 1200) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 1200;
+					} else if (Integer.parseInt(tokens[j]) < 7500) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 7500 + 30;
+					} else if (Integer.parseInt(tokens[j]) < 50000) {
+						p = Integer.parseInt(tokens[j]) * 40.0 / 50000 + 60;
+					} else {
+						p = 9999;
+					}
+				} else if (s.equals("lowGamma")) {
+					if (Integer.parseInt(tokens[j]) < 700) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 700;
+					} else if (Integer.parseInt(tokens[j]) < 2800) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 2800 + 30;
+					} else if (Integer.parseInt(tokens[j]) < 10000) {
+						p = Integer.parseInt(tokens[j]) * 40.0 / 10000 + 60;
+					} else {
+						p = 9999;
+					}
+				} else if (s.equals("highGamma")) {
+					if (Integer.parseInt(tokens[j]) < 700) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 700;
+					} else if (Integer.parseInt(tokens[j]) < 2800) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 2800 + 30;
+					} else if (Integer.parseInt(tokens[j]) < 10000) {
+						p = Integer.parseInt(tokens[j]) * 40.0 / 10000 + 60;
+					} else {
+						p = 9999;
+					}
+					
+				}
+				
+//				double p = Integer.parseInt(tokens[j]) * 100.0 / i * 4;
+				if (p <= 10) {
+					p1++;
+				} else if (p <= 20) {
+					p2++;
+				} else if (p <= 30) {
+					p3++;
+				} else if (p <= 40) {
+					p4++;
+				} else if (p <= 50) {
+					p5++;
+				} else if (p <= 60) {
+					p6++;
+				} else if (p <= 70) {
+					p7++;
+				} else if (p <= 80) {
+					p8++;
+				} else if (p <= 90) {
+					p9++;
+				} else if (p <= 100) {
+					p10++;
+				} else {
+//					p = 100;
+//					p10++;
+				}
+				
+				if (p != 9999) {
+					pTotal = pTotal + p;
+				} else {
+					errorCount++;
+				}
+				
+				
 			}
-			pTotal = pTotal + p;
 		}
 		System.out.println(s + ": \n0~10%: " + p1 + "\n" + "10~20%: " + p2 + "\n"
 				+ "20~30%: " + p3 + "\n" + "30~40%: " + p4 + "\n"
@@ -143,7 +219,7 @@ public class AnalyzeWave {
 				+ "80~90%: " + p9 + "\n" + "90~100%: " + p10 + "\n");
 
 		fr.close();
-		return (pTotal / dataNumber * 2 / 100.0) - 1;
+		return (pTotal / (dataNumber-errorCount) * 2 / 100.0) - 1;
 	}
 	
 	public String readBrainwave() throws IOException {

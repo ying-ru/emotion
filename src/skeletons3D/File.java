@@ -73,14 +73,21 @@ public class File {
 			a = a + Double.parseDouble(tokens[1]);
 			b = b + Double.parseDouble(tokens[2]);
 			c = c + Double.parseDouble(tokens[3]);
-			
+			if (a > 200) {
+				a = 200;
+			} else if (b > 200) {
+				b = 200;
+			} else if (c > 200) {
+				c = 200;
+			}
 		}
 		fr.close();
 		a = a / dataNumber;
 		b = b / dataNumber;
 		c = c / dataNumber;
-		System.out.println("activity: " + ((a + b + c) / 3.0 / 500.0 - 1));
-		return (a + b + c) / 3.0 / 500.0 - 1;
+		System.out.println("activity: " + ((a + b + c) / 3.0 / 200.0 - 1));
+		
+		return (a + b + c) / 3.0 / 200.0 - 1;
 	}
 	
 //	public static void main(String[] argv) throws IOException {

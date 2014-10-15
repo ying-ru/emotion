@@ -12,7 +12,7 @@ import emotion.padModel.Outcome;
 
 public class FirstPanel extends JPanel {
 
-	private OutcomePanel outcome;
+	OutcomePanel outcome;
 	private ButtonPanel buttonPanel;
 	KinectPanel kinectPanel;
 	BrainwavePanel brainwavePanel;
@@ -57,15 +57,15 @@ public class FirstPanel extends JPanel {
 		barChartpanel.setPreferredSize(new Dimension(350, 270));
 		barChartpanel.setBounds((int)(getWidth() / 1.37), getHeight() / 50, getWidth() / 4, getHeight() / 3);
 		add(barChartpanel);
-//		kinectPanel = new KinectPanel(getWidth() * 10 / 40, getHeight() * 15 / 40, 512, 512);
+		kinectPanel = new KinectPanel(getWidth() * 10 / 40, getHeight() * 15 / 40, (int)(getWidth() / 3.3), getHeight()*9/20);
 		brainwavePanel = new BrainwavePanel(getWidth() *9/ 40, getHeight() / 50, getWidth()*10/20, getHeight()/3);
-//		buttonPanel = new ButtonPanel(getWidth() / 50, getHeight() / 28, getWidth() / 5, 250, 
-//				brainwavePanel.getBrainwave(), kinectPanel.getKinect(), getSpatialDataListener());
+		buttonPanel = new ButtonPanel(getWidth() / 50, getHeight() / 28, getWidth() / 5, getHeight() / 3, 
+				brainwavePanel.getBrainwave(), kinectPanel.getKinect(), spatialData_listener);
 		sensorStatus = new SensorStatus(getWidth() / 50, getHeight() * 15 / 40, getWidth() / 5, getHeight()*9/20);
 		add(outcome);
-//		add(kinectPanel);
+		add(kinectPanel);
 		add(brainwavePanel);
-//		add(buttonPanel);
+		add(buttonPanel);
 		add(sensorStatus);
 	}
 	

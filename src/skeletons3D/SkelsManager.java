@@ -255,7 +255,7 @@ public class SkelsManager extends Observable implements Observer {
 		}
 	}
 
-	// 計算Head和Neck, Left_Shoulder, Right_Shoulder構成的平面的距離(深度)
+	// 計算Head和Torso, Left_Shoulder, Right_Shoulder構成的平面的距離(深度)
 	public double raiseHead(Vertex head, Vertex torso, Vertex leftShoulder,
 			Vertex rightShoulder) { // 抬頭：+30 ~ -10
 		double d;
@@ -267,30 +267,32 @@ public class SkelsManager extends Observable implements Observer {
 		} else if (d > 30) {
 			return -1;
 		} else {
-			return Math.round((-(d+10) / 40) * 10000) / 10000.0;
+			return Math.round((-(d-10) / 20) * 10000) / 10000.0;
 		}
 	}
 
 	// 計算Torso和Neck, Left_Hip, Right_Hip構成的平面的距離(深度)
 	public double bodyStraighten(Vertex torso, Vertex neck, Vertex leftHip,
-			Vertex rightHip) { // 身體直立：1 ~ -1
+			Vertex rightHip) { // 身體直立：0.5 ~ -0.5
 		double d;
 		d = calculateDistance(torso, neck, leftHip, rightHip, 0.95);
-		if (d > 1) {
-			if (Math.round(d * 10000.0) / 100.0 > 1) {
+		if (d > 0.005) {
+			if (Math.round(d * 2 * 10000.0) / 100.0 > 0.5) {
 				return 1;
 			}
 			return 1;
 		} else if (d == -9999) {
 			return -9999;
-		} else if (d < -1) {
-			if (Math.round(d * 10000.0) / 100.0 < -1) {
+		} else if (d < -0.005) {
+			if (Math.round(d * 2 * 10000.0) / 100.0 < -0.5) {
 				return -1;
 			}
 			return -1;
-		} else if (d < 1 || d > -1) {
+		} else if ((d < 0.005 || d > -0.005) && (Math.round(d * 2 * 10000.0) / 100.0 < 0.5 
+				||Math.round(d * 2 * 10000.0) / 100.0 > -0.5)) {
 			System.out.println(d);
-			return Math.round(d * 1000000.0) / 10000.0;
+			
+			return Math.round(d * 2 * 1000000.0) / 10000.0;
 		} else {
 			return -9999;
 		}
@@ -299,7 +301,7 @@ public class SkelsManager extends Observable implements Observer {
 	// 分別計算Left_Elbow和 Right_Elbow對於Torso, Left_Shoulder,
 	// Right_Shoulder構成的平面的距離(深度)
 	public double leftArms(Vertex leftElbow, Vertex torso, Vertex leftShoulder,
-			Vertex rightShoulder) { // 臂不向前：250 ~ -150
+			Vertex rightShoulder) { // 臂不向前：250 ~ 0
 		double d;
 		d = calculateDistance(leftElbow, torso, leftShoulder, rightShoulder, 0.9);
 		if (d < 0) {

@@ -36,6 +36,6 @@ public class EmotionFuzzy {
 	
 	public static void main(String[] args) throws Exception {
 		EmotionFuzzy fuzzy = new EmotionFuzzy();
-		fuzzy.getOutcome(-0.65, -0.62, -0.33);
+		fuzzy.getOutcome(0.471167088172578, -0.00933124158739014, 0.193297683423769);
 	}
 }

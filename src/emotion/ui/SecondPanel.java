@@ -49,7 +49,7 @@ public class SecondPanel extends JPanel {
 	
 	private void initJLabel() {
 		String temp;
-		temp = " 肢體動作分析：\n"
+		temp = " ※肢體動作分析\n"
 				+ " 抬頭：未進行測量\n"
 				+ " 身體直立：未進行測量\n"
 				+ " 左臂向前：未進行測量\n"
@@ -64,5 +64,9 @@ public class SecondPanel extends JPanel {
 		scrollPane.setPreferredSize(new Dimension(512, 512));
 		scrollPane.setBounds(0, 0, getWidth(), getHeight());
 		add(scrollPane);
+	}
+	
+	public void setText(String t) {
+		discription.setText(t);
 	}
 }
