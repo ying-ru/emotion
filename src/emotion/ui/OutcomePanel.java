@@ -207,6 +207,22 @@ public class OutcomePanel extends JPanel {
 	}
 	
 	private void initLines() {
+		line15.setIcon(line0Photo);
+		line14.setIcon(line0Photo);
+		line13.setIcon(line0Photo);
+		line12.setIcon(line0Photo);
+		line11.setIcon(line0Photo);
+		line10.setIcon(line0Photo);
+		line9.setIcon(line0Photo);
+		line8.setIcon(line0Photo);
+		line7.setIcon(line0Photo);
+		line6.setIcon(line0Photo);
+		line5.setIcon(line0Photo);
+		line4.setIcon(line0Photo);
+		line3.setIcon(line0Photo);
+		line2.setIcon(line0Photo);
+		line1.setIcon(line0Photo);
+		line0.setIcon(line0Photo);
 		for (int i = 0; i < value * 15 / 100; i++) {
 			if (i == 0) {
 				line15.setIcon(line8Photo);

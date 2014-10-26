@@ -115,40 +115,40 @@ public class AnalyzeWave {
 					((s.equals("lowGamma") || s.equals("highGamma")) && Integer.parseInt(tokens[j]) <= 10000)) {
 				
 				if (s.equals("lowAlpha")) {
-					if (Integer.parseInt(tokens[j]) < 1800) {
-						p = Integer.parseInt(tokens[j]) * 30.0 / 1800;
+					if (Integer.parseInt(tokens[j]) < 2000) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 2000;
 					} else if (Integer.parseInt(tokens[j]) < 8000) {
-						p = Integer.parseInt(tokens[j]) * 30.0 / 8000 + 30;
+						p = Integer.parseInt(tokens[j]) * 30.0 / 12000 + 30;
 					} else if (Integer.parseInt(tokens[j]) < 50000) {
 						p = Integer.parseInt(tokens[j]) * 40.0 / 50000 + 60;
 					} else {
 						p = 9999;
 					}
 				} else if (s.equals("highAlpha")) {
-					if (Integer.parseInt(tokens[j]) < 1800) {
-						p = Integer.parseInt(tokens[j]) * 30.0 / 1800;
-					} else if (Integer.parseInt(tokens[j]) < 8000) {
-						p = Integer.parseInt(tokens[j]) * 30.0 / 8000 + 30;
+					if (Integer.parseInt(tokens[j]) < 2000) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 2000;
+					} else if (Integer.parseInt(tokens[j]) < 12000) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 12000 + 30;
 					} else if (Integer.parseInt(tokens[j]) < 50000) {
 						p = Integer.parseInt(tokens[j]) * 40.0 / 50000 + 60;
 					} else {
 						p = 9999;
 					}
 				} else if (s.equals("lowBeta")) {
-					if (Integer.parseInt(tokens[j]) < 1200) {
-						p = Integer.parseInt(tokens[j]) * 30.0 / 1200;
-					} else if (Integer.parseInt(tokens[j]) < 7500) {
-						p = Integer.parseInt(tokens[j]) * 30.0 / 7500 + 30;
+					if (Integer.parseInt(tokens[j]) < 2000) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 2000;
+					} else if (Integer.parseInt(tokens[j]) < 11000) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 11000 + 30;
 					} else if (Integer.parseInt(tokens[j]) < 50000) {
 						p = Integer.parseInt(tokens[j]) * 40.0 / 50000 + 60;
 					} else {
 						p = 9999;
 					}
 				} else if (s.equals("highBeta")) {
-					if (Integer.parseInt(tokens[j]) < 1200) {
-						p = Integer.parseInt(tokens[j]) * 30.0 / 1200;
-					} else if (Integer.parseInt(tokens[j]) < 7500) {
-						p = Integer.parseInt(tokens[j]) * 30.0 / 7500 + 30;
+					if (Integer.parseInt(tokens[j]) < 2000) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 2000;
+					} else if (Integer.parseInt(tokens[j]) < 11000) {
+						p = Integer.parseInt(tokens[j]) * 30.0 / 11000 + 30;
 					} else if (Integer.parseInt(tokens[j]) < 50000) {
 						p = Integer.parseInt(tokens[j]) * 40.0 / 50000 + 60;
 					} else {

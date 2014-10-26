@@ -16,8 +16,8 @@ public class DataBase {
 			// Step 1: 載入JDBC驅動程式: 請將正確值填入 ""中
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			// Step 2: 取得資料庫連結: 請將正確值填入 ""中
-            String url = "jdbc:mysql://localhost/emotion?user=root&password=pcroom";
-//            String url = "jdbc:mysql://127.0.0.1/emotion?user=root&password=1234";
+//            String url = "jdbc:mysql://localhost/emotion?user=root&password=pcroom";
+            String url = "jdbc:mysql://127.0.0.1/emotion?user=root&password=1234";
 
 //			String url = "jdbc:mysql://sqadb.cuxcf7jbbgaj.ap-northeast-1.rds.amazonaws.com/"
 //					+ "emotion?user=sai523847&password=12345678&useUnicode=true"

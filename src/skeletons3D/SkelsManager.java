@@ -257,17 +257,17 @@ public class SkelsManager extends Observable implements Observer {
 
 	// 計算Head和Torso, Left_Shoulder, Right_Shoulder構成的平面的距離(深度)
 	public double raiseHead(Vertex head, Vertex torso, Vertex leftShoulder,
-			Vertex rightShoulder) { // 抬頭：+30 ~ -10
+			Vertex rightShoulder) { // 抬頭：+20 ~ -20
 		double d;
 		d = calculateDistance(head, torso, leftShoulder, rightShoulder, 0.9);
-		if (d < -10) {
+		if (d < -20) {
 			return 1;
 		} else if (d == -9999) {
 			return -9999;
-		} else if (d > 30) {
+		} else if (d > 20) {
 			return -1;
 		} else {
-			return Math.round((-(d-10) / 20) * 10000) / 10000.0;
+			return Math.round(-(d / 20) * 10000) / 10000.0;
 		}
 	}
 
