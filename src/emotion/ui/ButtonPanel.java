@@ -68,7 +68,7 @@ public class ButtonPanel extends JPanel {
 		});
 		add(disconnection);
 		
-		save = new JButton("存檔");
+		save = new JButton("開始偵測");
 		save.setSize(getWidth(), getHeight() / 4);
 		save.setLocation(0, getHeight() *2 / 3);
 		save.addActionListener(new ActionListener() {
