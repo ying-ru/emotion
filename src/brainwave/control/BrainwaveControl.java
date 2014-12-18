@@ -33,17 +33,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/**
- * <p>Title:        MindStreamSystemTray</p><br>
- * <p>Description:  Description: System tray app for streaming data from the Neurosky MindSet/MindWave</p><br>
- * @author          <a href="http://eric-blue.com">Eric Blue</a><br>
- *
- * $Date: 2014-01-26 19:36:10 $ 
- * $Author: ericblue76 $
- * $Revision: 1.9 $
- *
- */
-
 
 public class BrainwaveControl extends Observable implements Observer {
     /**
