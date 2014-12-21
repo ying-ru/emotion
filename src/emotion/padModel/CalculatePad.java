@@ -1,15 +1,10 @@
 package emotion.padModel;
-
 import java.io.IOException;
 
-import emotion.jdbc.DataBase;
-import emotion.jdbc.JDBC;
 import brainwave.control.AnalyzeWave;
 import skeletons3D.File;
 
 public class CalculatePad {
-	private DataBase db;
-	private JDBC jdbc;
 	private File file;
 	private AnalyzeWave f;
 	private double raiseHead, bodyStraighten, leftArms, rightArms;
@@ -18,8 +13,6 @@ public class CalculatePad {
 	private double p, a, d;
 	
 	public CalculatePad() {
-		db = new DataBase();
-		jdbc = new JDBC();
 		file = new File();
 		f = new AnalyzeWave();
 		try {

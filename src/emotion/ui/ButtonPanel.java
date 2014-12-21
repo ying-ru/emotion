@@ -51,7 +51,7 @@ public class ButtonPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				brainwave.actionConnected();
-				brainwave.actionDebugWindow();
+				brainwave.actionWindow();
 			}
 		});
 		add(connect);

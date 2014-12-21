@@ -20,18 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import emotion.ui.BarChartPanel;
-import emotion.ui.BarChartPanel;
-import emotion.jdbc.JDBC;
 import brainwave.client.ThinkGearSocketClient;
 import brainwave.preferences.PreferenceManager;
-import brainwave.window.DebugWindow;
-import brainwave.window.PreferencesWindow;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 
 public class BrainwaveControl extends Observable implements Observer {
@@ -44,29 +34,20 @@ public class BrainwaveControl extends Observable implements Observer {
     static int port = PreferenceManager.loadPreferences().getInt("thinkgearPort", 0);
     
     final static ThinkGearSocketClient client = new ThinkGearSocketClient(host, port);
-    private boolean isStartWrite, isDataAvailable;
+    private boolean isDataAvailable;
     private String isTracking, brainData;
     private String value;
     private BarChartPanel barChartPanel;
 
 	protected boolean canSave;
-
 	protected FileWriter fw;
-    final  static PreferencesWindow preferencesWindow = new PreferencesWindow();
     
-    /**
-     * System tray launcher
-     * 
-     * @param args
-     * @return void
-     */
     
     public BrainwaveControl(BarChartPanel brainwaveBarChart) {
     	initializeGUI();
     	barChartPanel = brainwaveBarChart;
 //    	debugWindow = debug;
     	isTracking = "";
-    	isStartWrite = false;
     	barChartPanel.updateValue(0D, "高α波");
     	barChartPanel.updateValue(0D, "低α波");
     	barChartPanel.updateValue(0D, "高β波");
@@ -75,13 +56,7 @@ public class BrainwaveControl extends Observable implements Observer {
     	barChartPanel.updateValue(0D, "低γ波");
     	write();
     }
-
-    /**
-     * Initializes preferences on first time launch
-     * 
-     * @param none
-     * @return void
-     */
+    
     private static void initializePreferences() {
 
         Preferences prefs = PreferenceManager.loadPreferences();
@@ -105,13 +80,7 @@ public class BrainwaveControl extends Observable implements Observer {
 
     }
 
-    /**
-     * Initialize GUI
-     * 
-     * @param none
-     * @return void
-     */
-
+    
     private static void initializeGUI() {
         // TODO Cleanup all System.out/.err with log4j calls
         // Check the SystemTray support
@@ -123,24 +92,7 @@ public class BrainwaveControl extends Observable implements Observer {
         // TODO Load default preferences if they haven't been initialized
     }
 
-    // Obtain the image URL
-    protected static Image createImage(String path, String description) {
-        URL imageURL = BrainwaveControl.class.getResource(path);
-
-        if (imageURL == null) {
-            logger.error("createImage(String, String) - Resource not found: " + path, null);
-            return null;
-        } else {
-            return (new ImageIcon(imageURL, description)).getImage();
-        }
-    }
-    
-    public void actionPreferencesWindow() {
-        preferencesWindow.setVisible(true);
-        preferencesWindow.getContentPane().requestFocus();
-    }
-    
-    public void actionDebugWindow() {
+    public void actionWindow() {
         SwingWorker worker = new SwingWorker<Void, Void>() {
             public Void doInBackground() {
             	isDataAvailable = client.isDataAvailable();
@@ -208,45 +160,12 @@ public class BrainwaveControl extends Observable implements Observer {
     
     public String getPowerValue() {
     	String value = null;
-    	String newLine = System.getProperty("line.separator");
     	try {
 			String clientData = brainData;
-//			brainData = "";
+
 			JSONObject json = new JSONObject(clientData);
 			
-			/*
-			 * JH: check just in case it's not there due to poorSignallevel
-			 */
 			if (!json.isNull("eegPower")) {				
-				/*
-				 * JH: check for existence of poorSignalLevel. 
-				 * If not available, assume 0 
-				 */
-				
-//				if (!json.isNull("poorSignalLevel")) {
-//					writer.append(Integer.toString(json.getInt("poorSignalLevel")) + ',');
-//				} else {
-//					writer.append("0,");
-//				}
-			
-				/*
-				 * JH: check for existence of eSense. 
-				 * I noticed it's possible to get eegPower
-				 * without eSense when poorSignallevel >0
-				 */
-				if (!json.isNull("eSense")) {
-					JSONObject esense = json.getJSONObject("eSense");
-					
-					/*
-					 * JH: Don't know if it's possible
-					 * for these attributes to not exist
-					 * even when the JSON Object exists
-					 */
-//					writer.append(Integer.toString(esense.getInt("attention")) + ',');
-//					writer.append(Integer.toString(esense.getInt("meditation")) + ',');
-				} else {
-//					logger.debug("$SwingWorker<Void,Void>.doInBackground() - eSense is null!");
-				}
 				
 				JSONObject eegPower = json.getJSONObject("eegPower");
 				
@@ -258,10 +177,8 @@ public class BrainwaveControl extends Observable implements Observer {
 				value = value + Integer.toString(eegPower.getInt("highGamma"));
 				return value;
 			} else {
-//				logger.debug("$SwingWorker<Void,Void>.doInBackground() - eegPower is null!");
 			}
 		} catch (JSONException e1) {
-//			logger.debug("$SwingWorker<Void,Void>.doInBackground() - JSON Error" + e1.getMessage());
 		}
 		return value;
     }
@@ -318,6 +235,5 @@ public class BrainwaveControl extends Observable implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
-//		actionSaveFile();
 	}
 }

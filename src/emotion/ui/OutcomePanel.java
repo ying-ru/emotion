@@ -223,7 +223,7 @@ public class OutcomePanel extends JPanel {
 		line2.setIcon(line0Photo);
 		line1.setIcon(line0Photo);
 		line0.setIcon(line0Photo);
-		for (int i = 0; i < value * 15 / 100; i++) {
+		for (int i = 0; i < value * 16 / 100; i++) {
 			if (i == 0) {
 				line15.setIcon(line8Photo);
 			} else if (i == 1) {

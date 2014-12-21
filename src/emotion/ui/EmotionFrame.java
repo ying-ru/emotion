@@ -1,31 +1,31 @@
 package emotion.ui;
 
-import java.awt.BorderLayout;
+//import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
+//import java.awt.Container;
+//import java.awt.Dimension;
 import java.awt.Font;
 
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+//import javax.swing.JPanel;
+//import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import emotion.padModel.Outcome;
 
 public class EmotionFrame extends SpatialFrame {
 	private static final long serialVersionUID = 1L;
-	private OutcomePanel outcome;
-	private ButtonPanel buttonPanel;
-	private KinectPanel kinectPanel;
-	private BrainwavePanel brainwavePanel;
-	private static SensorStatus sensorStatus;
+//	private OutcomePanel outcome;
+//	private ButtonPanel buttonPanel;
+//	private KinectPanel kinectPanel;
+//	private BrainwavePanel brainwavePanel;
+//	private static SensorStatus sensorStatus;
 	private JLabel background;
-	private JTabbedPane tp;
+//	private JTabbedPane tp;
 	private Thread updateOutcome;
 	private Outcome value;
-	private AccelerometerBarChartPanel barChartpanel;
+//	private AccelerometerBarChartPanel barChartpanel;
 	private FirstPanel fp;
 	private SecondPanel sp;
 	private ThirdPanel thp;
