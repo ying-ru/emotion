@@ -8,11 +8,11 @@ Windows
 
 OpenNI 1.5
 
-Java
+Eclipse - Java
 
 # 感測器
 
-Kinect
+ASUS Xtion Pro
 
 NeuroSky MindWave Mobile
 
