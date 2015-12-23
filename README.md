@@ -6,4 +6,14 @@
 
 Windows
 
+OpenNI 1.5
 
+Java
+
+# 感測器
+
+Kinect
+
+NeuroSky MindWave Mobile
+
+Accelerometer(PhidgetSpatial)
