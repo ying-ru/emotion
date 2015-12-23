@@ -17,7 +17,8 @@ ASUS Xtion Pro
 NeuroSky MindWave Mobile
 
 Accelerometer(PhidgetSpatial)
-License
+
+#License
 ========
 The MIT License (MIT)
 ```
